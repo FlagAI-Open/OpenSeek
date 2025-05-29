@@ -1,6 +1,16 @@
 <div align="center">
   <img src="./openseek_logo.jpg" alt="OpenSeek Logo" width="150">
-
+  <hr>
+  <div align="center" style="line-height: 1;">
+    <a href="https://huggingface.co/spaces/BAAI/openseek"><img alt="Homepage"
+      src="https://img.shields.io/badge/Homepage-OpenSeek-7289da?logo=home&logoColor=white&color=blue"/></a>
+    <a href="https://huggingface.co/collections/BAAI/openseek-67b6f47eea718e4e5d2c255a"><img alt="Hugging Face"
+      src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-OpenSeek-ffc107?color=ffc107&logoColor=white"/></a>
+    <a href="https://discord.gg/dPKWUC7ZP5"><img alt="Discord"
+      src="https://img.shields.io/badge/Discord-OpenSeek-7289da?logo=discord&logoColor=white&color=7289da"/></a>
+    <a href="https://github.com/FlagAI-Open/OpenSeek/blob/main/wechat.png?raw=true"><img alt="Wechat"
+      src="https://img.shields.io/badge/WeChat-OpenSeek-brightgreen?logo=wechat&logoColor=white"/></a>
+    </div>
 </div>
 
 <div align="center">
