@@ -10,6 +10,15 @@
       src="https://img.shields.io/badge/Discord-OpenSeek-7289da?logo=discord&logoColor=white&color=7289da"/></a>
     <a href="https://github.com/FlagAI-Open/OpenSeek/blob/main/wechat.png?raw=true"><img alt="Wechat"
       src="https://img.shields.io/badge/WeChat-OpenSeek-brightgreen?logo=wechat&logoColor=white"/></a>
+    <br>
+    <a href="https://github.com/FlagAI-Open/OpenSeek/blob/main/LICENSE"><img alt="License"
+    src="https://img.shields.io/badge/License-Apache%202.0-f5de53?&color=f5de53"/></a>
+    <a href="https://github.com/FlagAI-Open/OpenSeek/stargazers"><img alt="GitHub stars"
+    src="https://img.shields.io/github/stars/FlagAI-Open/OpenSeek"/></a>
+    <a href="https://github.com/FlagAI-Open/OpenSeek/network"><img alt="GitHub forks"
+    src="https://img.shields.io/github/forks/FlagAI-Open/OpenSeek"/></a>
+    <a href="https://github.com/FlagAI-Open/OpenSeek/issues"><img alt="GitHub issues"
+    src="https://img.shields.io/github/issues/FlagAI-Open/OpenSeek"/></a>
     </div>
 </div>
 
@@ -18,12 +27,6 @@
 OpenSeek is dedicated to uniting the global open-source community to drive collaborative innovation in algorithms, data, and systems, with the goal of developing next-generation models that surpass DeepSeek.
 
 English| [简体中文](README_zh.md)
-
-
-[![GitHub license](https://img.shields.io/github/license/FlagAI-Open/OpenSeek)](https://github.com/FlagAI-Open/OpenSeek/blob/main/LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/FlagAI-Open/OpenSeek)](https://github.com/FlagAI-Open/OpenSeek/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/FlagAI-Open/OpenSeek)](https://github.com/FlagAI-Open/OpenSeek/network)
-[![GitHub issues](https://img.shields.io/github/issues/FlagAI-Open/OpenSeek)](https://github.com/FlagAI-Open/OpenSeek/issues)
 
 </div>
 
