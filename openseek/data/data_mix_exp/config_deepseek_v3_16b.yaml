@@ -1,0 +1,35 @@
+# DeepSeek 16B, 2.4A Model
+defaults:
+  - _self_
+  - train: train_deepseek_v3_16b.yaml
+
+experiment:
+  exp_name: DeepSeek-V3-Cold-Start
+  seed: 42
+  save_steps: 300
+  load: null
+  exp_dir: ./DeekSeek-V3-Cold-Start
+  ckpt_format: torch
+  task:
+    type: train
+    backend: megatron
+    entrypoint: flagscale/train/train_deepseek_v3.py
+  runner:
+    no_shared_fs: false
+    backend: torchrun
+    rdzv_backend: static
+    ssh_port: 22
+    nnodes: 8
+    nproc_per_node: 8
+    hostfile: hostfile.8
+  cmds:
+    before_start: "ulimit -n 1048576 && source /root/miniconda3/bin/activate flagscale-train"
+  envs:
+    VISIBLE_DEVICES: 0,1,2,3,4,5,6,7
+    DEVICE_MAX_CONNECTIONS: 1
+
+action: run
+
+hydra:
+  run:
+    dir: ${experiment.exp_dir}/hydra

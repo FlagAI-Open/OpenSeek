@@ -1,0 +1,294 @@
+system:
+  recompute_method: "uniform"
+  recompute_granularity: "full"
+  recompute_num_layers: 6
+  moe_router_dtype: fp32
+  no_shared_fs: ${experiment.runner.no_shared_fs}
+  num_workers: 4
+  tensor_model_parallel_size: 1
+  pipeline_model_parallel_size: 1
+  expert_model_parallel_size: 1
+  context_parallel_size: 1
+  disable_bias_linear: true
+  reset_position_ids: True
+  reset_attention_mask: True
+  qk_layernorm: true
+  sequence_parallel: true
+  use_distributed_optimizer: true
+  overlap_grad_reduce: true
+  overlap_param_gather: true
+  finetune: false
+  precision:
+    bf16: true
+    attention_softmax_in_fp32: true
+    accumulate_allreduce_grads_in_fp32: true
+  logging:
+    log_interval: 1
+    tensorboard_log_interval: 1
+    wandb_project: ${experiment.exp_name}
+    wandb_exp_name: ${experiment.exp_name}
+    log_timers_to_tensorboard: true
+    log_validation_ppl_to_tensorboard: true
+    log_throughput: true
+    log_params_norm: true
+    log_num_zeros_in_grad: true
+    log_memory_to_tensorboard: true
+  checkpoint:
+    save_interval: ${experiment.save_steps}
+    load: ${experiment.load}
+    ckpt_format: ${experiment.ckpt_format}
+
+model:
+  transformer_impl: transformer_engine
+  ## 12 -> 6 for lower mem usage
+  num_layers: 6
+  hidden_size: 1280
+  num_attention_heads: 10
+  group_query_attention: false
+  num_query_groups: 10 # num_key_value_heads
+  seq_length: 4096
+  max_position_embeddings: 4096
+  norm_epsilon: 1e-6
+  use_rotary_position_embeddings: true
+  rotary_base: 1000000
+  swiglu: true
+  normalization: RMSNorm
+  init_method_std: 6e-3
+  attention_dropout: 0.0
+  hidden_dropout: 0.0
+  clip_grad: 1.0
+  position_embedding_type: rope
+  untie_embeddings_and_output_weights: false
+  no_position_embedding: true
+  no_rope_fusion: true
+
+  # mla args ==================
+  multi_latent_attention: true
+  kv_lora_rank: 512
+  qk_head_dim: 128
+  qk_pos_emb_head_dim: 64
+  v_head_dim: 128
+
+  # moe args ===================
+  ffn_hidden_size: 7168
+  moe_ffn_hidden_size: 896
+  moe_grouped_gemm: true
+  moe_shared_expert_intermediate_size: 1792
+  num_experts: 64
+  moe_router_load_balancing_type: "seq_aux_loss"
+  moe_router_score_function: sigmoid
+  moe_router_enable_expert_bias: true
+  moe_router_bias_update_rate: 0.001
+  moe_aux_loss_coeff: 0.0001
+  ## 12 -> 6 for lower mem usage
+  moe_layer_freq: "[0]+[1]*5"
+  # moe_layer_freq: "[0]+[1]*11"
+  # node limited routing
+  moe_router_num_groups: 1
+  moe_router_group_topk: 1
+  moe_router_topk: 6
+  moe_router_topk_scaling_factor: 2.446
+  moe_token_dispatcher_type: "alltoall"
+  # moe_permute_fusion: true
+
+  # moe args ===================
+  # num_mtp_predictor: 1
+  # mtp_loss_coeff: 0.3
+
+  # training
+  seed: ${experiment.seed}
+  micro_batch_size: 1
+  global_batch_size: 1024
+  eval_iters: 0
+  train_samples: 24576000 #100B tokens
+
+  optimizer:
+    weight_decay: 0.1
+    adam_beta1: 0.9
+    adam_beta2: 0.95
+    lr_scheduler:
+      lr: 3.0e-3
+      min_lr: 3.0e-4
+      lr_warmup_samples: 2048000
+      lr_decay_style: cosine
+
+
+data:
+  # exp: baseline
+  data_path:
+    - 1.1068
+    - ${experiment.dataset_base_dir}/Nemotron-CC-high-actual-actual-high/part_142_text_document
+    - 0.3577
+    - ${experiment.dataset_base_dir}/Nemotron-CC-high-actual-actual-low/part_62_text_document
+    - 0.7775
+    - ${experiment.dataset_base_dir}/Nemotron-CC-high-actual-actual-mid/part_189_text_document
+    - 0.2859
+    - ${experiment.dataset_base_dir}/Nemotron-CC-high-synthetic-distill-high/part_76_text_document
+    - 0.1672
+    - ${experiment.dataset_base_dir}/Nemotron-CC-high-synthetic-distill-low/part_124_text_document
+    - 0.2339
+    - ${experiment.dataset_base_dir}/Nemotron-CC-high-synthetic-distill-mid/part_29_text_document
+    - 0.5397
+    - ${experiment.dataset_base_dir}/Nemotron-CC-high-synthetic-diverse_qa_pairs-high/part_244_text_document
+    - 0.4064
+    - ${experiment.dataset_base_dir}/Nemotron-CC-high-synthetic-diverse_qa_pairs-low/part_150_text_document
+    - 0.5005
+    - ${experiment.dataset_base_dir}/Nemotron-CC-high-synthetic-diverse_qa_pairs-mid/part_444_text_document
+    - 0.4616
+    - ${experiment.dataset_base_dir}/Nemotron-CC-high-synthetic-extract_knowledge-high/part_498_text_document
+    - 0.0670
+    - ${experiment.dataset_base_dir}/Nemotron-CC-high-synthetic-extract_knowledge-low/part_10_text_document
+    - 0.3429
+    - ${experiment.dataset_base_dir}/Nemotron-CC-high-synthetic-extract_knowledge-mid/part_144_text_document
+    - 0.2610
+    - ${experiment.dataset_base_dir}/Nemotron-CC-high-synthetic-knowledge_list-high/part_86_text_document
+    - 0.1824
+    - ${experiment.dataset_base_dir}/Nemotron-CC-high-synthetic-knowledge_list-low/part_133_text_document
+    - 0.2313
+    - ${experiment.dataset_base_dir}/Nemotron-CC-high-synthetic-knowledge_list-mid/part_139_text_document
+    - 0.8237
+    - ${experiment.dataset_base_dir}/Nemotron-CC-high-synthetic-wrap_medium-high/part_47_text_document
+    - 0.2866
+    - ${experiment.dataset_base_dir}/Nemotron-CC-high-synthetic-wrap_medium-low/part_11_text_document
+    - 0.6670
+    - ${experiment.dataset_base_dir}/Nemotron-CC-high-synthetic-wrap_medium-mid/part_97_text_document
+    - 0.4657
+    - ${experiment.dataset_base_dir}/Nemotron-CC-low-synthetic-wrap_medium-high/part_43_text_document
+    - 0.2005
+    - ${experiment.dataset_base_dir}/Nemotron-CC-low-synthetic-wrap_medium-low/part_10_text_document
+    - 0.4317
+    - ${experiment.dataset_base_dir}/Nemotron-CC-low-synthetic-wrap_medium-mid/part_164_text_document
+    - 1.1397
+    - ${experiment.dataset_base_dir}/Nemotron-CC-medium-actual-actual-high/part_92_text_document
+    - 0.6782
+    - ${experiment.dataset_base_dir}/Nemotron-CC-medium-actual-actual-low/part_113_text_document
+    - 0.9175
+    - ${experiment.dataset_base_dir}/Nemotron-CC-medium-actual-actual-mid/part_563_text_document
+    - 0.6414
+    - ${experiment.dataset_base_dir}/arxiv/007_00000_text_document
+    - 0.4696
+    - ${experiment.dataset_base_dir}/books/016_00007_text_document
+    - 1.0102
+    - ${experiment.dataset_base_dir}/code-high/part_13_text_document
+    - 1.1403
+    - ${experiment.dataset_base_dir}/code-low/part_36_text_document
+    - 0.9674
+    - ${experiment.dataset_base_dir}/code-mid/part_37_text_document
+    - 0.3755
+    - ${experiment.dataset_base_dir}/cot_synthesis2_CC-high/23_text_document
+    - 0.0499
+    - ${experiment.dataset_base_dir}/cot_synthesis2_CC-low/51_text_document
+    - 0.3608
+    - ${experiment.dataset_base_dir}/cot_synthesis2_CC-mid/118_text_document
+    - 0.3623
+    - ${experiment.dataset_base_dir}/cot_synthesis2_CC-mid/176_text_document
+    - 0.3704
+    - ${experiment.dataset_base_dir}/cot_synthesis2_CC-mid/256_text_document
+    - 0.3733
+    - ${experiment.dataset_base_dir}/cot_synthesis2_CC-mid/320_text_document
+    - 0.3631
+    - ${experiment.dataset_base_dir}/cot_synthesis2_CC-mid/32_text_document
+    - 0.2573
+    - ${experiment.dataset_base_dir}/cot_synthesis2_OpenSource-high/1_text_document
+    - 0.1638
+    - ${experiment.dataset_base_dir}/cot_synthesis2_OpenSource-low/2_text_document
+    - 0.3251
+    - ${experiment.dataset_base_dir}/cot_synthesis2_OpenSource-mid/3_text_document
+    - 6.0237
+    - ${experiment.dataset_base_dir}/cot_synthesis2_arxiv-high/2_text_document
+    - 8.9063
+    - ${experiment.dataset_base_dir}/cot_synthesis2_arxiv-low/1_text_document
+    - 10.1376
+    - ${experiment.dataset_base_dir}/cot_synthesis2_arxiv-mid/2_text_document
+    - 0.4598
+    - ${experiment.dataset_base_dir}/cot_synthesis2_code-high/4_text_document
+    - 0.6857
+    - ${experiment.dataset_base_dir}/cot_synthesis2_code-low/6_text_document
+    - 0.8990
+    - ${experiment.dataset_base_dir}/cot_synthesis2_code-mid/23_text_document
+    - 1.3135
+    - ${experiment.dataset_base_dir}/cot_synthesis2_math-high/12_text_document
+    - 1.6530
+    - ${experiment.dataset_base_dir}/cot_synthesis2_math-low/3_text_document
+    - 0.3536
+    - ${experiment.dataset_base_dir}/cot_synthesis2_math-mid/5_text_document
+    - 0.6314
+    - ${experiment.dataset_base_dir}/cot_synthesis2_wiki-high/5_text_document
+    - 0.5978
+    - ${experiment.dataset_base_dir}/cot_synthesis2_wiki-low/5_text_document
+    - 0.7909
+    - ${experiment.dataset_base_dir}/cot_synthesis2_wiki-mid/4_text_document
+    - 0.2225
+    - ${experiment.dataset_base_dir}/cot_synthesis_CC-high/74_text_document
+    - 0.1797
+    - ${experiment.dataset_base_dir}/cot_synthesis_CC-low/54_text_document
+    - 0.2042
+    - ${experiment.dataset_base_dir}/cot_synthesis_CC-mid/275_text_document
+    - 0.4081
+    - ${experiment.dataset_base_dir}/cot_synthesis_OpenSource-high/4_text_document
+    - 0.1659
+    - ${experiment.dataset_base_dir}/cot_synthesis_OpenSource-low/2_text_document
+    - 1.2828
+    - ${experiment.dataset_base_dir}/cot_synthesis_OpenSource-mid/6_text_document
+    - 5.6800
+    - ${experiment.dataset_base_dir}/cot_synthesis_arxiv-high/2_text_document
+    - 7.4907
+    - ${experiment.dataset_base_dir}/cot_synthesis_arxiv-low/1_text_document
+    - 8.9359
+    - ${experiment.dataset_base_dir}/cot_synthesis_arxiv-mid/1_text_document
+    - 0.7663
+    - ${experiment.dataset_base_dir}/cot_synthesis_code-high/13_text_document
+    - 0.4052
+    - ${experiment.dataset_base_dir}/cot_synthesis_code-low/9_text_document
+    - 0.1916
+    - ${experiment.dataset_base_dir}/cot_synthesis_code-mid/6_text_document
+    - 0.5074
+    - ${experiment.dataset_base_dir}/cot_synthesis_math-high/11_text_document
+    - 0.6437
+    - ${experiment.dataset_base_dir}/cot_synthesis_math-low/11_text_document
+    - 0.6406
+    - ${experiment.dataset_base_dir}/cot_synthesis_math-mid/29_text_document
+    - 0.4000
+    - ${experiment.dataset_base_dir}/cot_synthesis_wiki-high/4_text_document
+    - 0.3564
+    - ${experiment.dataset_base_dir}/cot_synthesis_wiki-low/6_text_document
+    - 0.5768
+    - ${experiment.dataset_base_dir}/cot_synthesis_wiki-mid/3_text_document
+    - 1.8165
+    - ${experiment.dataset_base_dir}/math-high/part_04_text_document
+    - 1.6940
+    - ${experiment.dataset_base_dir}/math-low/part_10_text_document
+    - 1.6311
+    - ${experiment.dataset_base_dir}/math-mid/part_07_text_document
+    - 0.6870
+    - ${experiment.dataset_base_dir}/pes2o-full-train/train-0041-of-0136_text_document
+    - 0.7387
+    - ${experiment.dataset_base_dir}/pes2o-full-train/train-0125-of-0136_text_document
+    - 0.0143
+    - ${experiment.dataset_base_dir}/pes2o-full-val/valid-0034-of-0060_text_document
+    - 6.1982
+    - ${experiment.dataset_base_dir}/pes2o/pubmedcentral_3_text_document
+    - 0.4229
+    - ${experiment.dataset_base_dir}/stack/018_00000_text_document
+    - 0.4202
+    - ${experiment.dataset_base_dir}/wiki/012_00000_text_document
+    - 1.8171
+    - ${experiment.dataset_base_dir}/zh_cc-high-loss0/part_28_text_document
+    - 0.9776
+    - ${experiment.dataset_base_dir}/zh_cc-high-loss1/part_59_text_document
+    - 0.3725
+    - ${experiment.dataset_base_dir}/zh_cc-high-loss2/part_16_text_document
+    - 0.9492
+    - ${experiment.dataset_base_dir}/zh_cc-medidum-loss0/part_192_text_document
+    - 0.9236
+    - ${experiment.dataset_base_dir}/zh_cc-medidum-loss1/part_550_text_document
+    - 1.0643
+    - ${experiment.dataset_base_dir}/zh_cc-medidum-loss2/part_71_text_document
+
+  split: 1
+  no_mmap_bin_files: true
+  tokenizer:
+    tokenizer_type: QwenTokenizerFS
+    tokenizer_path: ../hf_openseek/tokenizer
+    vocab_size: 151851
+    make_vocab_size_divisible_by: 64
