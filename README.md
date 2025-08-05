@@ -93,9 +93,8 @@ git clone https://github.com/FlagOpen/FlagScale.git
 # Clone the repository
 git clone https://github.com/FlagOpen/FlagScale.git
 
-# Install the requirements
-cd FlagScale/install
-./install-requirements.sh --env train
+# Install the requirementse
+./install/install-requirements.sh --env train
 ```
 
 - For more details, see [FlagScale](https://github.com/FlagOpen/FlagScale) or [readme](docs/FlagScale_Usage.md).
