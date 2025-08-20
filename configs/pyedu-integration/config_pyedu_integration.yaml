@@ -1,0 +1,21 @@
+experiment:
+  exp_name: "pyedu-integration"
+  exp_dir: "./exp_out"
+  runner:
+    backend: "flagscale"
+    task: "train"
+    no_shared_fs: false
+  
+  # Dataset configuration
+  dataset_base_dir: "/path/to/your/datasets"  # Update this path
+  
+  # Training configuration
+  save_steps: 1000
+  load: null
+  ckpt_format: "torch"
+  seed: 42
+  
+  # Distributed training settings (adjust based on your setup)
+  nnodes: 1
+  nproc_per_node: 8
+  hostfile: null
