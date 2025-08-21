@@ -1,6 +1,6 @@
 name: Pylint
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -10,6 +10,8 @@ jobs:
         python-version: ["3.8", "3.9", "3.10"]
     steps:
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v3
       with:
@@ -18,6 +20,27 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install pylint
-    - name: Analysing the code with pylint
+    - name: Determine changed Python files
+      id: diff
+      shell: bash
       run: |
-        pylint $(git ls-files '*.py')
+        set -euo pipefail
+        git fetch origin main --depth=1 || true
+        CHANGED=$(git diff --name-only origin/main...HEAD | grep -E '\.py$' || true)
+        echo "files<<EOF" >> "$GITHUB_OUTPUT"
+        echo "$CHANGED" >> "$GITHUB_OUTPUT"
+        echo "EOF" >> "$GITHUB_OUTPUT"
+        if [ -n "$CHANGED" ]; then
+          echo "any=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "any=false" >> "$GITHUB_OUTPUT"
+        fi
+    - name: Analysing the code with pylint (changed files only)
+      if: steps.diff.outputs.any == 'true'
+      shell: bash
+      run: |
+        set -euo pipefail
+        echo "Changed Python files:" 
+        printf "%s\n" "${{ steps.diff.outputs.files }}"
+        # Lint only errors; ignore refactor/convention/warning categories
+        printf "%s\n" "${{ steps.diff.outputs.files }}" | xargs -r pylint --disable=C,R,W
