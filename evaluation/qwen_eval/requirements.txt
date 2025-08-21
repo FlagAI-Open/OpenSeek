@@ -1,0 +1,5 @@
+numpy
+tqdm
+pebble
+regex
+word2number
