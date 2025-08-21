@@ -19,6 +19,7 @@
     src="https://img.shields.io/github/forks/FlagAI-Open/OpenSeek"/></a>
     <a href="https://github.com/FlagAI-Open/OpenSeek/issues"><img alt="GitHub issues"
     src="https://img.shields.io/github/issues/FlagAI-Open/OpenSeek"/></a>
+   <a href="https://deepwiki.com/FlagAI-Open/OpenSeek"><img src="https://deepwiki.com/badge.svg" alt="Ask DeepWiki"></a>
     </div>
 </div>
 
