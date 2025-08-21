@@ -46,7 +46,43 @@ python preprocess_data_args.py \
 - `--workers`: Number of worker processes to launch
 - `--chunk-size`: Chunk size for each worker process
 
-### 2. `convert_deepseek_v3_ckpt.sh`
+### 2. `pyedu_dataset_utils.py`
+
+A Python utility for downloading, preprocessing, and integrating the PyEdu dataset (educational Python code from smollm-corpus) into OpenSeek training pipelines.
+
+#### Features
+- Downloads PyEdu dataset from Hugging Face Hub
+- Preprocesses data for OpenSeek training with Fill-in-Middle (FIM) strategy optimized for code
+- Validates dataset quality and provides statistics
+- Generates training configuration files
+- Supports educational Python code with ~6GB of high-quality content
+
+#### Usage
+```bash
+# Download PyEdu dataset
+python pyedu_dataset_utils.py download --output-dir ./data/pyedu
+
+# Preprocess for training
+python pyedu_dataset_utils.py preprocess \
+    --input ./data/pyedu/pyedu_raw.jsonl \
+    --output-prefix ./data/pyedu/pyedu \
+    --workers 8
+
+# Validate dataset
+python pyedu_dataset_utils.py validate --dataset-path ./data/pyedu/pyedu_raw.jsonl
+
+# Create training configuration
+python pyedu_dataset_utils.py create-config \
+    --dataset-path ./data/pyedu/pyedu_text_sentence \
+    --output-config ./configs/pyedu_config.yaml
+```
+
+#### Requirements
+- `datasets` library for Hugging Face dataset access
+- `huggingface_hub` for dataset downloads
+- Existing OpenSeek preprocessing dependencies
+
+### 3. `convert_deepseek_v3_ckpt.sh`
 
 A shell script for converting DeepSeek V3 model checkpoints from the FlagScale format to the Hugging Face Transformers format.
 
@@ -77,7 +113,8 @@ $Checkpoints_HOME/<experiment_name>/iter_<checkpoint_version>_hf
 These tools are essential components of the OpenSeek training pipeline:
 
 1. `preprocess_data_args.py` is used to prepare the CCI4.0 dataset and other training data
-2. `convert_deepseek_v3_ckpt.sh` enables the conversion of trained checkpoints for evaluation and deployment
+2. `pyedu_dataset_utils.py` enables integration of high-quality educational Python code data for enhanced code understanding
+3. `convert_deepseek_v3_ckpt.sh` enables the conversion of trained checkpoints for evaluation and deployment
 
 ## Requirements
 
