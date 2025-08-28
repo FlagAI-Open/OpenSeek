@@ -565,7 +565,7 @@ def extract_answer(pred_str, data_name, use_last_number=True):
         pred = pred[:-1]
     if pred != "" and pred[-1] == "/":
         pred = pred[:-1]
-    pred = strip_string(pred, skip_unit=data_name in ["carp_en", "minerva_math"])
+    pred = strip_string(pred, skip_unit=data_name in STRIP_EXCEPTIONS or "math" in data_name)
     return pred
 
 
@@ -739,17 +739,7 @@ def run_execute(executor, result, prompt_type, data_name, execute=False):
 
 def _test_extract_answer():
     text = """
-This is still not equal to $0$, so we must have made another mistake.
-
-When we subtracted $7$ from $\frac{386}{64}$, we should have subtracted $7 \cdot 64$ from $386$, not the other way around. Let's correct that:
-
-\[\frac{386}{64} - 7 = \frac{386}{64} - \frac{7 \cdot 64}{1 \cdot 64} = \frac{386 - 448}{64} = \frac{-62}{64}.\]
-
-This is still not equal to $0$, so we must have made another mistake.
-
-When we subtracted $7$ from $\frac{386}{64}$, we should have subtracted $7 \cdot 64$ from $386$, not the other way around. Let's correct that:
-
-\[\frac{386}{64}
+We have $ab +5b+2a+10 = ab + 5b+2a + 2\\cdot 5$, so we have a straightforward application of Simon's Favorite Factoring Trick: \\[ab + 5b+2a+10 = \\boxed{(a+5)(b+2)}.\\
 """
     print(extract_answer(text, "math-oai", use_last_number=False))
     print(choice_answer_clean("\mathrm{(D)\}1,008,016"))
