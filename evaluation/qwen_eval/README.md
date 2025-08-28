@@ -9,6 +9,20 @@ pip install -r requirements.txt
 
 
 ## Usage
+### Generation & Evaluation
+
+To run the evaluation:
+
+1. **Configure the prompt type**: Add your custom prompt type in `utils.py` and specify it in `sh/run_evaluate.sh`
+
+2. **Set the model path**: Update the `MODEL_NAME_OR_PATH` variable in `sh/run_evaluate.sh` with your model's path
+
+3. **Run evaluation**: Execute the following command to generate predictions and evaluate results:
+   ```bash
+   bash sh/run_evaluate.sh
+   ```
+
+### Leaderboard
 ```bash
 BASE_DIR=./eval_example/
 
@@ -17,11 +31,11 @@ python evaluate_final.py --eval_path $BASE_DIR
 BASE_DIR is the directory that contains different datasets folders. The structure of the directory is as follows:
 ```bash
 BASE_DIR
-├── math500
+├── dataset1
 │   ├── example.jsonl
-├── minerva_math
+├── dataset2
 │   ├── example.jsonl
-├── olympiadbench
+├── dataset3
 │   ├── example.jsonl
 ```
 

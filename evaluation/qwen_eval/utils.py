@@ -6,6 +6,7 @@ import os
 import numpy as np
 from pathlib import Path
 from typing import Iterable, Union, Any
+from datasets import load_dataset, Dataset, concatenate_datasets
 
 
 def set_seed(seed: int = 42) -> None:
@@ -70,3 +71,293 @@ def show_sample(sample, print_all_preds=False):
             _key = key_map.get(key, key)
             print("{}: {}".format(_key, repr(sample[key])))
     print()
+
+
+def load_data(data_name, split, data_dir="./data"):
+    data_file = f"{data_dir}/{data_name}/{split}.jsonl"
+    if os.path.exists(data_file):
+        examples = list(load_jsonl(data_file))
+    else:
+        if data_name == "math":
+            dataset = load_dataset(
+                "competition_math",
+                split=split,
+                name="main",
+                cache_dir=f"{data_dir}/temp",
+            )
+        elif data_name == "gsm8k":
+            dataset = load_dataset(data_name, split=split)
+        elif data_name == "svamp":
+            # evaluate on training set + test set
+            dataset = load_dataset("ChilleD/SVAMP", split="train")
+            dataset = concatenate_datasets(
+                [dataset, load_dataset("ChilleD/SVAMP", split="test")]
+            )
+        elif data_name == "asdiv":
+            dataset = load_dataset("EleutherAI/asdiv", split="validation")
+            dataset = dataset.filter(
+                lambda x: ";" not in x["answer"]
+            )  # remove multi-answer examples
+        elif data_name == "mawps":
+            examples = []
+            # four sub-tasks
+            for data_name in ["singleeq", "singleop", "addsub", "multiarith"]:
+                sub_examples = list(load_jsonl(f"{data_dir}/mawps/{data_name}.jsonl"))
+                for example in sub_examples:
+                    example["type"] = data_name
+                examples.extend(sub_examples)
+            dataset = Dataset.from_list(examples)
+        elif data_name == "mmlu_stem":
+            dataset = load_dataset("hails/mmlu_no_train", "all", split="test")
+            # only keep stem subjects
+            stem_subjects = [
+                "abstract_algebra",
+                "astronomy",
+                "college_biology",
+                "college_chemistry",
+                "college_computer_science",
+                "college_mathematics",
+                "college_physics",
+                "computer_security",
+                "conceptual_physics",
+                "electrical_engineering",
+                "elementary_mathematics",
+                "high_school_biology",
+                "high_school_chemistry",
+                "high_school_computer_science",
+                "high_school_mathematics",
+                "high_school_physics",
+                "high_school_statistics",
+                "machine_learning",
+            ]
+            dataset = dataset.rename_column("subject", "type")
+            dataset = dataset.filter(lambda x: x["type"] in stem_subjects)
+        elif data_name == "carp_en":
+            dataset = load_jsonl(f"{data_dir}/carp_en/test.jsonl")
+        else:
+            raise NotImplementedError(data_name)
+
+        examples = list(dataset)
+        examples = [lower_keys(example) for example in examples]
+        dataset = Dataset.from_list(examples)
+        os.makedirs(f"{data_dir}/{data_name}", exist_ok=True)
+        dataset.to_json(data_file)
+
+    # add 'idx' in the first column
+    if "idx" not in examples[0]:
+        examples = [{"idx": i, **example} for i, example in enumerate(examples)]
+
+    # dedepulicate & sort
+    examples = sorted(examples, key=lambda x: x["idx"])
+    return examples
+
+
+def load_prompt(data_name, prompt_type, num_shots):
+    if not num_shots:
+        return []
+
+    if data_name in ["gsm_hard", "svamp", "tabmwp", "asdiv", "mawps"]:
+        data_name = "gsm8k"
+    if data_name in ["math_oai", "hungarian_exam", "math-oai", "aime24", "amc23","math500","minerva_math"]:
+        data_name = "math"
+    if data_name in ["sat_math"]:
+        data_name = "mmlu_stem"
+    if data_name in [
+        "gaokao2024_I",
+        "gaokao2024_II",
+        "gaokao_math_qa",
+        "gaokao2024_mix",
+        "cn_middle_school",
+    ]:
+        data_name = "gaokao"
+
+    if prompt_type in ["tool-integrated"]:
+        prompt_type = "tora"
+
+    return EXAMPLES[data_name][:num_shots]
+
+
+PROMPT_TEMPLATES = {
+    "direct": ("Question: {input}\nAnswer: ", "{output}", "\n\n"),
+    "cot": ("Question: {input}\nAnswer: ", "{output}", "\n\n\n"),
+    "pal": ("Question: {input}\n\n", "{output}", "\n---\n"),
+    "tool-integrated": ("Question: {input}\n\nSolution:\n", "{output}", "\n---\n"),
+    "self-instruct": ("<|user|>\n{input}\n<|assistant|>\n", "{output}", "\n"),
+    "tora": ("<|user|>\n{input}\n<|assistant|>\n", "{output}", "\n"),
+    "wizard_zs": (
+        "### Instruction:\n{input}\n\n### Response: Let's think step by step.",
+        "{output}",
+        "\n\n\n",
+    ),
+    "platypus_fs": (
+        "### Instruction:\n{input}\n\n### Response:\n",
+        "{output}",
+        "\n\n\n",
+    ),
+    "deepseek-math": (
+        "User: {input}\nPlease reason step by step, "
+        "and put your final answer within \\boxed{{}}.\n\nAssistant:",
+        "{output}",
+        "\n\n\n",
+    ),
+    "kpmath": (
+        "User: Please reason step by step and put your final answer at the end "
+        'with "The answer is: ".\n\n{input}\n\nAssistant:',
+        "{output}",
+    ),
+    "jiuzhang": (
+        "## Question\n{input}\n\n## Solution\n",
+        "{output}",
+        "\n\n\n",
+    ),
+    "jiuzhang_tora": (
+        "## Question\n{input}\n\n## Code Solution\n",
+        "{output}",
+        "\n\n\n",
+    ),
+    "jiuzhang_nl": (
+        "## Question\n{input}\n\n## Natural Language Solution\n",
+        "{output}",
+        "\n\n\n",
+    ),
+    "mmiqc": (
+        'Please solve the following problem and put your answer at the end with "The answer is: ".\n\n{input}\n\n',
+        "{output}",
+        "\n\n\n",
+    ),
+    "abel": (
+        "Question:\n{input}\nAnswer:\nLet's think step by step.\n",
+        "{output}",
+        "\n\n",
+    ),
+    "shepherd": ("{input}\n", "{output}", "\n\n\n"),
+    "qwen-boxed": (
+        "<|im_start|>system\nYou are a helpful assistant.<|im_end|>\n"
+        "<|im_start|>user\n{input}\nPlease reason step by step, and put your final answer within \\boxed{{}}.<|im_end|>\n"
+        "<|im_start|>assistant\n",
+        "{output}",
+        "\n\n",
+    ),
+    "qwen25-math-cot": (
+        "<|im_start|>system\nPlease reason step by step, and put your final answer within \\boxed{{}}.<|im_end|>\n"
+        "<|im_start|>user\n{input}<|im_end|>\n"
+        "<|im_start|>assistant\n",
+        "{output}",
+        "\n\n",
+    ),
+    "mathstral": (
+        "{input}\nPlease reason step by step, and put your final answer within \\boxed{{}}.",
+        "{output}",
+        "\n\n",
+    ),
+    "internlm-math-fs": ("Question:{input}\nAnswer:", "{output}", "\n"),
+    "internlm-math-chat": (
+        "<|im_start|>user\n{input}<|im_end|>\n" "<|im_start|>assistant\n",
+        "{output}",
+        "\n\n",
+    ),
+    "mistral": (
+        "[INST] {input}[/INST]",
+        "{output}",
+        "\n\n",
+    ),
+    "numina": ("### Problem: {input}\n### Solution:", " {output}", "\n\n"),
+    "r1": (
+        "<|im_start|>system\nYou are a helpful assistant. To answer the user's question, you first think about the reasoning process and then provide the user with the answer. The reasoning process and answer are enclosed within <think> </think> and <answer> </answer> tags, respectively, i.e., <think> reasoning process here </think> <answer> answer here </answer>.<|im_end|>\n"
+        "<|im_start|>user\n{input}<|im_end|>\n"
+        "<|im_start|>assistant\n<think>",
+        "{output}",
+        "\n\n",
+    ),
+    'openseek_sft':(
+        "<|im_start|>system\n<|im_end|>\n"
+        "<|im_start|>user\nPlease reason step by step, and put your final answer within \\boxed{{}}.\nQuestion:\n{input}<|im_end|>\n"
+        "<|im_start|>assistant\n",
+        "{output}",
+        "\n\n"
+    ),
+
+}
+
+
+def construct_prompt(example, data_name, args):
+    if args.adapt_few_shot and data_name in [
+        "gaokao2024_I",
+        "gaokao2024_II",
+        "gaokao_math_qa",
+        "gaokao2024_mix",
+        "cn_middle_school",
+    ]:
+        demos = load_prompt(data_name, args.prompt_type, 5)
+    else:
+        demos = load_prompt(data_name, args.prompt_type, args.num_shots)
+    prompt_type = args.prompt_type
+    if prompt_type == "platypus_fs":
+        prompt_type = "cot"
+    if prompt_type == "tool-integrated":
+        prompt_type = "tora"
+
+    prompt_temp = PROMPT_TEMPLATES[args.prompt_type]
+
+    splitter = prompt_temp[2]
+    input_template, output_template, splitter = (
+        prompt_temp[0],
+        prompt_temp[1],
+        prompt_temp[2],
+    )
+    if args.prompt_type == "qwen25-math-cot":
+        # Hotfix to support putting all demos into a single turn
+        demo_prompt = splitter.join([q + "\n" + a for q, a in demos])
+    else:
+        demo_prompt = splitter.join(
+            [
+                input_template.format(input=q) + output_template.format(output=a)
+                for q, a in demos
+            ]
+        )
+    context = input_template.format(input=example["question"])
+    if len(demo_prompt) == 0 or (
+        args.adapt_few_shot and example["gt_ans"] not in ["A", "B", "C", "D", "E"]
+    ):
+        full_prompt = context
+    else:
+        if args.prompt_type == "qwen25-math-cot":
+            # Hotfix to supportting put all demos into a single turn
+            full_prompt = demo_prompt + splitter + example["question"]
+            full_prompt = input_template.format(input=full_prompt)
+        else:
+            full_prompt = demo_prompt + splitter + context
+
+    if args.prompt_type == "platypus_fs":
+        full_prompt_temp = (
+            "Below is an instruction that describes a task. "
+            "Write a response that appropriately completes the request.\n\n"
+            "### Instruction:\n{instruction}\n\n### Response:\n"
+        )
+        full_prompt = full_prompt_temp.format(instruction=full_prompt)
+
+    if prompt_type == "tora":
+        full_prompt = (
+            """Integrate step-by-step reasoning and Python code to solve math problems using the following guidelines:
+
+- Analyze the question and write functions to solve the problem; the function should not take any arguments.
+- Present the final result in LaTeX using a `\boxed{}` without any units.
+- Utilize the `pi` symbol and `Rational`` from Sympy for $\pi$ and fractions, and simplify all fractions and square roots without converting them to decimal values.
+
+Here are some examples you may refer to:
+
+---
+
+"""
+            + full_prompt
+        )
+
+    return full_prompt.strip(" ")  # important!
+
+
+key_map = {
+    "gt": "Ground Truth",
+    "pred": "Prediction",
+    "gt_cot": "Reference CoT",
+    "score": "Score",
+}

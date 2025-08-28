@@ -1,4 +1,4 @@
-BASE_DIR=./eval_example/
+BASE_DIR=./examples
 
 python evaluate_final.py --eval_path $BASE_DIR
 

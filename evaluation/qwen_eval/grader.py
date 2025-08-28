@@ -259,10 +259,6 @@ def math_equal(
     return False
 
 
-def math_equal_process(param):
-    return math_equal(param[-2], param[-1])
-
-
 def numeric_equal(prediction: float, reference: float):
     # Note that relative tolerance has significant impact
     # on the result of the synthesized GSM-Hard dataset
