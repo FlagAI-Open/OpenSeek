@@ -25,6 +25,7 @@ The pre-training dataset is mainly composed of collected and selected open sourc
 - https://huggingface.co/datasets/OpenCoder-LLM/opc-fineweb-code-corpus
 - https://huggingface.co/datasets/HuggingFaceTB/smollm-corpus
 - https://huggingface.co/datasets/bigcode/the-stack-v2
+- https://huggingface.co/datasets/Leon-Leee/unofficial-pyedu (pyedu: high-quality educational Python code subset from smollm-corpus, ~6GB)
 
 ## 2. Data Synthesis
 - **Preliminary Reasoning Data Synthesis**: semantically segment, summarize, organize CoT process, and summarize queries on the original pre-trained documents. take {Query, CoT process, Original document} as one training sample.
