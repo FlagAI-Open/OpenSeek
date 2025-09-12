@@ -1,14 +1,17 @@
 set -ex
-
-PROMPT_TYPE=$1
-MODEL_NAME_OR_PATH=$2
-MODEL_NAME_SHORT=$(basename $2)
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+PROMPT_TYPE='openseek_sft'
+# MODEL_NAME_OR_PATH='/mnt/cfs/shanhai/qiuchenhao/model/ckpt/PPO/hfmodel_v0_v1/actor'
+# MODEL_NAME_OR_PATH='/mnt/cfs/shanhai/qiuchenhao/model/ckpt/sfdp_to_hf/sft/epoch2/'
+MODEL_NAME_OR_PATH=/mnt/cfs/shanhai/qiuchenhao/model/ckpt/final/global_step_450
+MODEL_NAME_SHORT=$(basename $MODEL_NAME_OR_PATH)
 OUTPUT_DIR=${MODEL_NAME_SHORT}/math_eval_sglang
 
 SPLIT="test"
 NUM_TEST_SAMPLE=-1
 
-DATA_NAME="gsm8k,math500"
+DATA_NAME="gsm8k,math500,minerva_math,amc23,aime24,olympiadbench"
+# DATA_NAME='amc23'
 TOKENIZERS_PARALLELISM=false \
 
 python3 -u math_eval.py \
@@ -19,14 +22,16 @@ python3 -u math_eval.py \
     --prompt_type ${PROMPT_TYPE} \
     --num_test_sample ${NUM_TEST_SAMPLE} \
     --seed 0 \
-    --temperature 0.6 \
+    --temperature 0.0 \
     --n_sampling 16 \
     --max_tokens_per_call 3072 \
     --top_p 0.95 \
     --start 0 \
-    --end 16\
+    --end -1\
     --use_sglang \
-    --pipeline_parallel_size 8 \
-    --dp_size 8 \
+    --pipeline_parallel_size 1 \
+    --dp_size 4 \
     --save_outputs \
     --overwrite \
+    --apply_chat_template \
+    --max_prompt_tokens 1000

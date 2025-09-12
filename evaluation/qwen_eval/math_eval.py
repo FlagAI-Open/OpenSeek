@@ -62,12 +62,30 @@ def parse_args():
     parser.add_argument("--world_size", type=int, default=1, help="World size for distributed training")
     parser.add_argument("--dist_url", default="env://", help="URL used to set up distributed training")
     parser.add_argument("--dist_backend", default="nccl", help="Distributed backend")
+    parser.add_argument("--max_prompt_tokens", type=int, default=1024, 
+                        help="Maximum number of tokens for prompt (truncate from right if exceeded)")
     
     args = parser.parse_args()
     args.top_p = (
         1 if args.temperature == 0 else args.top_p
     )  # top_p must be 1 when using greedy sampling (vllm)
     return args
+
+
+def truncate_prompt_right(prompt, tokenizer, max_tokens=1024):
+    """Truncate prompt from the right if it exceeds max_tokens."""
+    if tokenizer is None:
+        return prompt
+    
+    tokens = tokenizer.encode(prompt, add_special_tokens=False)
+    if len(tokens) <= max_tokens:
+        return prompt
+    
+    # Truncate from the right
+    truncated_tokens = tokens[:max_tokens]
+    truncated_prompt = tokenizer.decode(truncated_tokens, skip_special_tokens=False)
+    print(f"Warning: Prompt truncated from {len(tokens)} to {max_tokens} tokens")
+    return truncated_prompt
 
 
 def prepare_data(data_name, args, rank=0, world_size=1):
@@ -212,7 +230,7 @@ def setup(args):
             enforce_eager=True,
         )
         tokenizer = None
-        if args.apply_chat_template:
+        if args.apply_chat_template or args.max_prompt_tokens > 0:
             tokenizer = AutoTokenizer.from_pretrained(
                 args.model_name_or_path, trust_remote_code=True
             )
@@ -424,6 +442,14 @@ def main(llm, tokenizer, data_name, args, rank=0, world_size=1):
             )
             for prompt in input_prompts
         ]
+    
+    # Apply truncation if tokenizer is available
+    if tokenizer is not None and args.max_prompt_tokens > 0:
+        input_prompts = [
+            truncate_prompt_right(prompt, tokenizer, args.max_prompt_tokens)
+            for prompt in input_prompts
+        ]
+    
     remain_prompts = input_prompts
     remain_prompts = [(i, prompt) for i, prompt in enumerate(remain_prompts)]
     end_prompts = []
