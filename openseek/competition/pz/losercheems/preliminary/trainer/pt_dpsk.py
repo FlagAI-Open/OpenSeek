@@ -17,8 +17,8 @@ from transformers import (
 )
 from transformers.trainer_utils import get_last_checkpoint
 from utils.training_args_configs import PTConfig
+from ..processor.pt_datasets_process import mix_datasets_by_ratio as mix_pt_datasets
 
-from small_doge.processor import mix_pt_datasets
 from trl import ModelConfig, ScriptArguments, TrlParser
 
 
