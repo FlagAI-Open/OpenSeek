@@ -1,7 +1,3 @@
-"""
-Configuration classes for training.
-"""
-
 from dataclasses import dataclass, field
 from typing import Optional, List, Dict
 
