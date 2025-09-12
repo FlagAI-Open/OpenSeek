@@ -1,0 +1,7 @@
+sglang[all]==0.4.10post2
+numpy
+tqdm
+pebble
+regex
+word2number
+timeout_decorator
