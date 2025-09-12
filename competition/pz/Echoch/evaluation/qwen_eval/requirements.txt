@@ -1,0 +1,8 @@
+# sglang[all]==0.4.10post2
+# transformers==4.53.0
+# numpy
+tqdm
+pebble
+regex
+word2number
+timeout_decorator
