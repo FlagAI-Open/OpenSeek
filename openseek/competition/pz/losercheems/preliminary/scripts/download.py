@@ -1,4 +1,4 @@
-from preliminary.processor.pt_datasets_process import mix_datasets_by_ratio as mix_pt_datasets
+from ..processor.pt_datasets_process import mix_datasets_by_ratio as mix_pt_datasets
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 
