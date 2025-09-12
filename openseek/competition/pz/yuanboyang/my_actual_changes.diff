@@ -1,0 +1,220 @@
+diff --git a/examples/data_preprocess/gsm8k.py b/examples/data_preprocess/gsm8k.py
+index f39c4f09..a3bbdc44 100644
+--- a/examples/data_preprocess/gsm8k.py
++++ b/examples/data_preprocess/gsm8k.py
+@@ -22,7 +22,7 @@ import re
+ import datasets
+ 
+ from verl.utils.hdfs_io import copy, makedirs
+-
++from modelscope.msdatasets import MsDataset
+ 
+ def extract_solution(solution_str):
+     solution = re.search("#### (\\-?[0-9\\.\\,]+)", solution_str)
+@@ -39,21 +39,19 @@ if __name__ == "__main__":
+ 
+     args = parser.parse_args()
+ 
+-    data_source = "openai/gsm8k"
+-
+-    dataset = datasets.load_dataset(data_source, "main")
++    data_source = "hiyouga/geometry3k"
+ 
+-    train_dataset = dataset["train"]
+-    test_dataset = dataset["test"]
++    train_dataset =  MsDataset.load('modelscope/gsm8k', subset_name='main', split='train',trust_remote_code=True)
++    test_dataset =  MsDataset.load('modelscope/gsm8k', subset_name='main', split='test',trust_remote_code=True)
+ 
+-    instruction_following = 'Let\'s think step by step and output the final answer after "####".'
++    instruction_following = instruction = r'Please reason step by step,and must put your final answer within \boxed{}.Question:'
+ 
+     # add a row to each data item that represents a unique id
+     def make_map_fn(split):
+         def process_fn(example, idx):
+             question_raw = example.pop("question")
+-
+-            question = question_raw + " " + instruction_following
++            # 使用新的 prompt 模板
++            question = instruction+ " " + question_raw
+ 
+             answer_raw = example.pop("answer")
+             solution = extract_solution(answer_raw)
+diff --git a/scripts/install_vllm_sglang_mcore.sh b/scripts/install_vllm_sglang_mcore.sh
+index 0e305c5d..59000579 100755
+--- a/scripts/install_vllm_sglang_mcore.sh
++++ b/scripts/install_vllm_sglang_mcore.sh
+@@ -9,7 +9,7 @@ echo "1. install inference frameworks and pytorch they need"
+ if [ $USE_SGLANG -eq 1 ]; then
+     pip install "sglang[all]==0.4.6.post1" --no-cache-dir --find-links https://flashinfer.ai/whl/cu124/torch2.6/flashinfer-python && pip install torch-memory-saver --no-cache-dir
+ fi
+-pip install --no-cache-dir "vllm==0.8.5.post1" "torch==2.6.0" "torchvision==0.21.0" "torchaudio==2.6.0" "tensordict==0.6.2" torchdata
++pip install --no-cache-dir "vllm==0.8.2" "torch==2.6.0" "torchvision==0.21.0" "torchaudio==2.6.0" "tensordict==0.6.2" torchdata
+ 
+ echo "2. install basic packages"
+ pip install "transformers[hf_xet]>=4.51.0" accelerate datasets peft hf-transfer \
+diff --git a/verl/model_merger/base_model_merger.py b/verl/model_merger/base_model_merger.py
+index b46f40f8..6d081dc8 100644
+--- a/verl/model_merger/base_model_merger.py
++++ b/verl/model_merger/base_model_merger.py
+@@ -293,7 +293,7 @@ class BaseModelMerger(ABC):
+         auto_model_class = self.get_transformers_auto_model_class()
+         with init_empty_weights():
+             model = auto_model_class.from_config(
+-                self.model_config, torch_dtype=torch.bfloat16, trust_remote_code=self.config.trust_remote_code
++                self.model_config, torch_dtype=torch.bfloat16, trust_remote_code=True
+             )
+         model.to_empty(device="cpu")
+         model = self.patch_model_generation_config(model)
+diff --git a/verl/trainer/config/_generated_ppo_megatron_trainer.yaml b/verl/trainer/config/_generated_ppo_megatron_trainer.yaml
+index 03d4d5ca..eb282768 100644
+--- a/verl/trainer/config/_generated_ppo_megatron_trainer.yaml
++++ b/verl/trainer/config/_generated_ppo_megatron_trainer.yaml
+@@ -251,7 +251,7 @@ actor_rollout_ref:
+       moe_config:
+         freeze_moe_router: false
+     use_fused_kernels: false
+-    trust_remote_code: false
++    trust_remote_code: True
+ data:
+   tokenizer: null
+   use_shm: false
+@@ -274,7 +274,7 @@ data:
+   truncation: error
+   image_key: images
+   video_key: videos
+-  trust_remote_code: false
++  trust_remote_code: True
+   custom_cls:
+     path: null
+     name: null
+@@ -391,7 +391,7 @@ reward_model:
+     input_tokenizer: ${actor_rollout_ref.model.path}
+     path: ~/models/FsfairX-LLaMA3-RM-v0.1
+     external_lib: ${actor_rollout_ref.model.external_lib}
+-    trust_remote_code: false
++    trust_remote_code: True
+   micro_batch_size: null
+   micro_batch_size_per_gpu: null
+   max_length: null
+diff --git a/verl/trainer/config/_generated_ppo_trainer.yaml b/verl/trainer/config/_generated_ppo_trainer.yaml
+index 3c7a73f7..8554e613 100644
+--- a/verl/trainer/config/_generated_ppo_trainer.yaml
++++ b/verl/trainer/config/_generated_ppo_trainer.yaml
+@@ -232,7 +232,7 @@ actor_rollout_ref:
+     use_fused_kernels: false
+     fused_kernel_options:
+       impl_backend: torch
+-    trust_remote_code: false
++    trust_remote_code: True
+ data:
+   tokenizer: null
+   use_shm: false
+@@ -255,7 +255,7 @@ data:
+   truncation: error
+   image_key: images
+   video_key: videos
+-  trust_remote_code: false
++  trust_remote_code: True
+   custom_cls:
+     path: null
+     name: null
+@@ -359,7 +359,7 @@ reward_model:
+     input_tokenizer: ${actor_rollout_ref.model.path}
+     path: ~/models/FsfairX-LLaMA3-RM-v0.1
+     external_lib: ${actor_rollout_ref.model.external_lib}
+-    trust_remote_code: false
++    trust_remote_code: True
+     use_shm: false
+     use_remove_padding: false
+     use_fused_kernels: ${actor_rollout_ref.model.use_fused_kernels}
+diff --git a/verl/trainer/config/critic/critic.yaml b/verl/trainer/config/critic/critic.yaml
+index f201a34b..b4efa215 100644
+--- a/verl/trainer/config/critic/critic.yaml
++++ b/verl/trainer/config/critic/critic.yaml
+@@ -47,7 +47,7 @@ model:
+   external_lib: ${oc.select:actor_rollout_ref.model.external_lib,null}
+ 
+   # Whether to trust remote code from Hugging Face models
+-  trust_remote_code: ${oc.select:actor_rollout_ref.model.trust_remote_code,false}
++  trust_remote_code: True
+ 
+ # PPO mini-batch size per update
+ ppo_mini_batch_size: ${oc.select:actor_rollout_ref.actor.ppo_mini_batch_size,256}
+diff --git a/verl/trainer/config/data/legacy_data.yaml b/verl/trainer/config/data/legacy_data.yaml
+index 028405b4..f73d0d82 100644
+--- a/verl/trainer/config/data/legacy_data.yaml
++++ b/verl/trainer/config/data/legacy_data.yaml
+@@ -73,7 +73,7 @@ image_key: images
+ video_key: videos
+ 
+ # If the remote tokenizer has a Python file, this flag determines whether to allow using it.
+-trust_remote_code: False
++trust_remote_code: True
+ 
+ # Optional: specify a custom dataset class path and name if overriding default loading behavior.
+ custom_cls:
+diff --git a/verl/trainer/config/reward_model/reward_model.yaml b/verl/trainer/config/reward_model/reward_model.yaml
+index 08ae37ac..1947fc90 100644
+--- a/verl/trainer/config/reward_model/reward_model.yaml
++++ b/verl/trainer/config/reward_model/reward_model.yaml
+@@ -26,7 +26,7 @@ model:
+   external_lib: ${actor_rollout_ref.model.external_lib}
+ 
+   # Whether to enable loading a remote code model, default to False
+-  trust_remote_code: False
++  trust_remote_code: True
+ 
+ # [Deprecated] Global micro batch size
+ # will be deprecated, use micro_batch_size_per_gpu
+diff --git a/verl/trainer/config/rollout/rollout.yaml b/verl/trainer/config/rollout/rollout.yaml
+index 8622cb68..b32c99f0 100644
+--- a/verl/trainer/config/rollout/rollout.yaml
++++ b/verl/trainer/config/rollout/rollout.yaml
+@@ -80,7 +80,7 @@ disable_log_stats: True
+ do_sample: True
+ 
+ # number of responses (i.e. num sample times). > 1 for grpo
+-n: 1
++n: 8
+ 
+ # The over_sample_rate parameter controls the early termination threshold for training rollouts,
+ # where the system will abort remaining requests when (1 - over_sample_rate) * total_requests completions are reached.
+diff --git a/verl/trainer/main_ppo.py b/verl/trainer/main_ppo.py
+index 7ab01b45..1a67ea8e 100644
+--- a/verl/trainer/main_ppo.py
++++ b/verl/trainer/main_ppo.py
+@@ -251,7 +251,7 @@ class TaskRunner:
+         # Instantiate the tokenizer and processor.
+         from verl.utils import hf_processor, hf_tokenizer
+ 
+-        trust_remote_code = config.data.get("trust_remote_code", False)
++        trust_remote_code = True
+         tokenizer = hf_tokenizer(local_path, trust_remote_code=trust_remote_code)
+         # Used for multimodal LLM, could be None
+         processor = hf_processor(local_path, trust_remote_code=trust_remote_code, use_fast=True)
+diff --git a/verl/utils/reward_score/geo3k.py b/verl/utils/reward_score/geo3k.py
+index 8a850875..c687aff7 100644
+--- a/verl/utils/reward_score/geo3k.py
++++ b/verl/utils/reward_score/geo3k.py
+@@ -17,7 +17,7 @@ from mathruler.grader import extract_boxed_content, grade_answer
+ 
+ 
+ def format_reward(predict_str: str) -> float:
+-    pattern = re.compile(r"<think>.*</think>.*\\boxed\{.*\}.*", re.DOTALL)
++    pattern = re.compile(r".*\\boxed\{.*\}.*", re.DOTALL)
+     match_result = re.fullmatch(pattern, predict_str)
+     return 1.0 if match_result else 0.0
+ 
+diff --git a/verl/workers/fsdp_workers.py b/verl/workers/fsdp_workers.py
+index ce6f6ad6..7f33ad11 100644
+--- a/verl/workers/fsdp_workers.py
++++ b/verl/workers/fsdp_workers.py
+@@ -343,7 +343,7 @@ class ActorRolloutRefWorker(Worker, DistProfilerExtension):
+                 pretrained_model_name_or_path=local_path,
+                 torch_dtype=torch_dtype,
+                 config=actor_model_config,
+-                trust_remote_code=trust_remote_code,
++                trust_remote_code=True,
+             )
+ 
+             # Apply Liger kernel to the model if use_liger is set to True
