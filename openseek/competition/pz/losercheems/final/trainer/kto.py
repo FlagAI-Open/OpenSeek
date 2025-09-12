@@ -1,17 +1,3 @@
-# Copyright 2025 The SmallDoge Team. All rights reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 import logging
 import os
 import sys
@@ -22,7 +8,6 @@ import transformers
 from transformers import AutoModelForCausalLM, AutoTokenizer, set_seed
 from transformers.trainer_utils import get_last_checkpoint
 
-from small_doge.processor import mix_dpo_datasets
 from trl import (
     ModelConfig,
     ScriptArguments,
@@ -163,11 +148,8 @@ def main(
     logger.info(f"Model saved to {training_args.output_dir}")
 
     # Save everything else on main process
-    kwargs = {
-        "tags": ["small-doge"],
-    }
     if trainer.accelerator.is_main_process:
-        trainer.create_model_card(**kwargs)
+        trainer.create_model_card()
         # Restore k,v cache for fast inference
         trainer.model.config.use_cache = True
         trainer.model.config.save_pretrained(training_args.output_dir)
