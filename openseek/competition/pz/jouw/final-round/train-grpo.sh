@@ -1,0 +1,69 @@
+#!/bin/bash
+
+HOME="/root/workspace"
+MODEL_PATH="/root/workspace/OpenSeek-Small-v1-SFT"
+
+PROJECT_NAME="OpenSeek-Small-v1-SFT_RL_Training"
+RUN_NAME="OpenSeek-Small-v1-SFT_math_reasoning"
+
+export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
+export HYDRA_FULL_ERROR=1
+
+export WANDB_API_KEY={WANDB_API_KEY}  # need to config
+export WANDB_MODE=online
+export WANDB__DISABLE_IPV6=true
+export WANDB_START_METHOD=thread
+export WANDB_SILENT=false
+export WANDB__SERVICE_WAIT=300
+
+PYTHONUNBUFFERED=1 python3 -m verl.trainer.main_ppo \
+  algorithm.adv_estimator=grpo \
+  data.train_files="$HOME/data/math_reasoning/train.parquet" \
+  data.val_files="$HOME/data/math_reasoning/test.parquet" \
+  data.train_batch_size=256 \
+  data.max_prompt_length=2048 \
+  data.max_response_length=2048 \
+  data.filter_overlong_prompts=True \
+  data.truncation='error' \
+  data.trust_remote_code=True \
+  actor_rollout_ref.model.path=$MODEL_PATH \
+  actor_rollout_ref.actor.strategy=fsdp2 \
+  actor_rollout_ref.actor.optim.lr=1e-6 \
+  actor_rollout_ref.actor.optim.lr_warmup_steps=20 \
+  actor_rollout_ref.actor.optim.warmup_style="cosine" \
+  actor_rollout_ref.actor.optim.min_lr_ratio=0.1 \
+  actor_rollout_ref.actor.optim.num_cycles=0.5 \
+  actor_rollout_ref.actor.optim.weight_decay=0.01 \
+  actor_rollout_ref.actor.use_kl_loss=True \
+  actor_rollout_ref.actor.kl_loss_coef=0.001 \
+  actor_rollout_ref.actor.kl_loss_type=low_var_kl \
+  actor_rollout_ref.actor.entropy_coeff=0 \
+  actor_rollout_ref.actor.ppo_mini_batch_size=64 \
+  actor_rollout_ref.actor.ppo_micro_batch_size_per_gpu=8 \
+  actor_rollout_ref.rollout.name=sglang \
+  actor_rollout_ref.rollout.log_prob_micro_batch_size_per_gpu=8 \
+  actor_rollout_ref.rollout.tensor_model_parallel_size=1 \
+ +actor_rollout_ref.rollout.engine_kwargs.sglang.attention_backend=flashinfer \
+ +actor_rollout_ref.rollout.engine_kwargs.sglang.use_tiktoken=false \
+ +actor_rollout_ref.rollout.engine_kwargs.sglang.tokenizer_path=/root/workspace/OpenSeek-Small-v1-SFT \
+ +actor_rollout_ref.rollout.engine_kwargs.sglang.trust_remote_code=true \
+ +actor_rollout_ref.rollout.engine_kwargs.sglang.tokenizer_mode=hf \
+  actor_rollout_ref.rollout.gpu_memory_utilization=0.3 \
+  actor_rollout_ref.ref.log_prob_micro_batch_size_per_gpu=8 \
+  actor_rollout_ref.model.trust_remote_code=True \
+  critic.strategy=fsdp2 \
+  critic.optim.lr=1e-6 \
+  critic.model.path=$MODEL_PATH \
+  critic.model.trust_remote_code=True \
+  critic.ppo_micro_batch_size_per_gpu=4 \
+  algorithm.use_kl_in_reward=False \
+  trainer.critic_warmup=0 \
+  trainer.logger='["console","wandb"]' \
+  trainer.project_name=$PROJECT_NAME \
+  trainer.experiment_name=$RUN_NAME \
+  trainer.val_before_train=True \
+  trainer.n_gpus_per_node=8 \
+  trainer.nnodes=1 \
+  trainer.save_freq=500 \
+  trainer.test_freq=100 \
+  trainer.total_epochs=10
