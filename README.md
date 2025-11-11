@@ -24,7 +24,7 @@
 
 <div align="center">
 
-OpenSeek is dedicated to uniting the global open-source community to drive collaborative innovation in algorithms, data, and systems, with the goal of developing next-generation models that surpass DeepSeek.
+OpenSeek is dedicated to uniting the global open-source community to drive collaborative innovation in algorithms, data, and systems, with the goal of developing next-generation models. 
 
 English| [简体中文](README_zh.md)
 
@@ -40,7 +40,101 @@ OpenSeek is an open source project initiated by the Beijing Academy of Artificia
 - **Multiple AI devices support**: Reduce dependency on specific chips and improve model universality and adaptability.
 - **Standalised LLM training baseline**: Promote independent algorithmic innovation and technology sharing through open source collaboration.
 
-**Project:** https://github.com/orgs/FlagAI-Open/projects/1 
+**Project:** https://github.com/orgs/FlagAI-Open/projects/1
+
+## 📁 Project Structure
+
+The OpenSeek project is organized into several key directories, each serving a specific purpose in the LLM training and evaluation pipeline.
+
+### Directory Tree
+
+```
+OpenSeek/
+├── stage1/                      # 🧠 Stage 1: Core OpenSeek modules
+│   ├── algorithm/               #   Algorithm innovations and experiments
+│   │   ├── hparam_exp/          #     Hyperparameter optimization experiments
+│   │   └── mtp_exp/             #     Multi-task Pretraining (MTP) experiments
+│   ├── data/                    #   Data processing and dataset tools
+│   │   └── cci4_0/              #     CCI4.0-M2 dataset processing pipeline
+│   ├── system/                  #   System-level optimizations
+│   └── competition/             #   Competition-related code
+│
+├── openseek/                    # 🧠 OpenSeek Python package
+│   └── README.md                #   Package documentation
+│
+├── configs/                     # ⚙️ Training and experiment configurations
+│   ├── OpenSeek-Small-v1-Baseline/  # Baseline model configs
+│   └── OpenSeek-Small-v1/           # Production model configs
+│
+├── examples/                    # 📝 Example code and tutorials
+│   ├── baseline/                #   Baseline training example
+│   │   ├── setup.sh             #     Environment setup script
+│   │   ├── run_exp.sh           #     Training script
+│   │   └── README.md            #     Usage documentation
+│   ├── nanochat_exp/            #   nanochat integration example
+│   │   ├── dataset.py           #     Dataset conversion utilities
+│   │   ├── dataloader.py        #     Data loader for nanochat
+│   │   └── README.md            #     Usage documentation
+│   └── data_mix_exp/            #   Data mixture experiments example
+│       ├── config_deepseek_v3_16b.yaml  #     Experiment configuration
+│       ├── train_deepseek_v3_16b.yaml   #     Training configuration
+│       └── README.md            #     Usage documentation
+│
+├── docs/                        # 📚 Documentation and guides
+│   ├── README_CCI4.0_M2_V1.md      # CCI4.0 dataset documentation
+│   ├── README_OPENSEEK_SMALL_V1.md  # Model documentation
+│   ├── distributed_training.md      # Distributed training guide
+│   ├── algorithm_exp.md             # Algorithm experiments guide
+│   └── ...                          # More documentation files
+│
+├── evaluation/                  # 📊 Model evaluation scripts and tools
+│   ├── lighteval/               #   LightEval evaluation framework
+│   ├── lm_eval/                 #   Language model evaluation
+│   ├── qwen_eval/               #   Qwen-style evaluation
+│   ├── adv-reasoning-eval/      #   Advanced reasoning evaluation
+│   └── perf/                    #   Performance benchmarking scripts
+│       ├── run_latency.sh       #     Latency benchmarking
+│       └── run_throughput.sh   #     Throughput benchmarking
+│
+├── utils/                       # 🔧 Utility scripts and tools
+│   ├── hf_utils/                #   HuggingFace utilities and model implementations
+│   │   ├── deepseek_v3/         #     DeepSeek V3 model code
+│   │   ├── aquila/              #     Aquila model code
+│   │   └── tokenizer/           #     Tokenizer implementations
+│   ├── convert_deepseek_v3_ckpt.sh  # Checkpoint conversion script
+│   └── preprocess_data_args.py  # Data preprocessing utilities
+├── docker/                      # 🐳 Docker configuration files
+└── figs/                        # 🖼️ Figures and images for documentation
+    ├── exp/                     #   Evaluation experiment result images
+    └── ...                      #   Other documentation figures
+```
+
+### Key Directories Overview
+
+| Directory | Purpose | Key Contents |
+|-----------|---------|--------------|
+| **`stage1/`** | Stage 1: Core modules organized by function | Algorithm experiments, data processing, system optimizations |
+| **`stage1/algorithm/`** | Algorithm innovations | Hyperparameter tuning, MTP experiments |
+| **`stage1/data/`** | Data processing | CCI4.0 dataset pipeline and processing tools |
+| **`stage1/system/`** | System optimizations | Distributed training, performance improvements |
+| **`openseek/`** | Legacy package docs | Reference notes for the historical Python package layout |
+| **`examples/baseline/`** | Baseline training example | Standardized training scripts and setup |
+| **`examples/nanochat_exp/`** | nanochat integration example | Dataset conversion, data loader for nanochat framework |
+| **`examples/data_mix_exp/`** | Data mixture experiments | Configuration and scripts for data mixture strategy experiments |
+| **`configs/`** | Training configurations | YAML configs for different model variants |
+| **`docs/`** | Documentation | Guides, FAQs, experiment results, dataset docs |
+| **`evaluation/`** | Model evaluation | Multiple evaluation frameworks (LightEval, lm_eval, etc.) |
+| **`evaluation/perf/`** | Performance benchmarking | Latency and throughput benchmarking scripts |
+| **`utils/`** | Utility scripts and tools | Checkpoint conversion, data preprocessing, HuggingFace utilities |
+| **`utils/hf_utils/`** | HuggingFace utilities | Model implementations and utilities compatible with HuggingFace |
+
+### Quick Navigation
+
+- **Getting Started**: See [Getting Started](#-getting-started) section
+- **Data Processing**: Check `stage1/data/README.md` and `docs/README_CCI4.0_M2_V1.md`
+- **Training**: See `examples/baseline/README.md` and `docs/distributed_training.md`
+- **Evaluation**: See `evaluation/README.md`
+- **Configuration**: See `configs/README.md` 
 
 **Acknowledgments & Contribution Guidelines**
 
@@ -60,19 +154,19 @@ For detailed information on how to contribute, please refer to our [Contribution
 
 
 # 📢 News
-- 🔥[05/06/2025] **Data group**-release bilingual pretrainning dataset CCI4.0-M2-V1 <u>*[[readme](Docs/README_CCI4.0_M2_V1.md)]*</u>, **Algo group**-release the pretrained model OpenSeek-Small V1 <u>*[[readme](Docs/README_OPENSEEK_SMALL_V1.md)][[download](Docs/OpenSeek-Small_V1_download_link)]*.</u>
+- 🔥[05/06/2025] **Data group**-release bilingual pretrainning dataset CCI4.0-M2-V1 <u>*[[readme](docs/README_CCI4.0_M2_V1.md)]*</u>, **Algo group**-release the pretrained model OpenSeek-Small V1 <u>*[[readme](docs/README_OPENSEEK_SMALL_V1.md)][[download](docs/OpenSeek-Small_V1_download_link)]*.</u>
 - 🔥[03/20/2025] #4 online meetup 19:00-20:00 :  [[screen recording]](https://meeting.tencent.com/crm/NL4rAjg489)
 - 🔥[03/20/2025] #3 online meetup 19:00-20:00 ：[[screen recording]](https://meeting.tencent.com/crm/NXwDAyLG59)
 - 🔥[03/06/2025] #2 online meetup 19:00-20:00 ：[[screen recording]](https://meeting.tencent.com/crm/2pxo8BBDb7)
 - 🔥[02/25/2025] #1 online meetup 18:00-19:00 ：[[screen recording]](https://meeting.tencent.com/v2/cloud-record/share?id=e188482b-0105-43f9-b8e7-cf5f1e4d136b&from=3&is-single=false&record_type=2)
-- 🔥[02/13/2025] Completed experiments on OpenSeek-PT-1T dataset, [more]().
+- 🔥[02/13/2025] Completed experiments on OpenSeek-PT-1T dataset.
 
 # 🚗 Getting Started
 
 ## What is Baseline
-The openseek-baseline is used as the baseline for [PAZHOU algorithm competition](https://www.aicompetition-pz.com/topic_detail/25) and also used to evaluate the PRs in openseek. Openseek-baseline is a standarlized LLM training and evaluating pipline, it consist of a [100B dataset](#Preparing-the-data), a [training code](#Running-the-Baseline), [wandb](https://wandb.ai/openseek-team/OpenSeek-Small-v1-Baseline), [checkpoint](https://huggingface.co/BAAI/OpenSeek-Small-v1-Baseline) and [evaluation results](https://huggingface.co/BAAI/OpenSeek-Small-v1-Baseline#evalation). 
+The openseek-baseline is used as the baseline for [PAZHOU algorithm competition](https://www.aicompetition-pz.com/topic_detail/25) and also used to evaluate the PRs in openseek. Openseek-baseline is a standarlized LLM training and evaluating pipline, it consist of a [100B dataset](#preparing-the-data), a [training code](#running-the-baseline), [wandb](https://wandb.ai/openseek-team/OpenSeek-Small-v1-Baseline), [checkpoint](https://huggingface.co/BAAI/OpenSeek-Small-v1-Baseline) and [evaluation results](https://huggingface.co/BAAI/OpenSeek-Small-v1-Baseline#evalation). 
 
-## Preparing Enviroment
+## Preparing Environment
 1. Clone this repository and enter the directory:
 ```shell
 git clone https://github.com/FlagAI-Open/OpenSeek.git
@@ -93,7 +187,7 @@ git clone https://github.com/FlagOpen/FlagScale.git
 # Clone the repository
 git clone https://github.com/FlagOpen/FlagScale.git
 
-# Install the requirementse
+# Install the requirements
 ./install/install-requirements.sh --env train
 ```
 
@@ -105,11 +199,11 @@ Download the [OpenSeek-Pretrain-100B](https://huggingface.co/datasets/BAAI/OpenS
 **You can also run the following script to build up your project environment after you have built python environment and activated it:**
 
 ```
-bash openseek/baseline/setup.sh
+bash examples/baseline/setup.sh
 ```
 
 ## Running the Baseline
-Make sure you have completed the environment installation and configuration as outlined in the [previous section](#preparation) and your **OpenSeek** folder should be like this:
+Make sure you have completed the environment installation and configuration as outlined in the [previous section](#preparing-environment) and your **OpenSeek** folder should be like this:
 
 ```
 OpenSeek
@@ -121,12 +215,12 @@ OpenSeek
 
 Next, you can run the baseline with a simple command:
 ```shell
-bash openseek/baseline/run_exp.sh start
+bash examples/baseline/run_exp.sh start
 ```
 
 > ### How to Verify Your Program is Running Correctly
 >
-> After executing `bash openseek/baseline/run_exp.sh start`, you can follow these steps to confirm your program is running as expected.
+> After executing `bash examples/baseline/run_exp.sh start`, you can follow these steps to confirm your program is running as expected.
 >
 > 1. navigate to the **OpenSeek root directory**. You'll notice a new folder named `OpenSeek-Small-v1-Baseline` has been created in this directory. This is the **log dir.**
 >
@@ -183,7 +277,7 @@ Target: Our study focuses on three key aspects of large-scale language model tra
 |Training config| [Training Config](configs/OpenSeek-Small-v1-Baseline/train/train_deepseek_v3_1_4b.yaml)|[Training Config](configs/OpenSeek-Small-v1/train/train_deepseek_v3_3b_1330B.yaml)|
 |Notes|This model is open-sourced as a baseline for future experiments in areas such as dataset construction, algorithmic strategies, and parallel training frameworks.|OpenSeek-Small v1 is the first-stage production model from the OpenSeek project, designed as a foundation for next-generation language models. |
 
-> The usage and difference of Experiment Config and Training Config are explained [here](#experiment-configuration).
+> The usage and difference of Experiment Config and Training Config are explained [here](configs/README.md).
 
 # 🖥️ System Group
 Target：With support from the open-source community, flagscale aims to reproduce DeepSeek V3 & R1’s distributed training system, ensuring stable and performant end-to-end training.

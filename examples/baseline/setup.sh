@@ -30,7 +30,7 @@ fi
 
 # Step 4: Run the unpatch script
 echo "Running unpatch script..."
-python3 tools/patch/unpatch.py --backend Megatron-LM
+python3 utils/patch/unpatch.py --backend Megatron-LM
 if [ $? -ne 0 ]; then
     echo "Error: Failed to run unpatch script."
     exit 1
@@ -40,4 +40,4 @@ fi
 cd "$ORIGINAL_DIR"
 echo "Setup complete!"
 echo "Then you can run the script from the OpenSeek root directory with the command:
-      bash openseek/baseline/run_exp.sh start"
+      bash examples/baseline/run_exp.sh start"

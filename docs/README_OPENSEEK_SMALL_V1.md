@@ -15,7 +15,7 @@ OpenSeek-Small v1 is the first-stage production model from the OpenSeek project,
   - Books and educational materials
   - High-quality synthetic data
 - **Sampling Distribution**
-  - <img src="dataset_dist_reference_phi4.jpeg" alt="Sampling Distribution" width="400"/>
+  - <img src="imgs/dataset_dist_reference_phi4.jpeg" alt="Sampling Distribution" width="400"/>
 
 ### Data Processing Pipeline
 1. Initial filtering for quality and relevance
@@ -64,7 +64,7 @@ OpenSeek-Small v1 is the first-stage production model from the OpenSeek project,
 
 ## Ablation Exp
 Ablation studies are conducted on the dataset using a 500M-sized model.
-![Ablation Exp](CCI4.0_M2_v1_Ablation.jpeg)
+![Ablation Exp](imgs/CCI4.0_M2_v1_Ablation.jpeg)
 
 ## Usage Instructions
 ```python

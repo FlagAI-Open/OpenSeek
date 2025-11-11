@@ -10,13 +10,13 @@ The basic steps for conducting an algorithm experiment are as follows:
 
 2. Modify the experiment configuration files to set up your specific algorithm experiment. Details for [Hyper-parameter](#hyper-parameter-experiment) and [MTP experiments](#mtp-experimemt) are provided below.
 
-3. Start the experiment using the provided [script](openseek/algorithm/run_exp.sh).
+3. Start the experiment using the provided [script](stage1/algorithm/run_exp.sh).
 
 4. View the experiment results and logs to analyze performance.
 
 ## Configuration
 
-To set up your algorithm experiment, you'll typically modify the configuration by referring to the baseline experiment configuration which is located in the `openseek/algorithm` directory, including:
+To set up your algorithm experiment, you'll typically modify the configuration by referring to the baseline experiment configuration which is located in the `stage1/algorithm` directory, including:
 
 - `config_deepseek_v3_16b.yaml`: This is the experiment configuration file, defining the experiment directory, backend engine, task type, and environment settings.
 

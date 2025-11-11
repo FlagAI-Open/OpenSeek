@@ -8,9 +8,9 @@ The basic steps for conducting the data mixture experiment are as follows:
 
 2. Modify the data mixture experiment configuration by referring to the content in [Configuration](#configuration).
 
-3. Launch the experiment using the following [script](openseek/algorithm/run_exp.sh).
+3. Launch the experiment using the following [script](stage1/algorithm/run_exp.sh).
 ```sh
-bash openseek/algorithm/run_exp.sh start <config-path>
+bash stage1/algorithm/run_exp.sh start <config-path>
 ```
 
 4. View the experiment results and logs by referring to the content [here](#results-and-log).

@@ -80,4 +80,4 @@ We evaluated the models trained with these configurations across a range of benc
 |                            | Average                 | 0.3696                     | 0.3888                       |
 |                            | Average (w/o Math)      | 0.4274                     | 0.4429                       |
 
-More information can be found [here](./data_mix_exp/README.md).
+More information can be found [here](../../examples/data_mix_exp/README.md).

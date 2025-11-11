@@ -1,5 +1,7 @@
 
-# **Benchmarks**
+# Performance Benchmarking
+
+This directory contains scripts for performance benchmarking, including inference latency and throughput measurements.
 
 ### Throughput
 

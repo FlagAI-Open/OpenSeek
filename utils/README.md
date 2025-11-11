@@ -1,12 +1,18 @@
-# OpenSeek Tools
+# OpenSeek Utils
 
-This directory contains utility tools for data preprocessing and model checkpoint conversion as part of the OpenSeek project.
+This directory contains utility tools and HuggingFace implementations for data preprocessing, model checkpoint conversion, and HuggingFace model utilities as part of the OpenSeek project.
 
 ## Overview
+
+This directory contains:
+
+1. **Utility Scripts**: Data preprocessing and checkpoint conversion tools
+2. **HuggingFace Utils** (`hf_utils/`): HuggingFace model implementations and tokenizers
 
 The tools provided here assist with:
 1. Preprocessing text data for training language models
 2. Converting DeepSeek V3 model checkpoints between different formats
+3. HuggingFace model implementations and tokenizer utilities
 
 ## Tools
 
@@ -72,12 +78,26 @@ The converted checkpoint will be saved in:
 $Checkpoints_HOME/<experiment_name>/iter_<checkpoint_version>_hf
 ```
 
+## Directory Structure
+
+```
+utils/
+├── hf_utils/                    # HuggingFace utilities
+│   ├── deepseek_v3/            # DeepSeek V3 model implementation
+│   ├── aquila/                 # Aquila model implementation
+│   └── tokenizer/              # Shared tokenizer implementation
+├── preprocess_data_args.py     # Data preprocessing script
+├── convert_deepseek_v3_ckpt.sh # Checkpoint conversion script
+└── README.md                    # This file
+```
+
 ## Integration with OpenSeek
 
 These tools are essential components of the OpenSeek training pipeline:
 
 1. `preprocess_data_args.py` is used to prepare the CCI4.0 dataset and other training data
 2. `convert_deepseek_v3_ckpt.sh` enables the conversion of trained checkpoints for evaluation and deployment
+3. `hf_utils/` provides HuggingFace-compatible model implementations and tokenizers used throughout the project
 
 ## Requirements
 

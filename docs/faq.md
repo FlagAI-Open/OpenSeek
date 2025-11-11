@@ -40,7 +40,7 @@ Additionally, the process fails with:
 Update the `tokenizer_path` in the configuration file such as `configs/OpenSeek-Small-v1-Baseline/train/train_deepseek_v3_1_4b.yaml` to a valid path from the . Set it to:  
 
 ```yaml
-tokenizer_path: hf_openseek/tokenizer
+tokenizer_path: utils/hf_utils/tokenizer
 ```
 
 This points to a valid tokenizer model from `OpenSeek` project (we have already built this tokenizer in this repo), resolving the issue.

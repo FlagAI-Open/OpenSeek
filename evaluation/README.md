@@ -84,8 +84,29 @@ bash adv-reasoning-eval/run_eval.sh path/to/model
 
 Our approach is inspired by the adversarial CoT framework from [https://github.com/Essential-AI/reflection](https://github.com/Essential-AI/reflection). Given the relatively small scale of our evaluated model, which lacks emergent CoT generation capabilities, we adapted the evaluation. For each test sample containing both a correct and an incorrect Chain-of-Thought (CoT), we measure the model's perplexity (PPL) on both CoTs. A sample is considered passed if the model assigns a lower PPL to the correct CoT compared to the incorrect one. The final score for a dataset is the proportion of samples that passed this PPL criterion. Following [https://github.com/Essential-AI/reflection](https://github.com/Essential-AI/reflection), we report the pre-training compute for each data point as 6nT, where n and T are the number of parameters and training tokens, respectively.
 
+### **4. Performance Benchmarking**
+
+The `perf/` directory contains scripts for performance benchmarking, including latency and throughput measurements.
+
+**Available benchmarks:**
+- **Latency benchmarking**: Measures inference latency
+- **Throughput benchmarking**: Measures inference throughput
+
+Simple usage:
+
+```shell
+# Latency benchmark
+bash perf/run_latency.sh
+
+# Throughput benchmark
+bash perf/run_throughput.sh
+```
+
+See [perf/README.md](perf/README.md) for detailed instructions.
+
 ## **Additional Content**
 
 * The adv-reasoning-eval directory contains plotting code. This includes scatter plots illustrating the performance changes of models trained with CoT (Chain-of-Thought) data, as well as comparative scatter plots showing model performance with and without CoT training.  
-* The imgs directory stores various charts and figures representing our evaluation results.  
+* Evaluation result images are stored in `figs/exp/` directory, which contains various charts and figures representing our evaluation results.  
+* The perf directory contains performance benchmarking scripts for latency and throughput measurements.
 * Each sub-directory within evaluation typically includes run_eval.sh files, which provide simple usage examples for running the evaluations. Please ensure that all necessary libraries and dependencies are installed before attempting to run these scripts.

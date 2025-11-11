@@ -124,10 +124,10 @@ Let's consider a setup with **2 nodes, each having 8 GPUs (total 16 GPUs)**. You
 
 ## Launching a Multi-Node Training Job
 
-After modifying the configuration file according to the above instructions, start directly using the [script](openseek/algorithm/run_exp.sh).
+After modifying the configuration file according to the above instructions, start directly using the [script](stage1/algorithm/run_exp.sh).
 
 ```sh
-bash openseek/algorithm/run_exp.sh start <config-path>
+bash stage1/algorithm/run_exp.sh start <config-path>
 ```
 
 ## Important Considerations

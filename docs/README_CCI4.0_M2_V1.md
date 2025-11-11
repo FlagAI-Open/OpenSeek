@@ -65,7 +65,7 @@ The Chain-of-Thought (CoT) in the CCI4.0-M2-CoT v1 subset is synthesized to enha
 
 The following image illustrates the CoT synthesis pipeline:
 
-<img src="CoT_Pipeline.png" alt="CoT_Pipeline" width="400"/>
+<img src="imgs/CoT_Pipeline.png" alt="CoT_Pipeline" width="400"/>
 
 This pipeline showcases how the raw data from different sources is processed and transformed into structured CoT data, which can be used for training language models to perform complex reasoning tasks.
 
