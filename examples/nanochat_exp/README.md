@@ -4,7 +4,7 @@ This directory provides integration between OpenSeek datasets and the [nanochat]
 
 ## Overview
 
-This module adapts OpenSeek datasets (specifically OpenSeek-Pretrain-100B) to work with nanochat's training pipeline. It provides:
+This module adapts OpenSeek datasets (specifically OpenSeek-Pretrain-Data-Examples) to work with nanochat's training pipeline. It provides:
 
 - **Dataset conversion**: Converts OpenSeek datasets from HuggingFace format to parquet format compatible with nanochat
 - **Data loader**: Provides a data loader compatible with nanochat's training interface
@@ -23,12 +23,25 @@ This module adapts OpenSeek datasets (specifically OpenSeek-Pretrain-100B) to wo
 
 2. **Python dependencies**（推荐 Python≥3.10、PyTorch≥2.1，与 nanochat 官方示例保持一致）：
    ```bash
-   pip install pyarrow datasets huggingface_hub
+   # 推荐使用虚拟环境（避免权限警告）
+   python -m venv venv
+   source venv/bin/activate  # Linux/Mac
+   # 或 venv\Scripts\activate  # Windows
+   
+   # OpenSeek 使用 HuggingFace tokenizers 库（易于安装，无需 Rust 编译）
+   pip install pyarrow datasets huggingface_hub tokenizers>=0.22.0
    ```
+   
+   > **重要**: OpenSeek 使用 HuggingFace `tokenizers` 库替代 nanochat 的 `rustbpe` 模块。
+   > - **优势**: `tokenizers` 库更容易安装，只需 `pip install tokenizers`，无需 Rust 编译
+   > - **兼容性**: 完全兼容 nanochat 的 tokenizer 接口
+   > - **性能**: HuggingFace tokenizers 库性能优秀，基于 Rust 实现但提供预编译的 Python 包
+   > 
+   > 如果以 root 用户运行 pip，会收到警告。建议使用虚拟环境，或使用 `--root-user-action=ignore` 选项（仅在明确知道自己在做什么时使用）。
 
-3. **OpenSeek dataset**: Download the OpenSeek-Pretrain-100B dataset:
+3. **OpenSeek dataset**: Download the OpenSeek-Pretrain-Data-Examples dataset:
    - Option 1: Download from HuggingFace (automatic)
-   - Option 2: Download manually to `OpenSeek-Pretrain-100B/` directory in the project root
+   - Option 2: Download manually to `OpenSeek-Pretrain-Data-Examples/` directory in the project root
 
 ## Quick Start
 
@@ -49,9 +62,10 @@ First, convert the OpenSeek dataset to the parquet format expected by nanochat:
 
 ```bash
 # From OpenSeek root directory
+# 对于示例数据集，默认使用 -1（处理所有数据，不限制 shards 数量）
 python -m examples.nanochat_exp.dataset \
-    --dataset "BAAI/OpenSeek-Pretrain-100B" \
-    --num-shards 240 \
+    --dataset "BAAI/OpenSeek-Pretrain-Data-Examples" \
+    --num-shards -1 \
     --streaming
 ```
 
@@ -59,27 +73,51 @@ Or if you have the dataset locally:
 
 ```bash
 python -m examples.nanochat_exp.dataset \
-    --dataset ./OpenSeek-Pretrain-100B \
-    --num-shards 240
+    --dataset ./OpenSeek-Pretrain-Data-Examples \
+    --num-shards -1
 ```
 
 This will create parquet shards in `~/.cache/openseek_nanochat/parquet_shards/` (or the directory specified by `OPENSEEK_NANOCHAT_DATA_DIR`).
 
-### 2. Modify nanochat Training Scripts
+### 2. Train Tokenizer (Optional but Recommended)
 
-To use OpenSeek data with nanochat, you need to modify nanochat's training scripts to use our data loader. In `nanochat/scripts/base_train.py`, change:
+Train a BPE tokenizer from your data using HuggingFace tokenizers (no rustbpe needed):
+
+```bash
+# From OpenSeek root directory
+python -m examples.nanochat_exp.tok_train \
+    --vocab-size 50257 \
+    --data-dir ~/.cache/openseek_nanochat/parquet_shards
+```
+
+This will create `tokenizer.json` in the tokenizer directory. The script uses HuggingFace tokenizers library, which is much easier to install than rustbpe (no Rust compilation needed).
+
+### 3. Modify nanochat Training Scripts
+
+To use OpenSeek data with nanochat, you need to modify nanochat's training scripts to use our data loader and tokenizer. You can use the automated patch script:
+
+```bash
+# From OpenSeek root directory
+python -m examples.nanochat_exp.patch_nanochat --nanochat-path /path/to/nanochat
+```
+
+This will automatically modify `nanochat/scripts/base_train.py` to:
+- Use OpenSeek's dataloader (from `examples.nanochat_exp.dataloader`)
+- Use OpenSeek's tokenizer (from `examples.nanochat_exp.tokenizer`, uses HuggingFace tokenizers, no rustbpe)
+
+Alternatively, you can manually modify `nanochat/scripts/base_train.py`:
 
 ```python
+# Change this:
 from nanochat.dataloader import tokenizing_distributed_data_loader
-```
+from nanochat.tokenizer import get_tokenizer
 
-to:
-
-```python
+# To this:
 from examples.nanochat_exp.dataloader import tokenizing_distributed_data_loader
+from examples.nanochat_exp.tokenizer import get_tokenizer
 ```
 
-### 3. Run Training
+### 4. Run Training
 
 After modifying the import, you can run nanochat training as usual:
 
@@ -100,6 +138,9 @@ examples/nanochat_exp/
 ├── __init__.py              # Module initialization
 ├── dataset.py               # Dataset conversion and loading utilities
 ├── dataloader.py            # Data loader compatible with nanochat
+├── tokenizer.py             # Tokenizer wrapper using HuggingFace tokenizers (easy install)
+├── tok_train.py             # Tokenizer training script (uses HuggingFace tokenizers, no rustbpe)
+├── patch_nanochat.py        # Script to patch nanochat's base_train.py (replaces dataloader & tokenizer)
 ├── run_openseek_exp.sh      # Experiment runner script
 ├── train_wrapper.py         # Training wrapper script
 └── README.md                # This file
@@ -109,10 +150,37 @@ This module can be imported via `examples.nanochat_exp` when the repository root
 
 ## Design Notes & Configuration
 
+### Tokenizer 说明
+
+OpenSeek 使用 **HuggingFace tokenizers 库**替代 nanochat 的 `rustbpe` 模块：
+
+- **优势**: 
+  - 更容易安装：只需 `pip install tokenizers`，无需 Rust 编译
+  - 完全兼容：提供与 nanochat tokenizer 相同的接口
+  - 性能优秀：基于 Rust 实现，提供预编译的 Python 包
+  
+- **使用方式**: 
+  - `examples.nanochat_exp.tokenizer.get_tokenizer()` 会自动使用 HuggingFace tokenizers
+  - 如果找不到 tokenizer.json，会尝试从标准位置加载，或创建默认 tokenizer
+  - 数据加载器会自动使用新的 tokenizer，无需修改代码
+  - 训练 tokenizer 使用 `python -m examples.nanochat_exp.tok_train`（无需 rustbpe）
+
+- **训练 Tokenizer**: 
+  - 使用 `examples.nanochat_exp.tok_train` 脚本训练 BPE tokenizer
+  - 完全替代 nanochat 的 `tok_train.py`，无需 rustbpe
+  - 支持自定义词汇表大小、最小频率等参数
+  - 输出标准的 `tokenizer.json` 文件，兼容 HuggingFace tokenizers
+
+- **兼容性**: 
+  - 如果系统中已安装 rustbpe，代码会优先尝试使用 HuggingFace tokenizers
+  - 如果 HuggingFace tokenizers 不可用，会回退到 nanochat 的 rustbpe（如果可用）
+  - 训练脚本完全独立，不依赖 rustbpe
+
 ### 数据加载接口说明
 
 - `examples.nanochat_exp.dataloader.tokenizing_distributed_data_loader()` 保持与 nanochat 原生接口兼容，可直接替换 import。
-- 默认 tokenizer 仍由 nanochat 配置决定；若需变更 tokenizer、最大长度或 padding 规则，可在 `train_wrapper.py` 中调整对应函数，再由训练脚本调用。
+- Tokenizer 使用 HuggingFace tokenizers 库（易于安装），完全兼容 nanochat 的 tokenizer 接口。
+- 若需变更 tokenizer、最大长度或 padding 规则，可在 `train_wrapper.py` 中调整对应函数，再由训练脚本调用。
 - 批量大小、梯度累积等策略建议继续放在 nanochat 脚本侧统一配置，确保与数据加载逻辑一致。
 
 ### Environment Variables

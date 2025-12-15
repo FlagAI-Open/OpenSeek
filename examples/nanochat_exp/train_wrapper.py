@@ -120,11 +120,12 @@ def main():
                 print("Converting dataset...")
                 from examples.nanochat_exp.dataset import convert_to_parquet, load_openseek_dataset
                 dataset = load_openseek_dataset(streaming=True)
-                convert_to_parquet(dataset, max_shards=240)
+                # 对于示例数据集，使用 -1 处理所有数据（不限制 shards 数量）
+                convert_to_parquet(dataset, max_shards=-1)
             else:
                 print("Error: No parquet files found.")
                 print("Please run dataset conversion first:")
-                print("  python -m examples.nanochat_exp.dataset --dataset BAAI/OpenSeek-Pretrain-100B")
+                print("  python -m examples.nanochat_exp.dataset --dataset BAAI/OpenSeek-Pretrain-Data-Examples")
                 sys.exit(1)
     
     # Modify sys.path to include nanochat
