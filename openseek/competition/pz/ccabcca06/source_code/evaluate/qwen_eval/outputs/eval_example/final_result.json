@@ -1,0 +1,11 @@
+{
+    "dataset_acc": {
+        "math500": 18.3,
+        "olympiadbench": 3.99074,
+        "amc23": 15.9375,
+        "minerva_math": 5.3079,
+        "gsm8k": 34.1594,
+        "aime24": 0.20833
+    },
+    "final_acc": 12.983978333333333
+}
