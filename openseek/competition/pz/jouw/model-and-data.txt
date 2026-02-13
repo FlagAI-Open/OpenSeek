@@ -1,0 +1,3 @@
+The model and training data:
+
+https://www.modelscope.cn/ocean2023/openseek-competition.git
