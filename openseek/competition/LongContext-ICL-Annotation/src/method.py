@@ -1,9 +1,271 @@
 
 import re
+import numpy as np
 from collections import Counter
 from transformers import AutoTokenizer
 
 """ Here is an example of implementation of Long-Context Data Annotation. """
+
+# 全局变量：延迟加载的 TF-IDF 向量化器
+_tfidf_vectorizer = None
+
+def get_tfidf_vectorizer():
+    """
+    获取或初始化 TF-IDF 向量化器（延迟加载，避免重复加载）
+    使用 sklearn 的 TfidfVectorizer，不需要下载额外模型
+    """
+    global _tfidf_vectorizer
+    if _tfidf_vectorizer is None:
+        from sklearn.feature_extraction.text import TfidfVectorizer
+        # 使用简单的 TF-IDF 配置，支持字符级和词级特征
+        _tfidf_vectorizer = TfidfVectorizer(
+            analyzer='char_wb',  # 使用字符 n-gram（对数字、符号等效果更好）
+            ngram_range=(1, 3),  # 1-3 字符 n-gram
+            max_features=5000,   # 限制特征数量
+            sublinear_tf=True    # 使用对数缩放
+        )
+    return _tfidf_vectorizer
+
+def compute_tfidf_similarity(texts: list[str]) -> np.ndarray:
+    """
+    计算 texts 列表中所有文本之间的 TF-IDF 余弦相似度矩阵
+    :param texts: 文本列表，第一个是测试样本，后面是示例
+    :return: 相似度矩阵的第一行（测试样本与所有示例的相似度）
+    """
+    vectorizer = get_tfidf_vectorizer()
+    try:
+        # 如果 vectorizer 还未 fit，先 fit 所有文本
+        tfidf_matrix = vectorizer.fit_transform(texts)
+    except:
+        # 如果已经 fit 过，使用 transform
+        tfidf_matrix = vectorizer.transform(texts)
+    
+    # 计算第一个文本（测试样本）与所有其他文本的余弦相似度
+    from sklearn.metrics.pairwise import cosine_similarity
+    similarities = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:])[0]
+    return similarities
+
+def select_examples_by_similarity(all_examples: list[dict], text2annotate: str, top_k: int = None) -> list[dict]:
+    """
+    Combination-01: 语义相似度示例选择（使用 TF-IDF 实现）
+    核心策略：
+    1. 使用 TF-IDF 向量化计算文本特征
+    2. 基于余弦相似度选择最相关的 top-k 示例
+    3. 按照示例难度（输入长度）从简单到复杂排序
+    
+    :param all_examples: 所有可用示例列表
+    :param text2annotate: 待标注的文本
+    :param top_k: 选择的示例数量上限（默认为全部）
+    :return: 按相似度排序且按难度重新排列的示例列表
+    """
+    if not all_examples:
+        return []
+    
+    if top_k is None:
+        top_k = len(all_examples)
+    
+    # 准备所有文本：测试样本 + 所有示例输入
+    all_texts = [text2annotate] + [ex['input'] for ex in all_examples]
+    
+    # 计算 TF-IDF 相似度
+    similarities = compute_tfidf_similarity(all_texts)
+    
+    # 计算每个示例的相似度和输入长度
+    example_scores = []
+    for i, example in enumerate(all_examples):
+        input_text = example['input']
+        similarity = similarities[i]  # 相似度已按顺序对应
+        input_length = len(input_text)
+        example_scores.append({
+            'example': example,
+            'index': i,
+            'similarity': float(similarity),
+            'input_length': input_length
+        })
+    
+    # 按相似度降序排序，选择 top-k 个示例
+    example_scores.sort(key=lambda x: x['similarity'], reverse=True)
+    selected = example_scores[:top_k]
+    
+    # 按输入长度（难度）从简单到复杂排序
+    selected.sort(key=lambda x: x['input_length'])
+    
+    return [item['example'] for item in selected]
+
+
+def select_examples_by_diversity(all_examples: list[dict], text2annotate: str, n_clusters: int = None, top_k: int = None) -> list[dict]:
+    """
+    Combination-02: 多样性驱动的示例选择（使用 TF-IDF + K-Means 实现）
+    核心策略：
+    1. 使用 TF-IDF 向量化计算文本特征
+    2. 使用 K-Means 将示例聚类成多个组
+    3. 从每个聚类中选择距离中心最近的代表性示例
+    4. 按输入长度（难度）从简单到复杂排序
+    
+    :param all_examples: 所有可用示例列表
+    :param text2annotate: 待标注的文本
+    :param n_clusters: 聚类数量（默认为 min(sqrt(n), 10)）
+    :param top_k: 选择的示例数量上限（默认为全部）
+    :return: 多样性选择的示例列表，按难度排序
+    """
+    if not all_examples:
+        return []
+    
+    from sklearn.cluster import KMeans
+    from sklearn.metrics.pairwise import cosine_similarity
+    
+    n_examples = len(all_examples)
+    if top_k is None:
+        top_k = n_examples
+    
+    # 自动确定聚类数量：sqrt(n)，但不超过10
+    if n_clusters is None:
+        n_clusters = min(int(np.sqrt(n_examples)), 10)
+    n_clusters = min(n_clusters, n_examples)  # 聚类数不能超过样本数
+    
+    # 获取 TF-IDF 向量化器并 fit 所有示例
+    vectorizer = get_tfidf_vectorizer()
+    all_texts = [ex['input'] for ex in all_examples]
+    
+    # 重置 vectorizer，确保 fit 新的文本集
+    tfidf_matrix = vectorizer.fit_transform(all_texts)
+    
+    # 执行 K-Means 聚类
+    kmeans = KMeans(n_clusters=n_clusters, random_state=42, n_init=10)
+    cluster_labels = kmeans.fit_predict(tfidf_matrix)
+    cluster_centers = kmeans.cluster_centers_
+    
+    # 从每个聚类中选择最接近中心的示例
+    selected_examples = []
+    for cluster_id in range(n_clusters):
+        # 获取该聚类的所有示例索引
+        cluster_indices = np.where(cluster_labels == cluster_id)[0]
+        if len(cluster_indices) == 0:
+            continue
+        
+        # 计算每个示例到聚类中心的距离
+        cluster_vectors = tfidf_matrix[cluster_indices].toarray()
+        center = cluster_centers[cluster_id]
+        distances = np.linalg.norm(cluster_vectors - center, axis=1)
+        
+        # 选择距离中心最近的示例
+        closest_idx_in_cluster = np.argmin(distances)
+        original_idx = cluster_indices[closest_idx_in_cluster]
+        selected_examples.append(all_examples[original_idx])
+    
+    # 按输入长度（难度）从简单到复杂排序
+    selected_examples.sort(key=lambda x: len(x['input']))
+    
+    # 返回 top-k 个示例
+    return selected_examples[:top_k]
+
+
+def compute_example_quality_score(example: dict) -> float:
+    """
+    Combination-04: 计算单个示例的质量分数
+    质量评估标准：
+    1. 输入长度：适中为佳（太短可能信息不足，太长可能噪声多）
+    2. 输出长度：简洁为佳
+    3. 输入输出比例：合理的比例
+    4. 特殊字符数量：过多特殊字符可能降低质量
+    5. 输出非空：确保输出有效
+    
+    :param example: 示例字典，包含 'input' 和 'output'
+    :return: 质量分数 (0-1)
+    """
+    input_text = example.get('input', '')
+    output_text = example.get('output', '')
+    if isinstance(output_text, list):
+        output_text = output_text[0] if output_text else ''
+    
+    # 基础检查：输出不能为空
+    if not output_text or not output_text.strip():
+        return 0.0
+    
+    score = 1.0
+    
+    # 1. 输入长度评分（适中为佳：10-200字符得满分）
+    input_len = len(input_text)
+    if input_len < 5:
+        score *= 0.5  # 输入太短
+    elif input_len > 500:
+        score *= 0.7  # 输入太长
+    elif 10 <= input_len <= 200:
+        score *= 1.0  # 理想长度
+    else:
+        score *= 0.9  # 可接受长度
+    
+    # 2. 输出长度评分（简洁为佳：1-50字符得满分）
+    output_len = len(output_text)
+    if output_len > 100:
+        score *= 0.6  # 输出太长
+    elif output_len > 50:
+        score *= 0.8  # 输出较长
+    elif 1 <= output_len <= 50:
+        score *= 1.0  # 理想长度
+    
+    # 3. 特殊字符比例（过多特殊字符降低质量）
+    special_chars = sum(1 for c in input_text if not c.isalnum() and c not in ' \t\n')
+    special_ratio = special_chars / max(input_len, 1)
+    if special_ratio > 0.5:
+        score *= 0.7  # 特殊字符过多
+    
+    # 4. 数字比例（对于符号推理任务，数字多是正常的）
+    digit_ratio = sum(1 for c in input_text if c.isdigit()) / max(input_len, 1)
+    # 数字比例高不扣分，因为符号推理任务通常包含数字
+    
+    return max(0.0, min(1.0, score))
+
+
+def select_examples_by_quality(all_examples: list[dict], text2annotate: str, quality_threshold: float = 0.5, top_k: int = None) -> list[dict]:
+    """
+    Combination-04: 质量过滤的示例选择
+    核心策略：
+    1. 计算每个示例的质量分数
+    2. 过滤掉质量分数低于阈值的示例
+    3. 按质量分数排序选择高质量示例
+    4. 按输入长度（难度）从简单到复杂排序
+    
+    :param all_examples: 所有可用示例列表
+    :param text2annotate: 待标注的文本
+    :param quality_threshold: 质量阈值（默认0.5）
+    :param top_k: 选择的示例数量上限（默认为全部）
+    :return: 质量过滤后的示例列表，按难度排序
+    """
+    if not all_examples:
+        return []
+    
+    if top_k is None:
+        top_k = len(all_examples)
+    
+    # 计算每个示例的质量分数
+    example_scores = []
+    for i, example in enumerate(all_examples):
+        quality_score = compute_example_quality_score(example)
+        input_length = len(example.get('input', ''))
+        example_scores.append({
+            'example': example,
+            'index': i,
+            'quality_score': quality_score,
+            'input_length': input_length
+        })
+    
+    # 过滤掉质量分数低于阈值的示例
+    filtered = [item for item in example_scores if item['quality_score'] >= quality_threshold]
+    
+    # 如果过滤后示例太少，降低阈值重新选择
+    if len(filtered) < top_k * 0.3:  # 至少保留30%的示例
+        filtered = sorted(example_scores, key=lambda x: x['quality_score'], reverse=True)
+        filtered = filtered[:int(len(example_scores) * 0.7)]  # 保留70%
+    
+    # 按质量分数降序排序，选择 top-k 个示例
+    filtered.sort(key=lambda x: x['quality_score'], reverse=True)
+    selected = filtered[:top_k]
+    
+    # 按输入长度（难度）从简单到复杂排序
+    selected.sort(key=lambda x: x['input_length'])
+    
+    return [item['example'] for item in selected]
 
 def build_prompt____(task_description: str, text2annotate: str) -> str:
     """
@@ -48,39 +310,37 @@ def build_prompt____(task_description: str, text2annotate: str) -> str:
 
 def build_prompt(task_description: str, text2annotate: str) -> str:
     """
-    Construct a high-precision prompt for long-context data annotation (optimized for Qwen3-4B).
-    task_description: Clear description of the annotation task (e.g., "Classify English product reviews as Good Review/Bad Review").
-    text2annotate: The text to be annotated (single text or batch texts).
+    Construct a concise prompt for Qwen3-4B annotation.
+    明确要求模型直接输出答案，不要思考过程，并用 <label> 标签包裹结果。
+    使用 /no_think 前缀禁用 Qwen3 的思考模式。
     """
     prompt = (
+        "/no_think\n"
         "### Role Definition\n"
         "You are a professional data annotation expert specialized in long-context text labeling. "
-        "Your work must strictly follow the task rules, fully learn from the provided examples, and ensure the final annotation result is 100% enclosed in <label> tags.\n\n"
-        
+        "Your work must strictly follow the task rules, fully learn from the provided examples, and ensure the final annotation result is enclosed in <label> tags.\n\n"
         "### Core Task\n"
-        f"{task_description}\n\n"
-        
+        f"Task: {task_description}\n\n"
         "### Critical Annotation Guidelines\n"
         "1. **Example Learning Requirement**: Thoroughly analyze and fully learn from the annotation logic, format, and criteria in the Examples section. "
         "Your annotation must align with the style, judgment standards, and tag usage shown in the examples.\n"
-        "2. **Thinking Process**: You may (and are encouraged to) explain your annotation reasoning step by step (e.g., key information extraction, judgment basis, rule matching).\n"
-        "3. **Mandatory Output Rule**: Regardless of any thinking process you provide, your final annotation result MUST be enclosed in <label> tags (this is non-negotiable).\n"
-        "   - Correct example: \n"
-        "     Reasoning: This review mentions 'excellent quality' and 'very satisfied', which meets the criteria for a Good Review.\n"
-        "     <label>Good Review</label>\n"
-        "   - Wrong example 1 (missing tags): This review is negative.\n"
-        "   - Wrong example 2 (incomplete tags): Bad Review</label>\n"
-        "4. **Length Adaptation**: For long texts, maintain complete thinking process and ensure the final <label> tags contain the accurate annotation result (no truncation).\n\n"
+        "2. **Silent Reasoning Requirement**: Think through the task internally, but do NOT output your reasoning, analysis, explanation, or any extra words.\n"
+        "3. **Mandatory Output Rule**: Output only the final annotation result enclosed in <label> tags.\n"
+        "   - Correct example 1: <label>3</label>\n"
+        "   - Correct example 2: <label>Good Review</label>\n"
+        "   - Wrong example 1: Reasoning: ... <label>3</label>\n"
+        "   - Wrong example 2: 3\n"
+        "   - Wrong example 3: <label>3\n"
+        "4. **Brevity Requirement**: The final answer must be a single short label only. Do not repeat the input text. Do not add prefixes such as 'Answer:' or 'Reasoning:'.\n\n"
         
-        "### Examples (Must Be Fully Followed)\n"
+        "Examples:\n"
         "[[EXAMPLES]]\n\n"
-        
         "### Text to Annotate\n"
-        f"{text2annotate}\n\n"
-        
+        f"Input: {text2annotate}\n"
+        "Output:"
         "### Final Requirement Summary\n"
-        "1. You can (and should) provide clear thinking process for your annotation.\n"
-        "2. The final annotation result MUST be wrapped in <label> tags (no exceptions).\n"
+        "1. Think silently and do not output analysis.\n"
+        "2. Output exactly one final answer wrapped in <label> and </label>.\n"
         "3. All annotation logic must strictly follow the examples provided above.\n"
     )
     return prompt
@@ -145,58 +405,147 @@ def select_examples_backup(all_examples:list[dict], task_description:str, text2a
             return examples_str, i
     return examples_str
 
-def select_examples(all_examples: list[dict], task_description: str, text2annotate: str) -> str:
+def select_examples(all_examples: list[dict], task_description: str, text2annotate: str, is_code_generation: bool = False, use_diversity: bool = True, use_similarity: bool = False, use_task_aware: bool = False, task_id: int = None, use_quality_filter: bool = False, quality_threshold: float = 0.5) -> str:
     """
-        Select examples from all_examples to fit into the target context length (适配Qwen3-4B的token计算).
-        all_examples:
-            A list of examples, where each example is a dict with keys 'input' and 'output' (no 'length' needed).
-            For example, ``{"input": "The material is good and looks great.", "output": "Good Review"}``,
-        task_description:
-            The description of the annotation task which may be used for example evaluation. 
-        text2annotate:
-            The text that needs to be annotated  which may be used for example retrieval.
+        示例选择函数，支持多种策略：
+        - Combination-01: 语义相似度示例选择 (use_similarity=True, use_diversity=False)
+        - Combination-02: 多样性驱动的示例选择 (use_diversity=True, use_similarity=False)
+        - Combination-03: 任务感知的动态上下文优化 (use_task_aware=True)
+        - Combination-04: 质量过滤的示例选择 (use_quality_filter=True)
+        
+        核心策略：
+        1. 根据选择策略选择示例
+        2. 按照示例难度（输入长度）从简单到复杂排序
+        3. 在上下文长度限制内填充示例
+        
+        :param all_examples: 所有可用示例列表
+        :param task_description: 任务描述
+        :param text2annotate: 待标注的文本
+        :param is_code_generation: 是否为代码生成任务
+        :param use_diversity: 是否使用多样性选择（Combination-02）
+        :param use_similarity: 是否使用语义相似度选择（Combination-01）
+        :param use_task_aware: 是否使用任务感知的动态上下文优化（Combination-03）
+        :param task_id: 任务ID，用于任务感知优化
+        :param use_quality_filter: 是否使用质量过滤（Combination-04）
+        :param quality_threshold: 质量阈值（Combination-04，默认0.5）
     """
-    # 初始化Qwen3-4B的tokenizer（自动下载/加载千问3-4B的分词器）
-    # 若本地已下载模型，可替换为本地路径，如 "./qwen3-4b"
-    tokenizer = AutoTokenizer.from_pretrained("/share/project/wuhaiming/spaces/data_agent/OpenSeek-main/openseek/competition/LongContext-ICL-Annotation/src/Qwen3-4B", trust_remote_code=True)
+    # 初始化Qwen3-4B的tokenizer
+    tokenizer = AutoTokenizer.from_pretrained("/root/flagos/Qwen3-4B", trust_remote_code=True)
     
-    # 最大上下文长度限制（Qwen3-4B的上下文窗口默认是8k/32k，可根据实际调整）
-    target_length = 8192  # 若需严格适配Qwen3-4B，建议改为8192（8k）
+    # Combination-03: 任务感知的动态上下文优化
+    # 根据任务类型动态调整上下文长度和示例数量
+    if use_task_aware and task_id is not None:
+        task_config = get_task_aware_config(task_id)
+        target_length = task_config['target_length']
+        max_examples = task_config['max_examples']
+    else:
+        # 默认上下文长度限制
+        target_length = 8192
+        max_examples = None
     
-    # print(all_examples[0])  # 打印第一个示例，便于调试
-
+    # 计算固定的 prompt 部分的 token 数（不包括 ICL 示例）
+    fixed_prompt = (
+        f"Task: {task_description}\n\n"
+        "Examples:\n"
+        "[[EXAMPLES]]\n\n"
+        f"Input: {text2annotate}\n"
+        "Output: "
+    )
+    fixed_tokens = len(tokenizer.encode(fixed_prompt, add_special_tokens=False))
+    
+    # ICL 示例可用的最大 token 数
+    available_tokens_for_examples = target_length - fixed_tokens
+    
+    if available_tokens_for_examples <= 0:
+        print(f"警告：任务描述和测试样本输入已超过上下文长度限制（{fixed_tokens} > {target_length} tokens）")
+        return ""
+    
+    # 根据选择策略选择示例
+    if len(all_examples) > 0:
+        if use_quality_filter:
+            # Combination-04: 质量过滤的示例选择
+            selected_examples = select_examples_by_quality(all_examples, text2annotate, quality_threshold=quality_threshold)
+        elif use_diversity:
+            # Combination-02: 多样性驱动的示例选择
+            selected_examples = select_examples_by_diversity(all_examples, text2annotate)
+        elif use_similarity:
+            # Combination-01: 语义相似度示例选择
+            selected_examples = select_examples_by_similarity(all_examples, text2annotate)
+        else:
+            # 回退到原始顺序
+            selected_examples = all_examples
+    else:
+        selected_examples = []
+    
+    # Combination-03: 限制示例数量
+    if max_examples is not None and len(selected_examples) > max_examples:
+        selected_examples = selected_examples[:max_examples]
+    
     examples_str, token_num = "", 0
-    # 遍历所有示例，基于Qwen3-4B的tokenizer计算token数
-    for i, example in enumerate(all_examples):
+    # 遍历选中的示例，填充到上下文长度限制内
+    for i, example in enumerate(selected_examples):
         try:
-            # 提取input和output（兼容output是列表的情况）
             input_text = example['input']
-            output_text = example['output'][0]
+            output_text = example['output'][0] if isinstance(example['output'], list) else example['output']
             
-            # 核心：用Qwen3-4B的tokenizer计算input+output的token数（替代原length键）
-            # encode返回token id列表，len即为token数
             input_tokens = len(tokenizer.encode(input_text, add_special_tokens=False))
             output_tokens = len(tokenizer.encode(output_text, add_special_tokens=False))
-            length = input_tokens + output_tokens  # 等效原示例的length值
+            length = input_tokens + output_tokens
             
-            # 校验当前示例是否能加入（总长度不超限制）
-            if length + token_num <= target_length:
-                # 累加总token数：示例文本长度 + 格式符号的token数（<label>2 + </label>3 + \n1 + #1）
-                # 注：格式符号的token数是原代码约定，Qwen3-4B对这些符号的实际编码可能略有差异，若需精准可改为：
-                # symbol_tokens = len(tokenizer.encode(f"# <label> </label>\n", add_special_tokens=False))
-                # token_num += (length + symbol_tokens)
-                token_num += (length + 2 + 3 + 1 + 1)
-                # 拼接单个示例字符串
+            if is_code_generation:
+                format_tokens = len(tokenizer.encode(f"Input: \nOutput: \n\n", add_special_tokens=False))
+                example_str = f"Input: {input_text}\nOutput: {output_text}\n\n"
+            else:
+                format_tokens = len(tokenizer.encode(f"# <label> </label>\n", add_special_tokens=False))
                 example_str = f"# {input_text} <label> {output_text} </label>\n"
+            
+            if length + format_tokens + token_num <= available_tokens_for_examples:
+                token_num += (length + format_tokens)
                 examples_str += example_str
             else:
-                # 超过长度限制，返回已拼接的示例和已选数量
                 return examples_str
         except KeyError as e:
             print(f"警告：示例{i}缺少键{e}，跳过该示例")
             continue
-    # 遍历完所有示例且未超长度，返回完整拼接结果
+    
     return examples_str
+
+
+def get_task_aware_config(task_id: int) -> dict:
+    """
+    Combination-03: 获取任务感知的配置参数
+    根据任务类型返回不同的上下文长度和示例数量配置
+    
+    任务分类：
+    - 符号推理任务 (Tasks 1-4): 需要更多示例来学习规则，使用较长上下文
+    - 情感分析任务 (Task 5): 中等上下文
+    - NLI任务 (Task 6): 中等上下文
+    - 开放问答任务 (Task 7): 中等上下文
+    - 代码生成任务 (Task 8): 较短上下文，更多计算资源留给生成
+    
+    :param task_id: 任务ID (1-8)
+    :return: 配置字典，包含 target_length 和 max_examples
+    """
+    # Qwen3-4B 的上下文窗口是 8192，需要在这个限制内调整
+    # 为生成预留一些空间
+    # max_examples 增加到原来的三倍，以提供更多示例供模型学习
+    configs = {
+        # 符号推理任务：较长上下文，更多示例 (40*3=120)
+        1: {'target_length': 7000, 'max_examples': 120, 'description': '符号推理-最接近整数'},
+        2: {'target_length': 7000, 'max_examples': 120, 'description': '符号推理-名词动词计数'},
+        3: {'target_length': 7000, 'max_examples': 120, 'description': '符号推理-Collatz猜想'},
+        4: {'target_length': 7000, 'max_examples': 120, 'description': '符号推理-字符串拼接'},
+        # 情感分析任务：中等上下文 (25*3=75)
+        5: {'target_length': 6000, 'max_examples': 75, 'description': '情感分析'},
+        # NLI任务：中等上下文 (25*3=75)
+        6: {'target_length': 6000, 'max_examples': 75, 'description': 'NLI分类'},
+        # 开放问答任务：中等上下文 (25*3=75)
+        7: {'target_length': 6000, 'max_examples': 75, 'description': '开放问答'},
+        # 代码生成任务：较短上下文，更多资源留给生成 (15*3=45)
+        8: {'target_length': 5000, 'max_examples': 45, 'description': '代码生成'},
+    }
+    
+    return configs.get(task_id, {'target_length': 6000, 'max_examples': 30, 'description': '默认'})
 
 
 
@@ -207,8 +556,25 @@ def count_answer(text: str) -> tuple[list, dict]:
     :param text: 包含<label>标签的原始字符串
     :return: 出现次数最多的内容列表、所有内容的频次统计字典
     """
+    # 处理 Qwen3 思考模式：提取 answer 标签后的内容
+    if '<|answer|>' in text:
+        parts = text.split('<|answer|>')
+        if len(parts) > 1:
+            text = parts[-1].split('<|/answer|>')[0] if '<|/answer|>' in parts[-1] else parts[-1]
+    
+    # 优先匹配完整的 <label>...</label> 标签
     pattern = r'<label>\s*(.+?)\s*</label>'
-    content_matches = re.findall(pattern, text, re.DOTALL) 
+    content_matches = re.findall(pattern, text, re.DOTALL)
+    
+    # 如果没有匹配到完整标签，尝试匹配未闭合的 <label>...（模型可能输出 <label>答案 后就停止了）
+    if not content_matches:
+        pattern_unclosed = r'<label>\s*(.+)'
+        unclosed_matches = re.findall(pattern_unclosed, text, re.DOTALL)
+        if unclosed_matches:
+            # 取第一个匹配，去掉可能的后续换行或多余内容
+            content = unclosed_matches[0].strip().split('\n')[0].strip()
+            if content and len(content) < 100:
+                content_matches = [content]
     
     content_counter = Counter(content_matches)
     if not content_counter:
@@ -220,6 +586,61 @@ def count_answer(text: str) -> tuple[list, dict]:
     if (len(answer[0]) >= 100):
         return None
     return answer[0]
+
+
+def clean_code_generation_output(text: str) -> str:
+    """
+    清理代码生成任务（Task 8）的输出，移除多余的标记和标签
+    
+    处理逻辑：
+    1. 移除 Qwen3 思考模式的结束标记 ``
+    2. 移除 `<label>` 和 `</label>` 标签（如果存在）
+    3. 保留完整的 Python 代码内容
+    4. 移除开头和结尾的多余空白字符
+    
+    :param text: 模型原始输出
+    :return: 清理后的代码输出
+    """
+    # 移除 Qwen3 思考模式的结束标记
+    # 这个标记通常出现在输出的开头，后面跟着换行符
+    # 使用 Unicode 编码 \u25b6 来表示黑色右向三角形字符
+    try:
+        think_end_marker = chr(0x25b6)  # Unicode: ▶
+        if think_end_marker in text:
+            text = text.split(think_end_marker, 1)[1]
+    except:
+        pass  # 如果出现问题，跳过此步骤
+    
+    # 处理 <label> 标签
+    # 策略：如果整个输出被 <label>...</label> 包裹，则移除标签
+    # 如果标签中只有简短内容（如函数名），则不要只提取标签内容，而是保留所有非标签内容
+    label_pattern = r'<label>\s*(.+?)\s*</label>'
+    label_matches = re.findall(label_pattern, text, re.DOTALL)
+    
+    if label_matches:
+        # 检查是否有多个 label 标签
+        if len(label_matches) > 1:
+            # 多个标签，取最长的一组（通常是完整的代码）
+            cleaned_text = max(label_matches, key=len)
+        else:
+            # 只有一个标签，检查标签内容的长度
+            label_content = label_matches[0].strip()
+            # 如果标签内容很短（少于100字符），可能是只提取了函数名
+            # 这种情况下，我们不应该只返回标签内容，而是返回整个文本（去掉标签）
+            if len(label_content) < 100:
+                # 标签内容太短，移除所有标签标签，保留所有其他内容
+                cleaned_text = re.sub(r'<[^>]+>', '', text)
+            else:
+                # 标签内容足够长，很可能是完整代码，直接使用
+                cleaned_text = label_content
+    else:
+        # 没有 label 标签，直接使用原始文本
+        cleaned_text = text
+    
+    # 移除开头和结尾的多余空白字符
+    cleaned_text = cleaned_text.strip()
+    
+    return cleaned_text
 
 
 def annotate_nvidia(input_prompt:str)->list[str]:
@@ -248,12 +669,20 @@ def annotate_nvidia(input_prompt:str)->list[str]:
     prediction = count_answer(whole_result)
     return prediction
 
-def annotate_ascend(input_prompt:str)->list[str]:
+def annotate_ascend(input_prompt:str, max_tokens:int=2048, use_count_answer:bool=True, task_id:int=None)->tuple:
     """
         Annotate the unlabeled data using an LLM API (Huawei Ascend).
         prompts:
             A prompt constructed for annotation.
             For example, ``["You are a data annotation assistant. Your task is to label ..."]``
+        max_tokens:
+            Maximum tokens to generate (default: 2048 for code generation tasks).
+        use_count_answer:
+            Whether to use count_answer to extract label from response (default: True).
+            For code generation tasks, set to False to return the full response.
+        task_id:
+            Task ID (default: None). If task_id == 8 (code generation), will apply special cleaning.
+        返回: (prediction, raw_output) 元组，方便调试
     """
     import openai
     openai.api_key = "EMPTY"
@@ -261,17 +690,58 @@ def annotate_ascend(input_prompt:str)->list[str]:
     model = "Qwen3-4B-ascend-flagos"
 
     messages = [
-        {"role": "system", "content": "You are a helpful assistant."},
+        {
+            "role": "system",
+            "content": "You are a helpful assistant."
+        },
         {"role": "user", "content": input_prompt}
     ]
     response = openai.chat.completions.create(
         model=model,
         messages=messages,
-        temperature=0.7,
+        temperature=0.1,
         top_p=0.95,
-        max_tokens=10_000,
-        stream=False,
+        max_tokens=max_tokens,
+        stream=False
     )
     whole_result = response.choices[0].message.content
-    prediction = count_answer(whole_result)
-    return prediction
+    
+    if use_count_answer:
+        # Task 1-7: 使用 count_answer 提取标签内容
+        prediction = count_answer(whole_result)
+    else:
+        # Task 8: 代码生成任务，需要清理输出
+        if task_id == 8:
+            # 清理代码生成任务的输出，移除多余的标记和标签
+            prediction = clean_code_generation_output(whole_result)
+        else:
+            # 其他任务直接返回原始输出
+            prediction = whole_result
+    
+    return prediction, whole_result
+
+
+def annotate_batch(prompts: list[str], num_workers: int = 4, max_tokens: int = 128, use_count_answer: bool = True, task_id: int = None) -> list[str]:
+    """
+        Batch annotate with parallel requests.
+        prompts: List of prompts to annotate.
+        num_workers: Number of parallel workers.
+        max_tokens: Maximum tokens to generate for each prompt.
+        use_count_answer: Whether to use count_answer to extract label from response.
+        task_id: Task ID (default: None). If task_id == 8, will apply special cleaning.
+    """
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+    
+    results = [None] * len(prompts)
+    
+    with ThreadPoolExecutor(max_workers=num_workers) as executor:
+        future_to_idx = {executor.submit(annotate_ascend, p, max_tokens, use_count_answer, task_id): i for i, p in enumerate(prompts)}
+        for future in as_completed(future_to_idx):
+            idx = future_to_idx[future]
+            try:
+                results[idx] = future.result()
+            except Exception as e:
+                print(f"Error processing prompt {idx}: {e}")
+                results[idx] = (None, None)  # 返回 (None, None) 而不是 None，以便解包
+    
+    return results
