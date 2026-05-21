@@ -1,0 +1,36 @@
+normalizer_version: 1.0
+normalized_at: 2026-05-16T10:49:27
+source: /home/blue/dev4T/flagOS/code/OpenSeek/openseek/competition/LongContext-ICL-Annotation/COM/data/openseek-8_kernel_generation.json
+
+examples: total=184, sig_extract_failed=0
+test_samples: total=166, no_func_name=0
+
+[examples op_category distribution]
+   109  other
+    27  matmul
+    14  normalization
+     8  reduce
+     6  elementwise_math
+     6  shape
+     3  fused
+     2  solver
+     2  dropout
+     2  arithmetic
+     2  indexing
+     1  comparison
+     1  activation
+     1  conv
+
+[test_samples op_category distribution]
+    35  other
+    31  fused
+    22  activation
+    21  elementwise_math
+    15  solver
+    14  matmul
+     9  reduce
+     8  normalization
+     5  arithmetic
+     3  conv
+     2  comparison
+     1  shape
