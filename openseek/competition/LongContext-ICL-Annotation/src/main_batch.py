@@ -81,7 +81,7 @@ def processing(task_id:int, qwen_tokenizer:AutoTokenizer, start = 0, stop = -1):
     else:
         operation_dir = os.path.dirname(operation_file)
         if not os.path.exists(operation_dir):
-            os.mkdirs(method_dir, mode=0o755, exist_ok=True)
+            os.mkdirs(operation_dir, mode=0o755, exist_ok=True)
 
     for i in range(N):
         log_icl_progress(task_id, f"第 {i + 1} 轮次ICL遍历")
