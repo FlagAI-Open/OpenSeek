@@ -333,7 +333,7 @@ def parse_args_task_id_or_step(arg_value: str, default_list: list):
     if arg_value == '' or arg_value == '0':
         arg_out = default_list
     elif arg_value.isdigit() == int:
-        arg_out = [ arg_value ]
+        arg_out = [ int(arg_value) ]
     else:
         if arg_value.find('[') == -1:
             arg_value = '[' + arg_value
