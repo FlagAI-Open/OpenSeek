@@ -24,7 +24,7 @@ while [ "$cnt" -gt 0 ]; do
 
     # 等待第一阶段的第2个任务operation出现
     if [ -f "$(dirname "$dir")/operations_tmp/operation-2.json" ]; then
-        cnt=(expr $cnt-1)
+        ((cnt--))
         pid=$(ps -ef | grep src/main_batch.py | grep 'task_step=2' | grep '[1,2]' | grep -v grep | awk '{print $2}')
         if [ -n "$pid" ]; then
             echo 'not need repeat start tasks[1,2] ...'
@@ -38,7 +38,7 @@ while [ "$cnt" -gt 0 ]; do
 
     # 等待第一阶段的第4个任务operation出现
     if [ ! -f "$(dirname "$dir")/operations_tmp/operation-4.json" ]; then
-        cnt=(expr $cnt-1)
+        ((cnt--))
         pid=$(ps -ef | grep src/main_batch.py | grep 'task_step=2' | grep '[3,4]' | grep -v grep | awk '{print $2}')
         if [ -n "$pid" ]; then
             echo 'not need repeat start tasks[3,4] ...'
@@ -51,7 +51,7 @@ while [ "$cnt" -gt 0 ]; do
     fi
     # 等待第一阶段的第6个任务operation出现
     if [ ! -f "$(dirname "$dir")/operations_tmp/operation-6.json" ]; then
-        cnt=(expr $cnt-1)
+        ((cnt--))
         pid=$(ps -ef | grep src/main_batch.py | grep 'task_step=2' | grep '[5,6]' | grep -v grep | awk '{print $2}')
         if [ -n "$pid" ]; then
             echo 'not need repeat start tasks[5,6] ...'
@@ -66,7 +66,7 @@ while [ "$cnt" -gt 0 ]; do
 
     # 等待第一阶段的第8个任务operation出现
     if [ ! -f "$(dirname "$dir")/operations_tmp/operation-8.json" ]; then
-        cnt=(expr $cnt-1)
+        ((cnt--))
         pid=$(ps -ef | grep src/main_batch.py | grep 'task_step=2' | grep '[7,8]' | grep -v grep | awk '{print $2}')
         if [ -n "$pid" ]; then
             echo 'not need repeat start tasks[7,8] ...'
