@@ -1,0 +1,362 @@
+"""
+FlagOS OpenSeek 赛道三 - TOPGO团队
+标注方法模块（优化版）
+
+优化内容:
+- 增加max_tokens到20000（支持长代码生成）
+- 优化Triton任务的提示词
+- 增强答案解析能力
+"""
+
+import re
+import os
+from collections import Counter
+from typing import Optional
+
+
+def build_prompt(task_description: str, text2annotate: str) -> str:
+    """
+    构建高质量的标注提示词（针对Qwen3-4B优化）
+    
+    优化版本 - 增强对长输出任务的支持
+    """
+    prompt = (
+        "### 角色定义\n"
+        "你是一个专业的数据标注专家，专门从事长上下文文本标注工作。"
+        "你的工作必须严格遵循任务规则，充分学习提供的示例，确保最终标注结果100%包裹在<label>标签中。\n\n"
+
+        "### 核心任务\n"
+        f"{task_description}\n\n"
+
+        "### 关键标注指南\n"
+        "1. **示例学习要求**: 仔细分析并完全学习示例部分的标注逻辑、格式和标准。"
+        "你的标注必须与示例的风格、判断标准和标签用法保持一致。\n"
+        "2. **思考过程**: 你可以（并且被鼓励）逐步解释你的标注推理过程。\n"
+        "3. **强制输出规则**: 无论你提供什么思考过程，最终标注结果必须包裹在<label>标签中。\n"
+        "   - 正确示例: <label>答案</label>\n"
+        "   - 错误示例1（缺少标签）: 答案\n"
+        "   - 错误示例2（不完整标签）: 答案</label>\n\n"
+
+        "### 示例（必须完全遵循）\n"
+        "[[EXAMPLES]]\n\n"
+
+        "### 待标注文本\n"
+        f"{text2annotate}\n\n"
+
+        "### 最终要求总结\n"
+        "1. 你可以（也应该）提供清晰的思考过程。\n"
+        "2. 最终标注结果必须包裹在<label>标签中。\n"
+        "3. 所有标注逻辑必须严格遵循上面提供的示例。\n"
+    )
+    return prompt
+
+
+def build_prompt_for_triton(task_description: str, text2annotate: str) -> str:
+    """
+    为Triton代码生成任务构建专用提示词（优化版）
+    
+    针对任务8的特殊优化：
+    - 明确代码结构要求
+    - 强调完整性
+    - 提供代码框架
+    """
+    prompt = f"""
+你是一个专业的Triton GPU编程专家。你的任务是根据自然语言描述生成完整的Triton kernel代码和Python wrapper函数。
+
+### 关键要求
+1. **生成完整的、可执行的Python代码**
+2. **包含所有必要的import语句**
+3. **使用 @triton.jit 装饰kernel函数**
+4. **提供完整的Python wrapper函数**
+5. **处理所有边界条件（mask处理）**
+
+### 标准代码结构模板
+
+```python
+import torch
+import triton
+import triton.language as tl
+
+@triton.jit
+def kernel_name(
+    # 输入输出指针
+    input_ptr,
+    output_ptr,
+    # 维度参数
+    n_elements,
+    # Block大小（必须声明为constexpr）
+    BLOCK_SIZE: tl.constexpr,
+):
+    \"\"\"
+    Triton kernel实现
+    
+    步骤：
+    1. 获取程序ID
+    2. 计算偏移量
+    3. 加载数据（使用mask）
+    4. 执行计算
+    5. 存储结果（使用mask）
+    \"\"\"
+    # 1. 获取程序ID
+    pid = tl.program_id(axis=0)
+    
+    # 2. 计算偏移量
+    block_start = pid * BLOCK_SIZE
+    offsets = block_start + tl.arange(0, BLOCK_SIZE)
+    
+    # 3. 边界检查mask
+    mask = offsets < n_elements
+    
+    # 4. 加载数据
+    data = tl.load(input_ptr + offsets, mask=mask, other=0.0)
+    
+    # 5. 执行计算
+    output = data  # 替换为实际计算逻辑
+    
+    # 6. 存储结果
+    tl.store(output_ptr + offsets, output, mask=mask)
+
+def wrapper_function(input_tensor: torch.Tensor):
+    \"\"\"
+    Python wrapper函数
+    
+    步骤：
+    1. 准备输出张量
+    2. 计算grid维度
+    3. 启动kernel
+    4. 返回结果
+    \"\"\"
+    # 1. 准备输出张量
+    output = torch.empty_like(input_tensor)
+    n_elements = output.numel()
+    
+    # 2. 定义grid
+    grid = lambda meta: (triton.cdiv(n_elements, meta['BLOCK_SIZE']),)
+    
+    # 3. 启动kernel
+    kernel_name[grid](
+        input_tensor, 
+        output, 
+        n_elements, 
+        BLOCK_SIZE=1024
+    )
+    
+    return output
+```
+
+### 任务描述
+{task_description}
+
+### 输入
+{text2annotate}
+
+### 输出要求
+将完整的Python代码包裹在<label>标签中：
+
+<label>
+```python
+import torch
+import triton
+import triton.language as tl
+
+# 完整的kernel代码
+@triton.jit
+def your_kernel_name(...):
+    # 实现代码
+    pass
+
+# 完整的wrapper函数
+def your_wrapper_name(...):
+    # 实现代码
+    pass
+```
+</label>
+
+**重要提示**：
+- 代码必须完整可运行
+- 不要省略任何import语句
+- 确保参数类型正确
+- 处理所有边界情况
+
+请生成完整的Triton代码：
+"""
+    return prompt
+
+
+def select_examples(all_examples: list, task_description: str, text2annotate: str,
+                    tokenizer=None) -> str:
+    """
+    选择示例以适配目标上下文长度
+    """
+    # 最大上下文长度（Qwen3-4B建议8K）
+    target_length = 8192
+
+    examples_str = ""
+    token_num = 0
+
+    for i, example in enumerate(all_examples):
+        try:
+            # 提取输入和输出
+            input_text = example['input']
+            output_text = example['output'][0] if isinstance(example['output'], list) else example['output']
+
+            # 计算token数
+            if tokenizer is not None:
+                input_tokens = len(tokenizer.encode(input_text, add_special_tokens=False))
+                output_tokens = len(tokenizer.encode(output_text, add_special_tokens=False))
+                length = input_tokens + output_tokens
+            else:
+                # 简单估算：字符数/4
+                length = len(input_text + output_text) // 4
+
+            # 检查是否超限
+            if length + token_num <= target_length:
+                # 累加token数
+                token_num += (length + 7)  # 7是格式符号的token数
+                # 拼接示例
+                example_str = f"# {input_text} <label> {output_text} </label>\n"
+                examples_str += example_str
+            else:
+                return examples_str
+
+        except KeyError as e:
+            print(f"[WARN] 示例{i}缺少键{e}，跳过")
+            continue
+
+    return examples_str
+
+
+def count_answer(text: str) -> Optional[str]:
+    """
+    提取<label>标签内的内容并返回出现次数最多的（优化版）
+    
+    优化：
+    - 支持长代码输出
+    - 支持多行内容
+    - 支持代码块提取
+    """
+    if not text:
+        return None
+    
+    # 方法1: 尝试提取 <label> 标签
+    pattern = r'<label>\s*(.*?)\s*</label>'
+    content_matches = re.findall(pattern, text, re.DOTALL)
+    
+    if content_matches:
+        # 取最后一个匹配（通常是最确定的）
+        last_match = content_matches[-1].strip()
+        
+        # 如果内容包含代码块，提取代码块
+        code_block_pattern = r'```python\n(.*?)\n```'
+        code_matches = re.findall(code_block_pattern, last_match, re.DOTALL)
+        
+        if code_matches:
+            # 返回完整的代码块
+            return code_matches[-1].strip()
+        
+        # 如果内容是列表格式，提取列表
+        list_pattern = r'\[[\d\s,\-]+\]'
+        list_matches = re.findall(list_pattern, last_match)
+        if list_matches:
+            return list_matches[-1]
+        
+        # 否则返回清理后的内容
+        # 清理思考过程文本
+        if '标签' in last_match or 'label' in last_match.lower():
+            # 尝试提取实际答案部分
+            lines = last_match.split('\n')
+            for line in reversed(lines):
+                line = line.strip()
+                if line and '标签' not in line and 'label' not in line.lower():
+                    # 如果是代码块开头，返回整个代码块
+                    if line.startswith('```') or line.startswith('import'):
+                        return last_match
+                    return line
+        
+        return last_match
+    
+    # 方法2: 如果没有 <label> 标签，尝试提取代码块
+    code_block_pattern = r'```python\n(.*?)\n```'
+    code_matches = re.findall(code_block_pattern, text, re.DOTALL)
+    
+    if code_matches:
+        # 返回最后一个代码块
+        return code_matches[-1].strip()
+    
+    # 方法3: 尝试提取列表格式
+    list_pattern = r'\[[\d\s,\-]+\]'
+    list_matches = re.findall(list_pattern, text)
+    
+    if list_matches:
+        return list_matches[-1]
+    
+    return None
+
+
+def annotate_ascend(input_prompt: str, is_triton_task: bool = False) -> Optional[str]:
+    """
+    使用华为Ascend进行标注（优化版）
+    
+    Args:
+        input_prompt: 输入提示词
+        is_triton_task: 是否为Triton代码生成任务
+    
+    Returns:
+        标注结果
+    """
+    import openai
+
+    # 配置API
+    openai.api_key = os.getenv("QWEN_API_KEY", "EMPTY")
+    openai.base_url = os.getenv("QWEN_API_BASE", "http://localhost:8000/v1/")
+
+    model = "/home/Qwen/Qwen3-4B"  # 使用vLLM服务的实际模型路径
+
+    messages = [
+        {"role": "system", "content": "你是一个有帮助的助手。"},
+        {"role": "user", "content": input_prompt}
+    ]
+
+    try:
+        # 根据任务类型调整参数
+        max_tokens = 20000 if is_triton_task else 10000
+        
+        response = openai.chat.completions.create(
+            model=model,
+            messages=messages,
+            temperature=0.7,
+            top_p=0.95,
+            max_tokens=max_tokens,
+            stream=False,
+        )
+        whole_result = response.choices[0].message.content
+        prediction = count_answer(whole_result)
+        return prediction
+    except Exception as e:
+        print(f"[ERROR] Ascend API调用失败: {e}")
+        return None
+
+
+def annotate_nvidia(input_prompt: str) -> Optional[str]:
+    """
+    使用NVIDIA GPU进行标注
+    """
+    import requests
+
+    # API端点
+    url = os.getenv("QWEN_API_BASE", "http://0.0.0.0:2026/v1/completions")
+
+    data = {
+        "model": "../Qwen3-4B",
+        "prompt": input_prompt,
+        "max_tokens": 10000,
+    }
+
+    try:
+        resp = requests.post(url, json=data, timeout=300)
+        whole_result = resp.json()["choices"][0]["text"]
+        prediction = count_answer(whole_result)
+        return prediction
+    except Exception as e:
+        print(f"[ERROR] NVIDIA API调用失败: {e}")
+        return None

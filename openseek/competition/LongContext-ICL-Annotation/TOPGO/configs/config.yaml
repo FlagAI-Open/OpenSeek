@@ -1,0 +1,81 @@
+# 基于上下文感知与自洽性验证的长文档智能标注系统 - 配置文件
+# FlagOS开放计算全球挑战赛 - 赛道三：自动数据标注
+
+# 模型配置
+model:
+  name: "Qwen3-4B"
+  api_base: "赛事平台提供的端点"  # 需要在比赛时填写实际端点
+  api_key: ""  # 需要在比赛时填写实际API密钥
+  temperature: 0.1
+  max_tokens: 2048
+  top_p: 0.9
+  timeout: 300  # 秒
+  max_retries: 3
+
+# 上下文构建配置
+context:
+  summary_length: 200  # 文档摘要长度
+  neighbor_paragraphs_before: 1  # 目标段落前N段
+  neighbor_paragraphs_after: 1   # 目标段落后M段
+  max_context_length: 8000  # 最大上下文token数
+  chunk_size: 512  # 文档分块大小
+  chunk_overlap: 50  # 分块重叠
+
+# 示例检索配置
+retrieval:
+  embedding_model: "BAAI/bge-m3"  # 嵌入模型
+  embedding_device: "cpu"  # 嵌入计算设备
+  top_k: 3  # 检索Top-K示例
+  similarity_threshold: 0.5  # 相似度阈值
+
+# 自洽性验证配置
+validation:
+  enable: true
+  max_validation_rounds: 2  # 最大验证轮数
+  validation_prompt_template: "prompts/validation_prompt.txt"
+
+# 输出配置
+output:
+  format: "json"
+  results_dir: "output/results"
+  logs_dir: "output/logs"
+
+# 数据配置
+data:
+  train_file: "data/raw/train.jsonl"
+  test_file: "data/raw/test.jsonl"
+  processed_dir: "data/processed"
+  example_library_file: "data/processed/example_library.json"
+
+# 标注任务配置
+annotation:
+  task_type: "entity_extraction"  # 实体抽取/关系抽取/事件抽取
+  entity_types:
+    - "方法"
+    - "技术"
+    - "数据集"
+    - "指标"
+    - "机构"
+    - "人员"
+  output_schema:
+    entities:
+      - "text"
+      - "type"
+      - "start"
+      - "end"
+    relations:
+      - "head"
+      - "relation"
+      - "tail"
+
+# 日志配置
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "output/logs/annotation.log"
+
+# 性能配置
+performance:
+  batch_size: 1  # 批处理大小
+  parallel_workers: 1  # 并行工作进程数
+  cache_embeddings: true  # 缓存嵌入向量
