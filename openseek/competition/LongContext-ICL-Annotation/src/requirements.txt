@@ -1,0 +1,3 @@
+pip install rank_bm25
+pip install spacy==3.7.6
+python3 -m spacy download en_core_web_sm
