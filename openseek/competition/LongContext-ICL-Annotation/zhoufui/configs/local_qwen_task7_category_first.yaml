@@ -1,0 +1,35 @@
+model:
+  framework: local-wsl-task7-category-first
+  provider: local_transformers
+  model_name: Qwen3-4B
+  local_model_path: "${LOCAL_QWEN3_4B_PATH}"
+  load_in_4bit: true
+  temperature: 0.0
+  max_tokens: 96
+  timeout_seconds: 120
+
+pipeline:
+  task_name: OpenSeek task7 category-first answer generation
+  label_field: label
+  text_field: text
+  id_field: id
+  k_examples: 6
+  chunk_chars: 800
+  max_context_chars: 5000
+  vote_rounds: 1
+  abstain_label: unknown
+
+prompt:
+  system: |
+    You answer Jeopardy-style trivia questions.
+    First, consider the category and what answer type it expects.
+    Then, read the clue and identify the specific answer.
+    Answers must be in lowercase, concise, and fit the category.
+    Return only valid JSON with keys: output, confidence, rationale.
+    Do not include "what is", "who is", "answer:", markdown, or explanation in output.
+
+  instruction: |
+    Answer the target clue. Use the category first to infer the answer type.
+    For wordplay clues (rhyme, pun, anagram, starts with, ends in), solve the word pattern.
+    For person clues, provide the person's name.
+    For place clues, provide the place name.

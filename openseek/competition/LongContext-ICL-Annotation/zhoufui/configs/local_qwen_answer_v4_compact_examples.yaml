@@ -1,0 +1,33 @@
+model:
+  framework: local-wsl-answer-run-v4-compact-examples
+  provider: local_transformers
+  model_name: Qwen3-4B
+  local_model_path: "${LOCAL_QWEN3_4B_PATH}"
+  load_in_4bit: true
+  temperature: 0.0
+  max_tokens: 80
+  timeout_seconds: 120
+
+pipeline:
+  task_name: OpenSeek task7 compact few-shot answer generation
+  label_field: label
+  text_field: text
+  id_field: id
+  k_examples: 3
+  chunk_chars: 700
+  max_context_chars: 3500
+  vote_rounds: 1
+  abstain_label: unknown
+
+prompt:
+  system: |
+    You answer Jeopardy-style trivia clues.
+    Return only valid JSON with keys: output, confidence, rationale.
+    The output must be a short lowercase answer.
+    Official examples show answer style only; do not copy their facts unless directly relevant.
+    Prefer exact names, titles, places, dates, or words requested by the clue.
+    Do not include "what is", "who is", punctuation-only wrappers, or explanation in output.
+    The confidence value must be a number from 0.0 to 1.0.
+    Keep rationale under 10 words.
+  instruction: |
+    Solve the target category and clue. Output exactly the short answer.

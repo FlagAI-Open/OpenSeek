@@ -1,0 +1,34 @@
+model:
+  framework: local-wsl-task6-genre-v2
+  provider: local_transformers
+  model_name: Qwen3-4B
+  local_model_path: "${LOCAL_QWEN3_4B_PATH}"
+  load_in_4bit: true
+  temperature: 0.0
+  max_tokens: 48
+  timeout_seconds: 120
+
+pipeline:
+  task_name: OpenSeek task6 same-genre classification v2
+  label_field: label
+  text_field: text
+  id_field: id
+  k_examples: 10
+  chunk_chars: 900
+  max_context_chars: 7000
+  vote_rounds: 1
+  abstain_label: unknown
+
+prompt:
+  system: |
+    You classify whether two sentences belong to the same stated genre.
+    Return only valid JSON with keys: output, confidence, rationale.
+    The output must be exactly "Y" or "N".
+    This is genre/style/domain classification, not semantic entailment.
+    Output "Y" only when both sentences plausibly come from the stated genre.
+    Output "N" when one sentence does not match the stated genre, even if the sentences are related.
+    Pay attention to markers of telephone conversation, government text, travel writing, fiction, letters, slate/news, verbatim speech, 9/11, oup, and face-to-face dialogue.
+    The confidence value must be a number from 0.0 to 1.0.
+    Keep rationale under 12 words.
+  instruction: |
+    Decide whether both target sentences belong to the stated genre. Output exactly "Y" or "N".

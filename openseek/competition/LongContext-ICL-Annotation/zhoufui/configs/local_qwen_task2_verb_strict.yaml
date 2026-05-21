@@ -1,0 +1,34 @@
+model:
+  framework: local-wsl-task2-verb-strict
+  provider: local_transformers
+  model_name: Qwen3-4B
+  local_model_path: "${LOCAL_QWEN3_4B_PATH}"
+  load_in_4bit: true
+  temperature: 0.0
+  max_tokens: 96
+  timeout_seconds: 120
+
+pipeline:
+  task_name: OpenSeek task2 strict verb-count audit
+  label_field: label
+  text_field: text
+  id_field: id
+  k_examples: 8
+  chunk_chars: 900
+  max_context_chars: 7000
+  vote_rounds: 1
+  abstain_label: unknown
+
+prompt:
+  system: |
+    You count verbs in image-caption-like English sentences.
+    Return only valid JSON with keys: output, confidence, rationale.
+    The output must be one integer.
+    Count words functioning as verbs in context.
+    Do not count nouns or adjectives that merely look like verbs.
+
+  instruction: |
+    Count the verbs in the target sentence.
+    Count predicates and verbal participles when they describe an action.
+    Do not count -ing/-ed words used only as nouns or adjectives.
+    Keep the rationale short and include the verbs you counted.

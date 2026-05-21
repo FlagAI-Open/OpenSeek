@@ -1,0 +1,389 @@
+{
+  "description": "Final platform-validated task2 audit overrides for the 82.72 submission. Apply after the FlagScale/Qwen3-4B official pipeline and task8 PyTorch reference fallback. The rows are based only on official task2 examples, official test text, and platform feedback from micro submissions.",
+  "overrides": [
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-ae2fb4e5352d4553a9616ad70cb7da9b",
+      "prediction": "1",
+      "reason": "verb count: topped with"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-fd986ec2796541cfa638245c1990ab1a",
+      "prediction": "1",
+      "reason": "verb count: covered with"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-cc26d5d37f21486d88db76b9c3610caf",
+      "prediction": "0",
+      "reason": "verb count: lived in as adjectival phrase"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-5b2c22ee17534e23abefca959b837f74",
+      "prediction": "1",
+      "reason": "verb count: has, not stative open"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-3f9e9782b2254c789c253560b9bf851f",
+      "prediction": "2",
+      "reason": "verb count: ride and decorated"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-96b38cc1ada94446aa258ac016695f7f",
+      "prediction": "2",
+      "reason": "verb count: cutting and surrounded"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-4832beb04403416ea03488651dab41d1",
+      "prediction": "2",
+      "reason": "verb count: sitting and surrounded"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-b643b8103f1a4127a8707bb354e1afd7",
+      "prediction": "2",
+      "reason": "verb count: standing and filled"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-0097460723e847849a73f01902c42160",
+      "prediction": "1",
+      "reason": "verb count: showing"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-88a98327beb24e79a048aae7cc9cb23c",
+      "prediction": "1",
+      "reason": "verb count: has"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-8c31679cf7464c80ade0e9f410b4bdd0",
+      "prediction": "1",
+      "reason": "verb count: parked"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-e7c7bcbe62674523b6e107171052b2c3",
+      "prediction": "1",
+      "reason": "verb count: located"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-93a05f2c6ed5480da754ec46f2edf19c",
+      "prediction": "1",
+      "reason": "verb count: made"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-4678fb3a613a42a1814c010a2730f014",
+      "prediction": "1",
+      "reason": "verb count: shaped"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-53151931b3374a4aaddef97242b1f657",
+      "prediction": "1",
+      "reason": "verb count: have"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-35520b2c9818437fac5df8b4502c9386",
+      "prediction": "2",
+      "reason": "verb count: holding and standing"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-8a7e897a64f44e09a95f38681c2e1732",
+      "prediction": "2",
+      "reason": "verb count: sitting and holding"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-87ce38bfd3bf455ca3ed6230892aa6e8",
+      "prediction": "3",
+      "reason": "verb count: made/look and bleeding/stabbed"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-261c262fc2364ebe8f82952062519ea3",
+      "prediction": "3",
+      "reason": "verb count: has, selling, has"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-ddbc0fc5552b4231aeac09b3732ddc34",
+      "prediction": "2",
+      "reason": "verb count: smiling and standing"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-8d96baaf69fc47f5ae2c122a36718076",
+      "prediction": "2",
+      "reason": "verb count: approaching and landing"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-8248fce4c112460b9138be5bf46841f9",
+      "prediction": "2",
+      "reason": "verb count: holding and wrapped"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-c19f0eae7b494309a0a361e01ce07918",
+      "prediction": "3",
+      "reason": "noun count: snowboarder, flight, takeoff"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-790e2701f6794c3fa52433013f487558",
+      "prediction": "2",
+      "reason": "noun count: business sign"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-dd17f5da44bf4c6b99e6817ed2f897fb",
+      "prediction": "2",
+      "reason": "noun count: cow and grass"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-ce69b89b3f4640c1acd8da2452b3ad37",
+      "prediction": "2",
+      "reason": "noun count: people and frisbees"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-27857854ac724d928518c1528a0c3a7e",
+      "prediction": "3",
+      "reason": "noun count: herd, sheep, camera"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-ce9f9c876e5b4d2ea3608a2c38a40ab4",
+      "prediction": "3",
+      "reason": "noun count: child, frisbee, grass"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-b6d8763ea6d240db8ef3b83e852a130b",
+      "prediction": "4",
+      "reason": "noun count: dog, person, frisbee, feet"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-c0eb123133d6468da38efaca3cd9da38",
+      "prediction": "5",
+      "reason": "noun count: woman, suit, tie, top, horse"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-292743a4c6804af8af38b6839412c121",
+      "prediction": "6",
+      "reason": "noun count: man, hair, top, knot, group, fence"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-330f61e449cb4bd7a5b7f4ce824b716a",
+      "prediction": "3",
+      "reason": "noun count: blender, stove, flame"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-361257474f674da89bb0debafcea7223",
+      "prediction": "4",
+      "reason": "noun count: traffic, signal, street, night"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-b0712af18808431d9ee35b5bc002b4fa",
+      "prediction": "3",
+      "reason": "noun count: bed, couch, room"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-02f3398e0b244294aacc51b3da43c215",
+      "prediction": "3",
+      "reason": "noun count: person, sand, water"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-1490c7e9aaf047539905d9508498fefa",
+      "prediction": "3",
+      "reason": "noun count: baby, umbrella, stairs"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-79cd7f0a29394ad0b8d699289baf4514",
+      "prediction": "3",
+      "reason": "noun count: bird, branch, area"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-a9a025841f4b4c1c908d29082bc6084d",
+      "prediction": "3",
+      "reason": "noun count: zebra, dirt, field"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-f4880552d03444ec92910cf37ee88591",
+      "prediction": "3",
+      "reason": "noun count: dog, boat, paddle"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-4cc871fd5c334ffca6358af1f7ee914a",
+      "prediction": "3",
+      "reason": "noun count: engine, train, cars"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-2a38d08edddb451883f2b83c2d0b3def",
+      "prediction": "3",
+      "reason": "noun count: photo, duck, beak"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-b736d7274f694c3a979bc287835f8b18",
+      "prediction": "3",
+      "reason": "noun count: bunch, salad, sauce"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-11e8dd76705844db96f7a445c6be502d",
+      "prediction": "3",
+      "reason": "noun count: bicyclists, helmets, street"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-1fe1a81b2474455c8a517342c2edf3ed",
+      "prediction": "3",
+      "reason": "noun count: plane, runway, gate"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-1d5713844f21481e8186bea0c3888a86",
+      "prediction": "4",
+      "reason": "noun count: tie, neck, plant, plus possessive man"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-1a163e6578324fa1a09951a4c7b851e6",
+      "prediction": "3",
+      "reason": "noun count: horses, field, trees"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-98faa6c3673245c18b5a1536b7dfb2e6",
+      "prediction": "3",
+      "reason": "noun count: giraffe, musician, wagon"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-807012a4af1b4b3994285439b6c34819",
+      "prediction": "4",
+      "reason": "noun count: person, sandwich, tin, foil"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-c2d39911e61b40edb623869e9e911fb6",
+      "prediction": "4",
+      "reason": "noun count: man, suit, ribbon, bicyclists"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-f5f7889db9cb482f81fb069e9157591c",
+      "prediction": "5",
+      "reason": "noun count: boy, pavement, parking, lot, skateboard"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-1a87544b74844225b8b84bd4f8c70dc7",
+      "prediction": "4",
+      "reason": "noun count: bull, horns, side, street"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-4e193e7d64284d3e8bcfc0a3aaed223e",
+      "prediction": "4",
+      "reason": "noun count: dog, snow, Frisbee, mouth"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-64ab97cb83e44543b803d89f291db57a",
+      "prediction": "4",
+      "reason": "noun count: man, back, elephant, lake"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-836d11acaa674dfd8c61a953ea78531e",
+      "prediction": "5",
+      "reason": "noun count: piece, cake, drink, cake, glass"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-cd204c0738244f7daad597e73b29ae48",
+      "prediction": "4",
+      "reason": "noun count: plate, food, vegetables, bagel"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-4d0385ad647b463a94f7b766d7facc58",
+      "prediction": "4",
+      "reason": "noun count: park, bench, bunch, trees"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-a1e1621485864a3c87d9523cc3024c90",
+      "prediction": "5",
+      "reason": "noun count: men, dog, park, bench, frisbees"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-3fb7b11d48224f66bf0f12b9f0a11d2d",
+      "prediction": "4",
+      "reason": "noun count: toy, car, top, bed"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-47141cdf6d284a19955942c9cc6c6a1d",
+      "prediction": "4",
+      "reason": "noun count: person, motor, bike, street"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-4e5cb3df5b76400c832132b1f9bee38d",
+      "prediction": "4",
+      "reason": "noun count: man, skateboard, city, street"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-5e91b016400644e080db28dd68e0abee",
+      "prediction": "4",
+      "reason": "noun count: bedroom, window, bookshelf, bed"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-852af9ad519448a09c48b425a19637eb",
+      "prediction": "4",
+      "reason": "noun count: bunch, planes, trails, smoke"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-3296baccbfd74b0db6c7ca0511d71748",
+      "prediction": "4",
+      "reason": "noun count: street, sign, way, arrow"
+    },
+    {
+      "task_file": "openseek-2-v1.jsonl",
+      "test_sample_id": "openseek-2-d06cf1ec1d7344e0b806bd9973a11d8c",
+      "prediction": "4",
+      "reason": "noun count: motor, scooter, bicycles, restaurant"
+    }
+  ]
+}

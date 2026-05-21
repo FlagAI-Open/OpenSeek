@@ -1,0 +1,15 @@
+# Core runtime for the lightweight pipeline.
+# Final valid competition inference should use FlagScale with Qwen3-4B.
+
+# Optional local WSL iteration backend.
+torch
+transformers
+accelerate
+bitsandbytes
+modelscope
+sentencepiece
+protobuf
+reportlab
+
+# Test/development helper.
+pytest>=8.2.0

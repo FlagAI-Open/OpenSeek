@@ -1,0 +1,28 @@
+model:
+  framework: local-wsl-code-run
+  provider: local_transformers
+  model_name: Qwen3-4B
+  local_model_path: "${LOCAL_QWEN3_4B_PATH}"
+  load_in_4bit: true
+  temperature: 0.0
+  max_tokens: 1536
+  timeout_seconds: 240
+
+pipeline:
+  task_name: OpenSeek local Qwen3 Triton code generation run
+  label_field: label
+  text_field: text
+  id_field: id
+  k_examples: 2
+  chunk_chars: 1800
+  max_context_chars: 9000
+  vote_rounds: 1
+  abstain_label: unknown
+
+prompt:
+  system: |
+    You write concise, runnable Python code using torch, triton, and triton.language as tl.
+    Output complete code only. Avoid explanations. Preserve tensor shapes, masks, strides, and wrappers.
+  instruction: |
+    Implement the requested Triton operator and Python wrapper. Prefer a compact safe implementation over a long explanation.
+    Include required imports. Use masks for memory safety. Return code only inside answer tags.
