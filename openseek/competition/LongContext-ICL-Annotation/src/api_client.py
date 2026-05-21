@@ -23,6 +23,7 @@ serve_base_url = serve_base_url.split('v1')[0].rstrip('/') + '/v1'
 class ChatClient:
 
     # 多个并发请求模型服务（流式）
+    @staticmethod
     def batch_request_llm_api_stream(prompts: list, max_tokens=10240, temperature=0.6, enable_thinking=True):
         answers = []
         texts = asyncio.run(ChatClient.__batch_request_chat_api_stream(prompts, max_tokens, temperature, enable_thinking))
@@ -47,6 +48,7 @@ class ChatClient:
 
 
     # 单个请求模型服务（流式）
+    @staticmethod
     def request_llm_api_stream(prompt: str, max_tokens=10240, temperature=0.7, enable_thinking=True):
         text, state = asyncio.run(ChatClient.__request_chat_api_stream(prompt, max_tokens, temperature, enable_thinking))
         if debug_print_stream == str(CONST_DEBUG_SHOW_ASNSWER) or debug_print_stream == CONST_DEBUG_SHOW_ASNSWER:
@@ -67,6 +69,7 @@ class ChatClient:
 
 
     # 单个请求模型服务
+    @staticmethod
     def request_llm_api(prompt: str, max_tokens=10240, temperature=0.7, enable_thinking=True):
         text, state = ChatClient.__request_chat_api(prompt, max_tokens, temperature, enable_thinking)
         if debug_print_stream == str(FLAG_SHOW_ASNSWER) or debug_print_stream == FLAG_SHOW_ASNSWER:
@@ -87,6 +90,7 @@ class ChatClient:
 
 
     # 获取任务结果英文文本（可以包含分隔符和特殊标签）
+    @staticmethod
     def __parse_answer(text: str) -> str:
         """
         提取字符串中<output_answer>标签内的所有内容(字符串形式)，统计出现次数最多的内容
@@ -124,6 +128,7 @@ class ChatClient:
 
 
     # 模型服务直接输出
+    @staticmethod
     def __request_chat_api(prompt: str, max_tokens=10240, temperature=0.6, enable_thinking=True, len_for_exception_response=0):
         client = OpenAI(
             api_key = serve_api_key,
@@ -203,6 +208,7 @@ class ChatClient:
 
 
     # 并发请求模型服务（流式）
+    @staticmethod
     async def __batch_request_chat_api_stream(prompts: list, max_tokens=10240, temperature=0.6, enable_thinking=True):
         tasks = []
         for prompt in prompts:
@@ -212,6 +218,7 @@ class ChatClient:
 
 
     # 模型服务流式输出
+    @staticmethod
     async def __request_chat_api_stream(prompt: str, max_tokens=10240, temperature=0.6, enable_thinking=True, len_for_exception_response=0):
         client = AsyncOpenAI(
             api_key = serve_api_key,
@@ -318,6 +325,7 @@ class ChatClient:
 
 
     # 检测服务是否可用
+    @staticmethod
     def ping_serve():
         url = serve_base_url+'/models'
         try:
