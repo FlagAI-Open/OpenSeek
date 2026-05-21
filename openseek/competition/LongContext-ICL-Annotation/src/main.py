@@ -54,7 +54,7 @@ def processing(
     task_operations = set()
     method_dir = os.path.dirname(operation_file)
     if not os.path.exists(method_dir):
-        os.mkdir(method_dir, 0o755)
+        os.mkdirs(result_dir, mode=0o755, exist_ok=True)
 
     task_file = get_task_filepath(task_id)
     print_icl_progress(task_id, 'task_file', task_file)
