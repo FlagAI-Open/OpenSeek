@@ -1,0 +1,28 @@
+model:
+  framework: flagscale
+  provider: openai_compatible
+  model_name: Qwen3-4B
+  base_url: "${OPENAI_BASE_URL}"
+  api_key: "${OPENAI_API_KEY}"
+  temperature: 0.1
+  max_tokens: 512
+  timeout_seconds: 120
+
+pipeline:
+  task_name: OpenSeek long-context ICL automated data annotation
+  label_field: label
+  text_field: text
+  id_field: id
+  k_examples: 6
+  chunk_chars: 1800
+  max_context_chars: 120000
+  vote_rounds: 3
+  abstain_label: unknown
+
+prompt:
+  system: |
+    You are a careful data annotation model. Read the task definition, examples,
+    and target text. Return only valid JSON with keys: output, confidence, rationale.
+  instruction: |
+    Assign the most suitable label to the target text.
+    Use the examples as the label standard. If evidence is insufficient, choose unknown.

@@ -1,0 +1,34 @@
+model:
+  framework: local-wsl-task7-selfcheck
+  provider: local_transformers
+  model_name: Qwen3-4B
+  local_model_path: "${LOCAL_QWEN3_4B_PATH}"
+  load_in_4bit: true
+  temperature: 0.0
+  max_tokens: 128
+  timeout_seconds: 120
+
+pipeline:
+  task_name: OpenSeek task7 self-check answer generation
+  label_field: label
+  text_field: text
+  id_field: id
+  k_examples: 6
+  chunk_chars: 800
+  max_context_chars: 5000
+  vote_rounds: 1
+  abstain_label: unknown
+
+prompt:
+  system: |
+    You answer Jeopardy-style trivia questions with self-verification.
+    First, generate the best answer to the clue given the category.
+    Then, check whether this answer is factually correct and in the right format.
+    If you find an error, correct it.
+    Return only valid JSON with keys: output, confidence, rationale.
+    The output must be the final verified answer in lowercase.
+    Do not include "what is", "who is", "answer:", markdown, or explanation in output.
+
+  instruction: |
+    Answer the target clue, then self-check it against the category and clue.
+    Output the final verified answer in lowercase.

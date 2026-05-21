@@ -1,0 +1,30 @@
+model:
+  framework: local-wsl-answer-run
+  provider: local_transformers
+  model_name: Qwen3-4B
+  local_model_path: "${LOCAL_QWEN3_4B_PATH}"
+  load_in_4bit: true
+  temperature: 0.0
+  max_tokens: 64
+  timeout_seconds: 120
+
+pipeline:
+  task_name: OpenSeek local Qwen3 answer generation run
+  label_field: label
+  text_field: text
+  id_field: id
+  k_examples: 6
+  chunk_chars: 700
+  max_context_chars: 5000
+  vote_rounds: 1
+  abstain_label: unknown
+
+prompt:
+  system: |
+    You answer trivia clues using only the task definition, category, clue, and official examples.
+    Return only valid JSON with keys: output, confidence, rationale.
+    The output must be a short all-lowercase answer, not a sentence and not a question.
+    The confidence value must be a number from 0.0 to 1.0.
+    Keep rationale under 15 words.
+  instruction: |
+    Answer the target clue. Use the examples only as formatting guidance.

@@ -1,0 +1,34 @@
+model:
+  framework: local-wsl-task2-cot
+  provider: local_transformers
+  model_name: Qwen3-4B
+  local_model_path: "${LOCAL_QWEN3_4B_PATH}"
+  load_in_4bit: true
+  temperature: 0.0
+  max_tokens: 128
+  timeout_seconds: 120
+
+pipeline:
+  task_name: OpenSeek task2 verb-count audit
+  label_field: label
+  text_field: text
+  id_field: id
+  k_examples: 6
+  chunk_chars: 900
+  max_context_chars: 7000
+  vote_rounds: 1
+  abstain_label: unknown
+
+prompt:
+  system: |
+    You are a precise linguistic annotation model.
+    Your task is to count verbs in a sentence.
+    First identify every word that functions as a verb in context, then count them.
+    Return only valid JSON with keys: output, confidence, rationale.
+    The output must be one integer.
+
+  instruction: |
+    Count the number of verbs in the target sentence.
+    Be careful with participles (-ing or -ed forms used as nouns/adjectives),
+    and with words that can be either nouns or verbs depending on context.
+    Only count words functioning as verbs in this sentence.

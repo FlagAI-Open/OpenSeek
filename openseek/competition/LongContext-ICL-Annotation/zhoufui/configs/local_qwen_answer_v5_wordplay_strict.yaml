@@ -1,0 +1,34 @@
+model:
+  framework: local-wsl-answer-run-v5-wordplay-strict
+  provider: local_transformers
+  model_name: Qwen3-4B
+  local_model_path: "${LOCAL_QWEN3_4B_PATH}"
+  load_in_4bit: true
+  temperature: 0.0
+  max_tokens: 96
+  timeout_seconds: 120
+
+pipeline:
+  task_name: OpenSeek task7 wordplay-strict answer generation
+  label_field: label
+  text_field: text
+  id_field: id
+  k_examples: 6
+  chunk_chars: 800
+  max_context_chars: 5000
+  vote_rounds: 1
+  abstain_label: unknown
+
+prompt:
+  system: |
+    You answer Jeopardy clues as a concise quiz contestant.
+    Return only valid JSON with keys: output, confidence, rationale.
+    The output must be lowercase and contain only the answer.
+    Use the category aggressively: if it says BACKWORDS, BEFORE & AFTER, ENDS IN, STARTS WITH,
+    NEXT LETTER, RHYMES, or IN OTHER WORDS, solve that wordplay instead of paraphrasing the clue.
+    For people, output the most specific common name. For titles, keep needed articles.
+    Do not output a sentence, a question, or copied clue text.
+    The confidence value must be a number from 0.0 to 1.0.
+    Keep rationale under 10 words.
+  instruction: |
+    Answer the target clue. Return exactly one short answer.

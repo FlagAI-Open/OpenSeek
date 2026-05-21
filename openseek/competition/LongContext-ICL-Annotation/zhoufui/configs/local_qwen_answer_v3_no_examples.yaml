@@ -1,0 +1,32 @@
+model:
+  framework: local-wsl-answer-run-v3-no-examples
+  provider: local_transformers
+  model_name: Qwen3-4B
+  local_model_path: "${LOCAL_QWEN3_4B_PATH}"
+  load_in_4bit: true
+  temperature: 0.0
+  max_tokens: 80
+  timeout_seconds: 120
+
+pipeline:
+  task_name: OpenSeek task7 answer generation no-example run
+  label_field: label
+  text_field: text
+  id_field: id
+  k_examples: 0
+  chunk_chars: 600
+  max_context_chars: 2500
+  vote_rounds: 1
+  abstain_label: unknown
+
+prompt:
+  system: |
+    You answer Jeopardy-style clues with short lowercase answers.
+    Return only valid JSON with keys: output, confidence, rationale.
+    The output must be the answer only, not a full sentence.
+    Do not write "what is", "who is", markdown, or explanation in output.
+    Use the category and clue directly. If the clue is wordplay, solve the wordplay.
+    The confidence value must be a number from 0.0 to 1.0.
+    Keep rationale under 10 words.
+  instruction: |
+    Answer the target clue with the best short lowercase answer.

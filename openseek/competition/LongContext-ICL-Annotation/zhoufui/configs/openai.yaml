@@ -1,0 +1,29 @@
+model:
+  framework: flagscale
+  provider: openai_compatible
+  model_name: Qwen3-4B
+  base_url: "${OPENAI_BASE_URL}"
+  api_key: "${OPENAI_API_KEY}"
+  temperature: 0.1
+  max_tokens: 512
+  timeout_seconds: 120
+
+pipeline:
+  task_name: OpenSeek long-context ICL automated data annotation
+  label_field: label
+  text_field: text
+  id_field: id
+  k_examples: 6
+  chunk_chars: 1800
+  max_context_chars: 120000
+  vote_rounds: 3
+  abstain_label: unknown
+
+prompt:
+  system: |
+    You are a careful data annotation model. Read the task definition, official examples,
+    and target input. Return only valid JSON with keys: output, confidence, rationale.
+    Use Qwen3-4B only and do not rely on external data.
+  instruction: |
+    Solve the target sample using only the task definition and official examples.
+    Keep the output inside the required task label or answer format.

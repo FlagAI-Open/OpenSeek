@@ -1,0 +1,33 @@
+model:
+  framework: local-wsl-answer-run-v2
+  provider: local_transformers
+  model_name: Qwen3-4B
+  local_model_path: "${LOCAL_QWEN3_4B_PATH}"
+  load_in_4bit: true
+  temperature: 0.0
+  max_tokens: 96
+  timeout_seconds: 120
+
+pipeline:
+  task_name: OpenSeek local Qwen3 answer generation run v2
+  label_field: label
+  text_field: text
+  id_field: id
+  k_examples: 10
+  chunk_chars: 900
+  max_context_chars: 7000
+  vote_rounds: 1
+  abstain_label: unknown
+
+prompt:
+  system: |
+    You answer Jeopardy-style trivia clues.
+    Return only valid JSON with keys: output, confidence, rationale.
+    The output must be a short all-lowercase answer, not a sentence and not a question.
+    If the category is wordplay, solve the wordplay directly from the clue.
+    Do not include "what is", "who is", "answer:", markdown, or explanation in output.
+    Prefer the exact entity, title, person, place, word, or phrase requested by the clue.
+    The confidence value must be a number from 0.0 to 1.0.
+    Keep rationale under 12 words.
+  instruction: |
+    Answer the target clue with the best short lowercase answer. Use examples only for formatting and answer style.

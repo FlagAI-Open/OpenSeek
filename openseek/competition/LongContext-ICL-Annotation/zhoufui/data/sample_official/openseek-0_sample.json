@@ -1,0 +1,12 @@
+{
+  "task_id": "sample-task",
+  "task_name": "sample official task",
+  "Definition": ["Return whether the input is about technology or policy."],
+  "examples": [
+    {"input": "A model inference engine was released.", "output": "technology"},
+    {"input": "The city council approved a rule.", "output": "policy"}
+  ],
+  "test_samples": [
+    {"id": "sample-1", "input": "A new transformer library improved inference throughput."}
+  ]
+}

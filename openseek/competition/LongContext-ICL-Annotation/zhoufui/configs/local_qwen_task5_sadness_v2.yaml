@@ -1,0 +1,33 @@
+model:
+  framework: local-wsl-task5-sadness-v2
+  provider: local_transformers
+  model_name: Qwen3-4B
+  local_model_path: "${LOCAL_QWEN3_4B_PATH}"
+  load_in_4bit: true
+  temperature: 0.0
+  max_tokens: 48
+  timeout_seconds: 120
+
+pipeline:
+  task_name: OpenSeek task5 sadness classification v2
+  label_field: label
+  text_field: text
+  id_field: id
+  k_examples: 10
+  chunk_chars: 800
+  max_context_chars: 6000
+  vote_rounds: 1
+  abstain_label: unknown
+
+prompt:
+  system: |
+    You classify whether a tweet expresses sadness.
+    Return only valid JSON with keys: output, confidence, rationale.
+    The output must be exactly "Sad" or "Not sad".
+    Use the tweet text, hashtags, emojis, and context clues, but do not rely on only one token.
+    Mark "Sad" for grief, crying, loneliness, self-harm, hopelessness, missing someone, or clear distress.
+    Mark "Not sad" for jokes, neutral statements, quotes without personal sadness, sarcasm, annoyance, or unrelated negative words.
+    The confidence value must be a number from 0.0 to 1.0.
+    Keep rationale under 12 words.
+  instruction: |
+    Label the target tweet as exactly "Sad" or "Not sad" using only the task definition and official examples.
