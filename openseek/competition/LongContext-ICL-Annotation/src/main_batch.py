@@ -81,7 +81,7 @@ def processing(task_id:int, qwen_tokenizer:AutoTokenizer, start = 0, stop = -1):
     else:
         operation_dir = os.path.dirname(operation_file)
         if not os.path.exists(operation_dir):
-            os.mkdirs(operation_dir, mode=0o755, exist_ok=True)
+            os.makedirs(operation_dir, mode=0o755, exist_ok=True)
 
     for i in range(N):
         log_icl_progress(task_id, f"第 {i + 1} 轮次ICL遍历")
@@ -167,7 +167,7 @@ def evaluate(task_id:int, qwen_tokenizer:AutoTokenizer, start = 0, stop = -1):
     result_file = get_result_filepath(task_id, version)
     result_dir = os.path.dirname(result_file)
     if not os.path.exists(result_dir):
-        os.mkdir(result_dir, 0o755)
+        os.makedirs(result_dir, mode=0o755, exist_ok=True)
     else:
         while os.path.exists(result_file):
             version += 1
@@ -213,7 +213,7 @@ def check_evaluate_correct(task_id:int, qwen_tokenizer:AutoTokenizer, reps = 0):
     result_dir = os.path.dirname(result_file)
     if not os.path.exists(result_dir):
         # 没有结果文件，无需检查
-        print(f'task_id={task_id}暂无对厅结果文件，无需检查')
+        print(f'task_id={task_id}暂无对应结果文件，无需检查')
         return
 
     min_len, max_len = CONST_TASK_CHECK_STRLEN_SIZES[task_id]['min'], CONST_TASK_CHECK_STRLEN_SIZES[task_id]['max']
@@ -332,7 +332,7 @@ def parse_args_task_id_or_step(arg_value: str, default_list: list):
     arg_value = arg_value.strip()
     if arg_value == '' or arg_value == '0':
         arg_out = default_list
-    elif arg_value.isdigit() == int:
+    elif arg_value.isdigit():
         arg_out = [ int(arg_value) ]
     else:
         if arg_value.find('[') == -1:
