@@ -24,7 +24,6 @@ if N <=0:
 
 # 异步并发数（与服务器支持的批次并行相近即可, 协同服务端张量和数据并行计算, 可加速实验进度）
 req_concurrency_size = int(os.environ.get('REQ_CONCURRENCY_NUM', 2))
-print('req_concurrency_size', req_concurrency_size)
 if req_concurrency_size <= 0:
     raise Exception('REQ_CONCURRENCY_NUM must be a integer amd bigger than 0')
 
@@ -70,7 +69,7 @@ def processing(task_id:int, qwen_tokenizer:AutoTokenizer, start = 0, stop = -1):
     task_operations = set()
 
     if os.path.exists(operation_file):
-        if N == '1' or int(N) == 1:
+        if N == 1:
             log_icl_progress(task_id, 'not need repeat processing for N=1')
             return
         # 与上一轮的去重合并
@@ -80,9 +79,9 @@ def processing(task_id:int, qwen_tokenizer:AutoTokenizer, start = 0, stop = -1):
                 for v in _parse_operations_from_str(s):
                     task_operations.add(v)
     else:
-        method_dir = os.path.dirname(operation_file)
-        if not os.path.exists(method_dir):
-            os.mkdir(method_dir, 0o755)
+        operation_dir = os.path.dirname(operation_file)
+        if not os.path.exists(operation_dir):
+            os.mkdirs(method_dir, mode=0o755, exist_ok=True)
 
     for i in range(N):
         log_icl_progress(task_id, f"第 {i + 1} 轮次ICL遍历")
@@ -333,9 +332,9 @@ def parse_args_task_id_or_step(arg_value: str, default_list: list):
     arg_value = arg_value.strip()
     if arg_value == '' or arg_value == '0':
         arg_out = default_list
-    elif type(arg_value) == int:
+    elif arg_value.isdigit() == int:
         arg_out = [ arg_value ]
-    elif type(arg_value) == str:
+    else:
         if arg_value.find('[') == -1:
             arg_value = '[' + arg_value
         if arg_value.find(']') == -1:
