@@ -52,9 +52,9 @@ def processing(
     print_icl_progress(task_id, 'operation_file', operation_file)
 
     task_operations = set()
-    method_dir = os.path.dirname(operation_file)
-    if not os.path.exists(method_dir):
-        os.mkdirs(result_dir, mode=0o755, exist_ok=True)
+    operation_dir = os.path.dirname(operation_file)
+    if not os.path.exists(operation_dir):
+        os.makedirs(operation_dir, mode=0o755, exist_ok=True)
 
     task_file = get_task_filepath(task_id)
     print_icl_progress(task_id, 'task_file', task_file)
@@ -135,7 +135,7 @@ def evaluate(
     result_file = get_result_filepath(task_id, version)
     result_dir = os.path.dirname(result_file)
     if not os.path.exists(result_dir):
-        os.mkdir(result_dir, 0o755)
+        os.makedirs(result_dir, mode=0o755, exist_ok=True)
     else:
         while os.path.exists(result_file):
             version += 1
