@@ -15,7 +15,7 @@
 
 dir=$(cd "$(dirname "$0")" && pwd)
 
-pid=$(ps -ef | grep src/main_bath.py | grep -v grep | awk '{print $2}')
+pid=$(ps -ef | grep src/main_batch.py | grep -v grep | awk '{print $2}')
 if [ -n "$pid" ]; then
     echo 'not need repeat start ...'
 
@@ -28,49 +28,49 @@ else
     export SERVE_BASE_URL=http://server1:2026/v1
     export SERVE_MODEL_NAME=Qwen/Qwen3-4B
     export SERVE_TOKENIZER_PATH=$HOME/.cache/modelscope/hub/models/Qwen/Qwen3-4B
-    nohup python $dir/main_bath.py --task_id=1 --task_step=0 > output1.log 2>&1 &
+    nohup python $dir/main_batch.py --task_id=1 --task_step=0 > output1.log 2>&1 &
 
     export SERVE_API_KEY=""
     export SERVE_BASE_URL=http://server2:2026/v1
     export SERVE_MODEL_NAME=Qwen/Qwen3-4B
     export SERVE_TOKENIZER_PATH=$HOME/.cache/modelscope/hub/models/Qwen/Qwen3-4B
-    nohup python $dir/main_bath.py --task_id=2 --task_step=0 > output2.log 2>&1 &
+    nohup python $dir/main_batch.py --task_id=2 --task_step=0 > output2.log 2>&1 &
 
     export SERVE_API_KEY=""
     export SERVE_BASE_URL=http://server3:2026/v1
     export SERVE_MODEL_NAME=Qwen/Qwen3-4B
     export SERVE_TOKENIZER_PATH=$HOME/.cache/modelscope/hub/models/Qwen/Qwen3-4B
-    nohup python $dir/main_bath.py --task_id=3 --task_step=0 > output3.log 2>&1 &
+    nohup python $dir/main_batch.py --task_id=3 --task_step=0 > output3.log 2>&1 &
 
     export SERVE_API_KEY=""
     export SERVE_BASE_URL=http://server4:2026/v1
     export SERVE_MODEL_NAME=Qwen/Qwen3-4B
     export SERVE_TOKENIZER_PATH=$HOME/.cache/modelscope/hub/models/Qwen/Qwen3-4B
-    nohup python $dir/main_bath.py --task_id=4 --task_step=0 > output4.log 2>&1 &
+    nohup python $dir/main_batch.py --task_id=4 --task_step=0 > output4.log 2>&1 &
 
     export SERVE_API_KEY=""
     export SERVE_BASE_URL=http://server5:2026/v1
     export SERVE_MODEL_NAME=Qwen/Qwen3-4B
     export SERVE_TOKENIZER_PATH=$HOME/.cache/modelscope/hub/models/Qwen/Qwen3-4B
-    nohup python $dir/main_bath.py --task_id=5 --task_step=0 > output5.log 2>&1 &
+    nohup python $dir/main_batch.py --task_id=5 --task_step=0 > output5.log 2>&1 &
 
     export SERVE_API_KEY=""
     export SERVE_BASE_URL=http://server6:2026/v1
     export SERVE_MODEL_NAME=Qwen/Qwen3-4B
     export SERVE_TOKENIZER_PATH=$HOME/.cache/modelscope/hub/models/Qwen/Qwen3-4B
-    nohup python $dir/main_bath.py --task_id=6 --task_step=0 > output6.log 2>&1 &
+    nohup python $dir/main_batch.py --task_id=6 --task_step=0 > output6.log 2>&1 &
 
     export SERVE_API_KEY=""
     export SERVE_BASE_URL=http://server7:2026/v1
     export SERVE_MODEL_NAME=Qwen/Qwen3-4B
     export SERVE_TOKENIZER_PATH=$HOME/.cache/modelscope/hub/models/Qwen/Qwen3-4B
-    nohup python $dir/main_bath.py --task_id=7 --task_step=0 > output7.log 2>&1 &
+    nohup python $dir/main_batch.py --task_id=7 --task_step=0 > output7.log 2>&1 &
 
     export SERVE_API_KEY=""
     export SERVE_BASE_URL=http://server8:2026/v1
     export SERVE_MODEL_NAME=Qwen/Qwen3-4B
     export SERVE_TOKENIZER_PATH=$HOME/.cache/modelscope/hub/models/Qwen/Qwen3-4B
-    nohup python $dir/main_bath.py --task_id=8 --task_step=0 > output8.log 2>&1 &
+    nohup python $dir/main_batch.py --task_id=8 --task_step=0 > output8.log 2>&1 &
 
     echo 'you can check by cmd: `ps -ef | grep main_bath.py | grep -v grep`'
 fi
