@@ -30,11 +30,11 @@ do
 done
 
 # 开始第二阶段
-pid=$(ps -ef | grep src/main_bath.py | grep '--task_step=2' | grep -v grep | awk '{print $2}')
+pid=$(ps -ef | grep src/main_batch.py | grep '--task_step=2' | grep -v grep | awk '{print $2}')
 if [ -n "$pid" ]; then
     echo 'not need repeat start ...'
 else
     # 卡少的时候，须串行处理
-    nohup python $dir/main_bath.py --task_id=0 --task_step=2 > output2.log 2>&1 &
-    echo 'you can check by cmd: `ps -ef | grep main_bath.py | grep -v grep`'
+    nohup python $dir/main_batch.py --task_id=0 --task_step=2 > output2.log 2>&1 &
+    echo 'you can check by cmd: `ps -ef | grep main_batch.py | grep -v grep`'
 fi
