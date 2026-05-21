@@ -7,7 +7,7 @@ import aiohttp
 
 from openai import OpenAI, AsyncOpenAI, APIConnectionError, AuthenticationError, APIError, BadRequestError
 
-from const import CONST_DEBUG_SHOW_STREAM, CONST_DEBUG_SHOW_ASNSWER
+from const import CONST_DEBUG_SHOW_STREAM, CONST_DEBUG_SHOW_ANSWER
 
 
 serve_api_key = os.environ.get('SERVE_API_KEY', '')
@@ -28,14 +28,14 @@ class ChatClient:
         answers = []
         texts = asyncio.run(ChatClient.__batch_request_chat_api_stream(prompts, max_tokens, temperature, enable_thinking))
         for i, (text, state) in enumerate(texts):
-            if debug_print_stream == str(CONST_DEBUG_SHOW_ASNSWER) or debug_print_stream == CONST_DEBUG_SHOW_ASNSWER:
+            if debug_print_stream == str(CONST_DEBUG_SHOW_ANSWER) or debug_print_stream == CONST_DEBUG_SHOW_ANSWER:
                 print('text, state = ', text, state)
 
             # 若格式不符合要求，则多请求几次尽量提高成功率
             if state == False or text.find('<output_answer>') == -1:
                 time.sleep(3)
-                text, state = ChatClient.request_llm_api_stream(prompts[i], max_tokens, temperature, enable_thinking)
-                if debug_print_stream == str(CONST_DEBUG_SHOW_ASNSWER) or debug_print_stream == CONST_DEBUG_SHOW_ASNSWER:
+                text, state = asyncio.run(ChatClient.__request_chat_api_stream(prompt, max_tokens, temperature, enable_thinking, 512))
+                if debug_print_stream == str(CONST_DEBUG_SHOW_ANSWER) or debug_print_stream == CONST_DEBUG_SHOW_ANSWER:
                     print('text, state = ', text, state)
 
             if state == False:
@@ -51,14 +51,14 @@ class ChatClient:
     @staticmethod
     def request_llm_api_stream(prompt: str, max_tokens=10240, temperature=0.7, enable_thinking=True):
         text, state = asyncio.run(ChatClient.__request_chat_api_stream(prompt, max_tokens, temperature, enable_thinking))
-        if debug_print_stream == str(CONST_DEBUG_SHOW_ASNSWER) or debug_print_stream == CONST_DEBUG_SHOW_ASNSWER:
+        if debug_print_stream == str(CONST_DEBUG_SHOW_ANSWER) or debug_print_stream == CONST_DEBUG_SHOW_ANSWER:
             print('text, state = ', text, state)
 
         # 若格式不符合要求，则多请求一次尽量提高成功率
         if state == False or text.find('<output_answer>') == -1:
             time.sleep(3)
             text, state = asyncio.run(ChatClient.__request_chat_api_stream(prompt, max_tokens, temperature, enable_thinking, 512))
-            if debug_print_stream == str(CONST_DEBUG_SHOW_ASNSWER) or debug_print_stream == CONST_DEBUG_SHOW_ASNSWER:
+            if debug_print_stream == str(CONST_DEBUG_SHOW_ANSWER) or debug_print_stream == CONST_DEBUG_SHOW_ANSWER:
                 print('text, state = ', text, state)
 
         if state == False:
@@ -72,14 +72,14 @@ class ChatClient:
     @staticmethod
     def request_llm_api(prompt: str, max_tokens=10240, temperature=0.7, enable_thinking=True):
         text, state = ChatClient.__request_chat_api(prompt, max_tokens, temperature, enable_thinking)
-        if debug_print_stream == str(FLAG_SHOW_ASNSWER) or debug_print_stream == FLAG_SHOW_ASNSWER:
+        if debug_print_stream == str(CONST_DEBUG_SHOW_ANSWER) or debug_print_stream == CONST_DEBUG_SHOW_ANSWER:
             print('text, state = ', text, state)
 
         # 若格式不符合要求，则多请求一次尽量提高成功率
         if state == False or text.find('<output_answer>') == -1:
             time.sleep(3)
             text, state = ChatClient.__request_chat_api(prompt, max_tokens, temperature, enable_thinking, 512)
-            if debug_print_stream == str(FLAG_SHOW_ASNSWER) or debug_print_stream == FLAG_SHOW_ASNSWER:
+            if debug_print_stream == str(CONST_DEBUG_SHOW_ANSWER) or debug_print_stream == CONST_DEBUG_SHOW_ANSWER:
                 print('text, state = ', text, state)
 
         if state == False:
