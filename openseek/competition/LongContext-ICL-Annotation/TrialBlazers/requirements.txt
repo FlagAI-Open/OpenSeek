@@ -1,0 +1,7 @@
+requests
+tqdm
+transformers
+scikit-learn
+torch
+vllm
+reportlab
