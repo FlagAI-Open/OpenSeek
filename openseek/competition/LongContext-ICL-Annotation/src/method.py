@@ -1,6 +1,7 @@
 """
 Method module: shared API call for all tasks.
 """
+import os
 import re
 
 
@@ -44,8 +45,8 @@ def annotate_ascend(
     """Chat API. Returns (prediction, raw_output) tuple."""
     import openai
     openai.api_key = "EMPTY"
-    openai.base_url = "http://127.0.0.1:2026/v1/"
-    model = "/root/models/qwen/Qwen3-4B"
+    openai.base_url = os.environ.get("MODEL_BASE_URL", "http://127.0.0.1:2026/v1/")
+    model = os.environ.get("MODEL_NAME", "/root/models/qwen/Qwen3-4B")
 
     messages = [
         {"role": "system", "content": system_prompt},

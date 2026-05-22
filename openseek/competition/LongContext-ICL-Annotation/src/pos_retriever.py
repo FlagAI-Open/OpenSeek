@@ -20,12 +20,7 @@ class POSRetriever:
             examples: ICL 示例列表，每个元素包含 'input' 和 'output'
         """
         import spacy
-        try:
-            self.nlp = spacy.load("en_core_web_sm", disable=["ner", "lemmatizer"])
-        except OSError:
-            import subprocess
-            subprocess.run(["python3", "-m", "spacy", "download", "en_core_web_sm"], check=True)
-            self.nlp = spacy.load("en_core_web_sm", disable=["ner", "lemmatizer"])
+        self.nlp = spacy.load("en_core_web_sm", disable=["ner", "lemmatizer"])
 
         self.examples = examples
         self._precompute()

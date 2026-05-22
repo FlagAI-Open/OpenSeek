@@ -36,7 +36,7 @@ def call_model(input_prompt, cfg):
     )
 
 
-def evaluate(task_id: int, qwen_tokenizer, max_input_length: int = 128_000, log_path_prefix: str = './outputs/', workers: int = 8, max_samples: int = None):
+def evaluate(task_id: int, qwen_tokenizer, log_path_prefix: str = './outputs/', workers: int = 8, max_samples: int = None):
     # Load data and prepare task
     task_class = TASK_REGISTRY[task_id]
     task = task_class(qwen_tokenizer)
@@ -68,35 +68,36 @@ def evaluate(task_id: int, qwen_tokenizer, max_input_length: int = 128_000, log_
     print(f"⚙️  Task {task_id} config: temp={cfg['temperature']}, top_k={cfg.get('top_k', 'N/A')}, votes={cfg['num_votes']}{extra_str}")
     print(f"📊 ICL tokens: {task.min_icl_tokens:,}-{task.max_icl_tokens:,}, train={len(task.icl_examples)}, padding={len(task.padding_pool)}, test={len(task.test_samples)}")
 
-    def process_sample(test_sample):
-        final_prediction, prompt, raw_outputs, candidates, _ = task.run_inference(
-            test_sample, call_model
-        )
+    # Keep file handle open for the duration of the run to avoid per-sample open/close overhead
+    with open(output_file, 'a', encoding='utf-8') as out_f:
+        def process_sample(test_sample):
+            final_prediction, prompt, raw_outputs, candidates, _ = task.run_inference(
+                test_sample, call_model
+            )
 
-        # Write submission output
-        test_record = {
-            'test_sample_id': test_sample['id'],
-            'prediction': final_prediction,
-        }
+            test_record = {
+                'test_sample_id': test_sample['id'],
+                'prediction': final_prediction,
+            }
 
-        with file_lock:
-            with open(output_file, 'a', encoding='utf-8') as f:
-                f.write(json.dumps(test_record, ensure_ascii=False) + '\n')
+            with file_lock:
+                out_f.write(json.dumps(test_record, ensure_ascii=False) + '\n')
+                out_f.flush()
 
-    # Thread pool execution
-    print(f"🚀 启动多线程动态检索轰炸，当前并发数：{workers}")
-    with ThreadPoolExecutor(max_workers=workers) as executor:
-        futures = {executor.submit(process_sample, sample): sample['id'] for sample in task.test_samples}
-        for future in tqdm(as_completed(futures), total=len(futures), desc=f'Evaluation Task {task_id}'):
-            try:
-                future.result()
-            except Exception as e:
-                print(f"\n❌ Sample {futures[future]} failed: {e}")
-                import traceback
-                traceback.print_exc()
+        # Thread pool execution
+        print(f"🚀 启动多线程动态检索轰炸，当前并发数：{workers}")
+        with ThreadPoolExecutor(max_workers=workers) as executor:
+            futures = {executor.submit(process_sample, sample): sample['id'] for sample in task.test_samples}
+            for future in tqdm(as_completed(futures), total=len(futures), desc=f'Evaluation Task {task_id}'):
+                try:
+                    future.result()
+                except Exception as e:
+                    print(f"\n❌ Sample {futures[future]} failed: {e}")
+                    import traceback
+                    traceback.print_exc()
 
 
 if __name__ == '__main__':
     args = parser_args()
     qwen_tokenizer = AutoTokenizer.from_pretrained(args.tokenizer_path, trust_remote_code=True)
-    evaluate(args.task_id, qwen_tokenizer, args.max_input_length, args.log_path_prefix, args.workers, args.max_samples)
+    evaluate(args.task_id, qwen_tokenizer, args.log_path_prefix, args.workers, args.max_samples)
