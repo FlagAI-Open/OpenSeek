@@ -2,13 +2,16 @@ serve:
 - serve_id: vllm_model
   engine: vllm
   engine_args:
-    model: ../Qwen3-4B
+    model: /root/models/qwen/Qwen3-4B
     host: 0.0.0.0
     uvicorn_log_level: warning
     port: 2026
-    gpu_memory_utilization: 0.9
+    gpu_memory_utilization: 0.75
     trust_remote_code: true
-    no_enable_prefix_caching: true
+    tensor_parallel_size: 2
+    enable_prefix_caching: false
+    max_model_len: 65536
+    max_num_seqs: 4
 
 experiment:
   exp_name: qwen3_4b
@@ -20,8 +23,8 @@ experiment:
     deploy:
       use_fs_serve: false
   envs:
-    CUDA_VISIBLE_DEVICES: 0
-    CUDA_DEVICE_MAX_CONNECTIONS: 1
+    ASCEND_RT_VISIBLE_DEVICES: 0,1
+    CUDA_VISIBLE_DEVICES: 0,1
 
 action: run
 

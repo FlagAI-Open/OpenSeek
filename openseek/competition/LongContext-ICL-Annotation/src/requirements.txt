@@ -1,0 +1,2 @@
+rank_bm25
+spacy==3.7.6
