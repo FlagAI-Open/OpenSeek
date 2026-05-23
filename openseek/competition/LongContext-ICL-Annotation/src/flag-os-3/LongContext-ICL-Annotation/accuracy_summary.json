@@ -1,0 +1,16 @@
+{
+  "overall_accuracy": 0.734375,
+  "total_correct": 47,
+  "total_total": 64,
+  "tasks": [
+    {
+      "task_id": 5,
+      "task_name": "openseek-semeval_2018_task1_tweet_sadness_detection",
+      "total": 64,
+      "correct": 47,
+      "errors": 0,
+      "accuracy": 0.734375,
+      "error_list": []
+    }
+  ]
+}

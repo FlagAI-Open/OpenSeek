@@ -1,0 +1,10 @@
+*__pycache__*
+*outputs*
+*.ipynb_checkpoints*
+result*.zip
+BAAI/
+Qwen/
+download.py
+*err
+*log
+nohup.out

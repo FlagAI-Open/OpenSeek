@@ -1,0 +1,20 @@
+# Long-term Memory
+
+This file stores important information that should persist across sessions.
+
+## How to be success
+
+-  find the minimum absolute difference between 2 integers in the list
+   use find_min_diff by using function calling to the max extent
+
+- For every element in the list, if the element is even you should divide by two, if the element is odd you should multiply by three then add one. 
+   use collatz_conjecture by using function calling to the max extent
+
+- For every element in the list, if the element is even you should divide by two, if the element is odd you should multiply by three then add one. 
+   use concat_strs by using function calling to the max extent, make sure the input array is well organized, Pay special attention to special characters with punctuation symbols to avoid confusion.
+
+
+
+## Important Notes
+
+(Things to remember)

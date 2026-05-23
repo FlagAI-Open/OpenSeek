@@ -1,0 +1,561 @@
+{
+  "test_sample_id": "openseek-6-55e75723eb184498ad231c9248a62bdc",
+  "input": "Sentence 1: But the insurers are fighting an irresistible force. Sentence 2: The new rule would alter how current reporting requirements in Medicare hospitals work. Genre: government.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 mentions 'insurers' and 'fighting an irresistible force', which could imply regulatory or policy conflicts within government contexts. Sentence 2 explicitly discusses a 'new rule' altering 'Medicare hospitals' reporting requirements, a direct government topic. Both sentences involve regulatory or policy-related content (insurers vs. Medicare hospitals) under the government genre, establishing a semantic connection through shared thematic focus on governmental rules and their implications. The first sentence’s abstract phrasing does not contradict the second’s specificity but aligns with the genre’s typical focus on policy debates. Thus, they belong to the same genre.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-05adac38fbc044c0a5c36c9ffcfcd14d",
+  "input": "Sentence 1: Paul Wellstone, D-Minn., used the same dodge on Fox News Sunday : Can't we focus on issues that are important to people? Sentence 2: I couldn't believe they lost by such a small margin. Genre: slate.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 references Paul Wellstone, a politician, and a Fox News Sunday segment, which is a political commentary context. Sentence 2 comments on a political race outcome ('they lost by such a small margin'), aligning with the 'slate' genre's focus on political analysis and opinion. Both sentences are semantically connected through their shared political topic and style, even if S2 is a separate observation. No extreme stylistic clashes or unrelated topics exist.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-be013587701a4a5583fde1f69bc70387",
+  "input": "Sentence 1: No more juice. Sentence 2: \"I am happy to help in any way I can,\" the sentiment filled Tuppence with enormous cheer.  Genre: fiction.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 is a concise statement, possibly a character's dialogue or internal thought in a fictional context. Sentence 2 is a direct quote with a character name ('Tuppence') and emotional description, which is typical of fiction. Both sentences are embedded within a narrative framework, sharing the same genre despite differing in structure. The core topic (character interactions and sentiment) aligns with fiction, so they belong to the same genre.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-46275500cb1b465383f0793d0847573c",
+  "input": "Sentence 1: 1 billion in 2002 and increased to $5. Sentence 2: There is no need for any staff in emergency rooms to screen patients. Genre: government.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 mentions financial figures (1 billion in 2002, increased to $5) which could relate to government budgetary or fiscal policies. Sentence 2 discusses healthcare staffing policies (emergency rooms, patient screening), a common government concern. Both sentences are likely derived from government-related contexts, even if their specific topics differ. They share the genre's thematic focus on institutional decisions or data, not necessarily the same subject. Thus, they belong to the same genre.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-eaca6a43c929438586f082e1559ad55c",
+  "input": "Sentence 1: At the national level, there are a total of 575 wrestlers classed in six divisions according to their win-loss ratio in the annual tournaments. Sentence 2: There are about 60 wrestlers at the national level. Genre: travel.",
+  "prediction": "N",
+  "ground_truth": [
+    "Y"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 and Sentence 2 both discuss the number of wrestlers at the national level, with Sentence 2 being a simplified summary of Sentence 1's data. While the topic is unrelated to travel, the genre is explicitly stated as 'travel'. However, the core content of both sentences is about wrestling statistics, not travel-related subjects. Since the genre is travel, but the sentences do not align with travel themes, they are considered unrelated (Topic Disconnect).",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-2edba13380fa434996af9127f1ae59ef",
+  "input": "Sentence 1: This may be RAPS4, which is designed for the ED, but it needs further direct testing. Sentence 2: HUD did absolutely nothing for Regulation X.   Genre: government.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 discusses RAPS4 (a system) and its testing in the context of government regulation. Sentence 2 refers to HUD (a government agency) and its inaction regarding Regulation X. Both sentences involve government entities and regulatory processes, maintaining a semantic connection through the genre's focus on policy, agencies, and rules. The topics are related to governmental functions, not entirely disconnected.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-468023298b144aed8fabef4b43317860",
+  "input": "Sentence 1: He watched the farmers, tradesmen, herders, and children finishing their day. Sentence 2: The camp was a sane and serene place. Genre: fiction.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 describes a scene of people (farmers, tradesmen, children) completing their daily tasks, which is typical of narrative descriptions in fiction. Sentence 2 provides a general characterization of the camp's atmosphere ('sane and serene'), which aligns with the descriptive style of fiction. Both sentences are part of a fictional narrative, focusing on a camp setting and its inhabitants, creating a semantic connection through shared context. The absence of extreme formatting or stylistic clashes (e.g., dialogue tags, uncapitalized speech) confirms they fit within the 'fiction' genre.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-aa378c014d3c441c962156a7ae511c2f",
+  "input": "Sentence 1: In the center of the five-aisled Gothic basilica, the Coro (choir) is a marvel of woodcarving. Sentence 2: The place is actually good. Genre: travel.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 describes a specific architectural feature (Gothic basilica's choir) in a travel-related context. Sentence 2 is a general positive evaluation of the 'place,' which could logically refer to the same destination. Both sentences are part of a travel genre, as they discuss a location's attributes (specific detail vs. subjective opinion) and are semantically connected through the shared topic of a travel site or landmark. The second sentence does not introduce unrelated entities or topics, so they are not randomly paired. The core subject (a place) is consistent, satisfying the Semantic Connection rule.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-53144541fd69442bad40156dba68e924",
+  "input": "Sentence 1: He was smaller than the others and wore no helm. Sentence 2: If Bayliss wanted to use Drew's connection with the Range as a weapon against Hunt Rennie, Hunt Rennie's son would not let that happen.  Genre: fiction.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 describes a character's physical traits (smaller, no helm), which is typical in fiction for character setup. Sentence 2 introduces a plot-driven scenario involving named characters (Bayliss, Drew, Hunt Rennie) and conflict, which is also common in fictional narratives. Both sentences are embedded within a fictional context, sharing the same genre and thematic consistency (character descriptions and plot elements). Although they are distinct in focus, they are semantically connected as parts of a cohesive story. No extreme formatting clashes or topic shifts are present.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-87c83a06c52a49f8a6e0eda5f79ec5c2",
+  "input": "Sentence 1: Unfortunately, the cement used for its construction contained sea sand, which caused the iron reinforcing rods to corrode. Sentence 2: Sea salt causes iron to become smooth and shiny. Genre: travel.",
+  "prediction": "N",
+  "ground_truth": [
+    "Y"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 discusses construction materials (cement with sea sand) and their impact on structural integrity. Sentence 2 explains a general chemical property of sea salt affecting iron. While both involve 'sea' and 'iron', the core topics are unrelated (construction issues vs. material properties). The genre 'travel' is not relevant to either sentence's content, which focuses on technical/chemical details rather than travel experiences or narratives. Thus, they do not share the same genre or topic.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-f7ad1cc3f7cc4fc58a64d413a57d0c34",
+  "input": "Sentence 1: Room price guidelines below are for a double room with bath in high season, including breakfast and VAT (value-added tax). Sentence 2: It is more enjoyable for visit Hakone for day trips. Genre: travel.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 provides room pricing details for a travel context (double room, high season, VAT). Sentence 2 discusses the enjoyment of visiting Hakone for day trips, which is a travel-related topic. Both sentences are centered around travel planning or experiences, sharing a semantic connection through the genre's focus on travel-related information. The second sentence does not contradict or diverge into unrelated themes, so they belong to the same genre.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-e516606a90784e3c8990edbfab24a6a7",
+  "input": "Sentence 1: because there just cannot always be landfills uh my we have always saved aluminum just absolutely forever and uh i'm saving uh paper now and glass our biggest problem is that no one will take the paper it gets really difficult to find someone in fact now i'm donating it to a local church and by giving it to them they take it in mass and then our junk dealer gives them ten dollars just because they've they're a church and he writes it off as a donation but it's a real problem with with the paper to find that outlet for it after you've got it stacked up Sentence 2: He had to get two new ones. Genre: telephone.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 contains multiple fillers ('uh', 'um') and informal speech patterns typical of telephone conversations. Sentence 2, while concise, directly addresses the same core issue of managing paper waste (implied by 'get two new ones' in the context of the prior discussion). Both sentences are part of a continuous dialogue about practical challenges in recycling/saving materials, maintaining semantic coherence within the telephone genre. The second sentence does not introduce unrelated topics or clash with the stylistic markers of the genre.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-a02d0e0be1964651bd64c97ca48dec2b",
+  "input": "Sentence 1: As soon as you came into the room, I knew  \" Mr. Carter held up his hand. Sentence 2: This girl, as you say! Genre: fiction.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 contains a dialogue tag ('I knew') and a character name ('Mr. Carter'), while Sentence 2 is a direct dialogue line with a similar structure. Both sentences are consistent with the 'fiction' genre, which often includes dialogue tags, character interactions, and narrative elements. The core topic (a conversation in a fictional setting) is directly connected, fulfilling the Semantic Connection criterion. The stylistic features align with fiction, avoiding conflicts with other genres like 'telephone' or 'verbatim'.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-6422ec5fdcb9451db7a87845daf6565b",
+  "input": "Sentence 1: He rang up the Ritz and asked for Julius Hersheimmer. Sentence 2: She suffered many hardships during her life. Genre: fiction.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 describes a phone call (telephone) in a fictional context, while Sentence 2 is a general narrative about a character's life. Both sentences are part of a fictional story, even if they discuss different characters or events. Since they share the same genre (fiction) and are both narrative elements within a fictional setting, they are semantically connected through the genre's inherent structure. The second sentence does not contradict or diverge from the genre's expected content, so they belong to the same pair.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-f319bfbd5c0241c4bc265dd08f599792",
+  "input": "Sentence 1: You do not need to assess reliability if the data are used (1) only as background information or (2) in documents without findings, conclusions, or recommendations. Sentence 2: It never hurts to do reliability assessment for your own peace of mind, however. Genre: government.",
+  "prediction": "N",
+  "ground_truth": [
+    "Y"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 discusses data reliability in the context of governmental document usage, specifying conditions under which reliability assessment is not required. Sentence 2, while related to reliability assessment, focuses on personal motivation (peace of mind) rather than governmental procedures or policies. Although both touch on reliability assessment, the second sentence diverges into a non-governmental, individualistic perspective. This creates a topic disconnect (N) as they do not share the same core subject or context within the 'government' genre.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-634c71dd99164bf98ae7c339bbf2d153",
+  "input": "Sentence 1: In Canada, under the headline Highway to NAFTA? Sentence 2: Under the headline Highway in Spain? Genre: slate.",
+  "prediction": "N",
+  "ground_truth": [
+    "Y"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 discusses a headline related to Canada and NAFTA, while Sentence 2 refers to a headline about Spain and a highway. Although both are headlines, the core topics (NAFTA vs. highway) and entities (Canada vs. Spain) are distinct, leading to a Topic Disconnect. The genre 'slate' focuses on opinion-based content, but the sentences do not share the same subject or context. Thus, they are not semantically connected.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-1830203b12f24c058f7aa434e3f8db11",
+  "input": "Sentence 1: that's right sure yeah you you yeah you could just sit there and talk Sentence 2: Let me know if I can return the favor. Genre: telephone.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 exhibits typical telephone speech patterns with fillers ('you you', 'sure yeah') and informal tone. Sentence 2 is a polite, structured statement but still fits within the same conversational context. Both sentences are part of a dialogue where participants discuss potential interactions (agreement to talk, offering help). The semantic connection is clear as they belong to the same telephone conversation scenario. No topic disconnect or stylistic clash with the genre.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-7ed8ee91b10d429c8c2f7746aa00ede5",
+  "input": "Sentence 1: I've given up trying to guess what he'll do next.\" Sentence 2: Pecina said she got help from a lawyer for free. Genre: fiction.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 is a first-person internal monologue, while Sentence 2 is a direct quote from a character (Pecina) in a fictional context. Both sentences involve character-driven narratives and dialogue elements typical of fiction. Although the specific topics (predicting actions vs. legal help) differ, they are both consistent with the fiction genre's stylistic and thematic characteristics. No extreme formatting or stylistic clash is present, and the core content aligns with fictional storytelling. Therefore, they belong to the same genre.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-e2b305814ba0490f838e7edd068cc7ab",
+  "input": "Sentence 1: I'm sorry about the whole business confoundedly sorry.\" Tommy came to himself with a start. Sentence 2: They can plead guilty and get less time. Genre: telephone.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 exhibits informal, conversational language with fillers ('confoundedly sorry') and a personal tone ('Tommy'). Sentence 2 is a direct, concise statement about legal consequences ('plead guilty and get less time'), which could logically follow in a telephone conversation. Both sentences share the stylistic markers of telephone dialogue (e.g., casual phrasing, lack of formal structure) and are part of the same conversational context, even if the topics (apology vs. legal plea) are distinct. The semantic connection is not required for genre alignment; the core issue is whether they fit the telephone genre's stylistic and contextual criteria. Thus, they belong to the same genre.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-4b03cdc217db4324a9c48350388032f0",
+  "input": "Sentence 1: now he he is a good uh actually i did i played flute for almost ten years  and and uh so i i i i appreciate his too his his music he he he's from Ireland isn't he Sentence 2: Thank you too, goodbye. Genre: telephone.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 contains informal speech patterns like 'uh,' 'um,' and filler words, typical of a telephone conversation. Sentence 2 is a concise, polite closing statement ('Thank you too, goodbye') that aligns with the structure of a telephone interaction. While the content of S1 focuses on personal anecdotes about music and the flute, S2 serves as a logical conclusion to the conversation. Both sentences share the same genre's stylistic and contextual framework, even if their specific topics differ. The semantic connection is maintained through the shared context of a telephone dialogue, not just direct repetition or contradiction.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-c43c8b9c0057435ab59fc8fdd19b9d6f",
+  "input": "Sentence 1: Not there, said Tuppence over her shoulder. Sentence 2: Coming back to reality was a sad experience for him, the game world was just so much better. Genre: fiction.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 is a dialogue snippet with a character name (Tuppence) and a fragmented structure, typical of fiction. Sentence 2 describes a character's emotional experience (returning to reality, game world contrast), which aligns with fictional narrative elements. Both sentences are embedded within a story context, sharing semantic and stylistic coherence for the 'fiction' genre. No topic disconnect or stylistic clash is present.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-45687798aad649088f20fb8a7ab736a4",
+  "input": "Sentence 1: Works such as Raphael's Bridgewater Madonna, a Rembrandt Self-Portrait, and Vel?¡zquez's Old Woman Cooking Eggs are only three from a collection that includes pieces by Titian, Van Dyck, Rubens, Constable, Turner, and Vermeer. Sentence 2: The bulk of the collection is by Titians and Rubens. Genre: travel.",
+  "prediction": "N",
+  "ground_truth": [
+    "Y"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 discusses a collection of artworks by various artists (Raphael, Rembrandt, Velázquez, Titian, Rubens, etc.), while Sentence 2 specifically mentions Titian and Rubens as dominant contributors to the same collection. Neither sentence references travel, locations, or travel-related topics. The genre 'travel' requires explicit connection to journeys, destinations, or travel experiences, which are absent here. The core topic of both sentences is art history, not travel, leading to a Topic Disconnect (N).",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-82f9964cfa6b4a9382f8ebbf7cba06c7",
+  "input": "Sentence 1: Athens became so attached to this source of easy money that dissent soon grew among the member cities, and Sparta led the confederacy from Athens after the Peloponnesian War (413  404 b.c. ). The Persians, sensing weakness in the ranks, launched another offensive, resulting in the Ae?Χean coast cities coming under Persian control in 387 b.c. Sentence 2: The Persians struck on an opportunity and won themselves coastal cities. Genre: travel.",
+  "prediction": "N",
+  "ground_truth": [
+    "Y"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 describes historical events involving Athens, Sparta, and the Peloponnesian War, with specific dates and geopolitical context. Sentence 2 refers to Persian military actions and coastal city conquests, which are also historical in nature. Neither sentence discusses travel, personal journeys, or descriptions of places as a genre. The core topics (ancient history, warfare) are unrelated to 'travel', leading to a Topic Disconnect. Thus, the result is N.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-991bf4ec309346be9f0506de4d3a619b",
+  "input": "Sentence 1: Some are also upset by the eroticism of Parmigianino in his strange but undeniably graceful Madonna with the Long Neck (1534) just look at those elongated fingers a masterpiece of the sophisticated and subsequently decadent Mannerism that followed the High Renaissance. Sentence 2: Madonna with the Long Neck was the most controversial piece ever displayed in a museum. Genre: travel.",
+  "prediction": "N",
+  "ground_truth": [
+    "Y"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 discusses art history, specifically Parmigianino's 'Madonna with the Long Neck' and Mannerism. Sentence 2 also refers to the same artwork's controversy in a museum. Neither sentence relates to travel experiences, locations, or themes typical of the 'travel' genre. The core topic is art criticism, not travel, leading to a Topic Disconnect.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-65df5c959c3143bdb2aac1a28419c173",
+  "input": "Sentence 1: Small family-run hostelries and country inns are charming, but, depending of course on your budget and personal preferences, consider indulging for at least one night on the special comforts and pampering of the great hotels. Sentence 2: The Gothic loggia on the Piazza San Lorenzo are from the 12th century. Genre: travel.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 discusses travel accommodations (hostelries, inns, hotels) and travel-related considerations (budget, preferences). Sentence 2 describes a historical architectural feature (Gothic loggia on Piazza San Lorenzo) in a specific travel context (Florence, Italy). Both sentences are explicitly tied to travel topics, even though they focus on different aspects (lodging vs. landmarks). The semantic connection is strong within the travel genre, as they both provide descriptive or advisory content relevant to travel experiences. No topic disconnect or stylistic clash is present.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-d3a4b53ac6084b4092f822f9b24947b7",
+  "input": "Sentence 1: Such simulations can help policymakers assess the long-term consequences of fiscal policy and saving choices made today. Sentence 2: Nixon's decision to force Ho Chi Minh to withdraw saved 18,000 American lives  Genre: government.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 discusses fiscal policy and saving choices, which are central to government decision-making. Sentence 2 refers to a specific historical government action (Nixon's decision in the Vietnam War) with quantifiable outcomes. Both sentences are rooted in government-related contexts, even if one is general and the other specific. There is no topic disconnect or stylistic clash, so they share a semantic connection through the genre of government policy analysis.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-ba57bc5821ff4db98fdfa74a2a374137",
+  "input": "Sentence 1: He also painted a chilling picture of corruption and depravity in Baghdad and claimed to have evidence that Saddam Hussein recently seduced the son of his latest wife, Samira Shabandar. Sentence 2: No, she didn't show us anything. Genre: fiction.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 describes a fictional narrative involving a character's account of corruption in Baghdad and a personal scandal involving Saddam Hussein. Sentence 2 is a dialogue response that contradicts the previous statement, fitting the stylistic and thematic elements of a fictional story. Both sentences are part of a fictional context, with the second being a character's verbal interaction. The semantic connection is strong as they are interlinked within the same fictional scenario. Therefore, they belong to the same genre.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-23d42c02cf0440d4bc74bac5670629be",
+  "input": "Sentence 1: Air Daily, For Now, Labor Capable of Meeting SCR Demand, Clear Air Regulations and Markets    Sentence 2: Continuing on with this. Genre: slate.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 is a title or heading related to air regulations and labor, likely from a Slate column discussing policy or market analysis. Sentence 2 is a brief continuation statement, which fits the style of a Slate article's narrative or argument flow. Both sentences are semantically connected through the shared topic of regulatory discussions and market contexts, aligning with the 'slate' genre's focus on analytical or opinionated content. The second sentence does not introduce unrelated topics or clash with the first in style or intent.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-22ccf37232c041329eed7cdb06049906",
+  "input": "Sentence 1: but how come we weren't doing this say twenty years ago you know Sentence 2: Now's the time to get prepared. Genre: telephone.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 contains informal speech markers like 'you know' and 'say', typical of telephone conversations. Sentence 2 is a direct, concise statement that logically follows the context of discussing timing or preparation in a dialogue. Both sentences are stylistically consistent with 'telephone' genre and share a semantic connection through the theme of planning or reflection on past/present actions. The core topic (discussing readiness or historical context) remains relevant within the same conversational flow.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-6280fe3bcc6d4abca84d700c33b7e50b",
+  "input": "Sentence 1: You know, Monsieur Poirot, that you have carte blanche in every way. Sentence 2: Derry was angry about losing the battle. Genre: fiction.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 features a character name (Monsieur Poirot) and a dialogue-like structure, typical of fictional narratives. Sentence 2 mentions a character (Derry) and a conflict (losing a battle), which also aligns with fictional storytelling. Both sentences are embedded in fictional contexts, even if they reference different characters or plots. Since the genre is 'fiction', they share the same core category. No topic disconnect or stylistic clash is evident.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-9d2c666501a7486cb8de035fc9b1cf18",
+  "input": "Sentence 1: All Good Candidates Lose Sentence 2: The villagers never liked weapons in the first place. Genre: fiction.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 is a title or thematic statement often found in fictional works, while Sentence 2 describes a narrative element (villagers' attitude toward weapons) typical of a story's plot. Both are consistent with the 'fiction' genre, as they align with elements common in literary or narrative fiction. Although the first sentence is a title and the second is a descriptive line, they share a fictional context and thematic relevance. There is no topic disconnect or stylistic clash, so they belong to the same genre.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-38808f148e3044ac9c65addbefc4d34a",
+  "input": "Sentence 1: Also of the massive lattice wooden screens though which unmarried daughters were allowed to peep at their parents' guests in the drawing room. Sentence 2: The unmarried daughters were looking forward to marriage. Genre: travel.",
+  "prediction": "N",
+  "ground_truth": [
+    "Y"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 describes a specific cultural object (wooden screens) in a setting (drawing room), likely part of a travel narrative detailing a foreign customs. Sentence 2 discusses the unmarried daughters' marital aspirations, which is a general social topic unrelated to the physical setting or travel context. While both touch on societal norms, they focus on distinct aspects (object vs. personal desire) and lack direct semantic connection. The genre 'travel' requires a focus on travel-related experiences or descriptions, which neither sentence fully satisfies. Thus, they are not semantically linked.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-e0e7afb6de9340e29d6c3bde59fe68ca",
+  "input": "Sentence 1: He could hear the sound of other running feet outside. Sentence 2: The people will arrive in ten minutes. Genre: fiction.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 describes a sensory detail (hearing running feet) in a fictional context, while Sentence 2 states a narrative event (people arriving) that logically follows from the same scenario. Both sentences are consistent with the 'fiction' genre, as they involve character-driven descriptions and plot progression. The semantic connection is clear: they are part of the same fictional narrative, with S2 building on the implied setting of S1. No topic disconnect or stylistic clash exists.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-8b1e048088374d5a93559f42fb6abdc2",
+  "input": "Sentence 1: Another (and perhaps more famous) member of the family was Elizabeth Barrett, who married poet Robert Browning. Sentence 2: Robert Browning was a poet who never married. Genre: travel.",
+  "prediction": "N",
+  "ground_truth": [
+    "Y"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 discusses Elizabeth Barrett and her marriage to Robert Browning, while Sentence 2 contradicts this by stating Robert Browning never married. Both sentences focus on the poet's personal life, not travel-related topics. Since the genre is 'travel' and the content is unrelated to travel, this constitutes a Topic Disconnect. The core entities (poet, marriage) are inconsistent with the travel genre's expected themes. Even though the sentences are about the same person, their subject matter does not align with the genre's definition. Therefore, the answer is N.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-d3c44a86962c40b0a6cae7b6b265b6ed",
+  "input": "Sentence 1: Norman incursion began with an internal power struggle. Sentence 2: He agreed to accept. Genre: fiction.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 refers to a fictional event ('Norman incursion') involving a power struggle, which is a common narrative device in fiction. Sentence 2, 'He agreed to accept,' is a concise character action typical of fictional dialogue or internal monologue. Both sentences are embedded within a fictional context, sharing thematic and stylistic alignment with the genre. Although the second sentence is brief and lacks specific details, its relevance to a fictional narrative (e.g., a character's decision in a story) confirms semantic connection. The absence of unrelated entities or extreme stylistic clashes (e.g., technical jargon or non-fictional markers) further supports their genre consistency.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-e13727d9c58242178b4749ba0ccd8fb9",
+  "input": "Sentence 1: Naturally, she told him. Sentence 2: Viscount Powerscourt This mansion used to reside in this mansion. Genre: fiction.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 is a simple narrative statement, while Sentence 2 introduces a specific character (Viscount Powerscourt) and a mansion, which are typical elements in fictional storytelling. Although Sentence 2 is grammatically unclear, its mention of a character title and setting aligns with the 'fiction' genre's use of dialogue tags, character names, and imaginative contexts. Both sentences are part of a fictional narrative, even if their semantic connection is indirect. The genre is determined by the presence of these elements, not strict topic overlap.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-5e8011487390492aa7fcc53e973e6468",
+  "input": "Sentence 1: falling in love with the city all over again. Sentence 2: They stopped and looked my way when they saw me.  Genre: fiction.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Both sentences are narrative in nature and fit within the fictional genre. Sentence 1 reflects a character's emotional state ('falling in love with the city'), while Sentence 2 describes a specific interaction between characters ('they stopped and looked my way'). These elements are consistent with fictional storytelling, where internal thoughts and character actions are common. There is no indication of unrelated topics or extreme stylistic clashes (e.g., technical formatting, dialogue tags). The semantic connection is plausible in a fictional context, as they could describe different aspects of a character's experience. Thus, they belong to the same genre.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-5e173f11f7a9403c86eb306958bea4c9",
+  "input": "Sentence 1: The CIA and FBI touted this arrest as proof that they had fixed the bureaucratic bungling that had allowed Ames to go undetected for six years. Sentence 2: It even served as prison for a while. Genre: slate.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 discusses government agencies (CIA, FBI) and their role in addressing bureaucratic issues related to a high-profile case (Ames). Sentence 2 provides a concise, factual statement about the arrest's context ('prison'). Both sentences are part of a news-style analysis (slate) focusing on political or investigative events. The semantic connection is clear: they describe the same incident from different angles, aligning with the genre's focus on commentary and reporting on current affairs. No topic disconnect or stylistic clash is present.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-9e504bd5adaa4d95a4ff8c7af656a2da",
+  "input": "Sentence 1: But there have been cases where the candidate gave us relevant numbers--and with success. Sentence 2: He did not have an imagination like that. Genre: fiction.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 discusses a candidate's success in providing relevant numbers, while Sentence 2 critiques a person's lack of imagination. Both sentences are embedded in a fictional narrative (e.g., character descriptions or dialogue in a story), sharing the same genre context. Although the topics are distinct, they are stylistically and thematically consistent with 'fiction' as they involve character traits and narrative elements. No extreme formatting or unrelated topics are present.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-4d95bf6682ed4aeeaf2808f15f29175a",
+  "input": "Sentence 1: uh-huh yeah i think uh Central America has always been one of those places where people are more passive you know where it's always the minority that are Sentence 2: The group decided that they were being outnumbered, and had to change that. Genre: fiction.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 exhibits casual, conversational speech with fillers ('uh-huh', 'you know'), typical of dialogue in fiction. Sentence 2 describes a narrative decision by a group, which aligns with fictional storytelling. While the specific topics (Central America's passivity vs. a group's outnumbering) are distinct, both sentences are embedded within a fictional context, sharing stylistic and thematic elements consistent with the genre. No extreme formatting or unrelated topics disrupt this connection.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-744e7b76c39e4aefbb5f99933d496358",
+  "input": "Sentence 1: You can also wander through the soothing Chinese garden, with its waterfalls and pretty red pergola. Sentence 2: He closed the door behind him and looked at another.  Genre: fiction.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 describes a Chinese garden in a narrative style, while Sentence 2 presents a character's action. Both are typical of fictional storytelling, which often includes descriptive scenes and character-driven actions. Although the topics (garden vs. a door closing) are distinct, they are stylistically and contextually aligned with the 'fiction' genre, as they could plausibly appear in the same narrative. No extreme formatting or unrelated topics are present.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-dc49e303703a4e0ba79840c5567f11bc",
+  "input": "Sentence 1: Her timely comments set a tone for open and extensive information sharing and collaboration. Sentence 2: If I were you, I would do that too. Genre: telephone.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 discusses the impact of comments on fostering information sharing and collaboration, while Sentence 2 is a conditional suggestion to 'do that too,' which aligns with the same topic of communication or advice. Both sentences are stylistically consistent with a telephone conversation (informal, conversational tone). Although the second sentence is a suggestion rather than a direct paraphrase, the core topic of communication and collaboration remains connected, satisfying the Semantic Connection criterion. The genre 'telephone' is appropriate for both, as they reflect dialogue patterns. No extreme formatting or unrelated topics are present.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-afd6374240654586b9bf66aa4b9c876f",
+  "input": "Sentence 1: Capital gains (or losses) and lump-sum or one-time payments such as life insurance settlements are excluded. Sentence 2: Here in Texas we don't pay state income taxes yet, but the legislature wants to add one, there's a big debate about it. Genre: government.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 discusses tax exclusions (capital gains, life insurance settlements) under federal regulations, a common topic in government or legal contexts. Sentence 2 addresses state income tax policy in Texas, focusing on legislative debate. Both sentences are centered around taxation and government policy, with no topic disconnect or stylistic clash. They share the same core domain (government taxation) and are semantically related through their focus on tax laws. Thus, they belong to the same genre.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-42f2f0a403994e669e8167bd958070bd",
+  "input": "Sentence 1: so it's one of those things that they really um and you wonder you know with all these oil spills Sentence 2: Gauve moved his head side to side. Genre: fiction.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 contains informal speech patterns (fillers like 'um', 'you know') typical of fictional dialogue. Sentence 2 describes a character's physical action ('Gauve moved his head'). Both sentences are embedded within a fictional narrative context, sharing stylistic and thematic alignment with the genre. Although the topics (oil spills vs. head movement) are distinct, they are consistent with a fictional story's elements. Thus, they belong to the same genre.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-1f40976848d94a9eb9c3fd4877153f36",
+  "input": "Sentence 1: The Alliance's English-educated elite seemed to imagine that multiracial integration would come about through education and employment. Sentence 2: The English educated of the alliance imagined that multiracial integration would come naturally through education and employment. Genre: travel.",
+  "prediction": "N",
+  "ground_truth": [
+    "Y"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 and Sentence 2 discuss the Alliance's English-educated elite and their belief in multiracial integration through education and employment. The topic is social or political, not travel-related. The genre is explicitly stated as 'travel', which does not align with the content of the sentences. Since the sentences are unrelated to travel and their core meaning does not overlap with the genre's expected focus, they do not belong to the same genre. Therefore, the result is N.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-a4291dfbb61b41759ad7cf805b40f060",
+  "input": "Sentence 1: Rayfield assists us with these contradictions by saying that, by the standards of his time, Chekhov was a judophile. Sentence 2: The writers didn't even attempt to write in terms that the people of the time could understand. Genre: slate.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 discusses a literary analysis of Chekhov through Rayfield's perspective, while Sentence 2 addresses the accessibility of writers' language to their audience. Both sentences are rooted in critical commentary on literary practices, which aligns with the 'slate' genre's focus on opinionated, analytical, or cultural discussions. Although Sentence 2 is more general, it shares the same core topic (writers' language and historical context) as Sentence 1, forming a semantic connection. The genre 'slate' is consistent across both, as they are both examples of journalistic or opinionated writing on literary themes.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-08b08c4fadc54f269243d47a78b930a5",
+  "input": "Sentence 1: From 1925 to 1935 several wide-ranging reforms were introduced by President Ke?έal. Sentence 2: Your judgment is about politics, not about economics. Genre: slate.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 discusses historical political reforms by a president, while Sentence 2 addresses the focus of judgment in political contexts. Both sentences are centered around political analysis or commentary, which aligns with the 'slate' genre's thematic scope. Although the content differs in specific details, the core topic of politics remains consistent, establishing a semantic connection. The second sentence does not introduce unrelated entities or topics, and the style is appropriate for a slate article's analytical tone.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-4803cce4f90a463b8419a68fd9add665",
+  "input": "Sentence 1: Originally planned under Louis XV, and begun in 1764, it wasn't consecrated until 1842. Sentence 2: It became sacred almost a hundred years after it begun because of politics. Genre: travel.",
+  "prediction": "N",
+  "ground_truth": [
+    "Y"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 discusses a historical project (planned under Louis XV, begun in 1764, consecrated in 1842), while Sentence 2 refers to a structure becoming 'sacred' due to political factors. Neither sentence explicitly mentions travel, locations, or experiences related to movement. The core topics are historical/religious events, not travel-related content. Thus, they are unrelated (Topic Disconnect).",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-e5c8346e65564effbaa0a882b9525693",
+  "input": "Sentence 1: I am Adrin of Faigon. Sentence 2: San'doro was heading toward the battle. Genre: fiction.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 introduces a character (Adrin) and a fictional setting (Faigon), while Sentence 2 references another character (San'doro) in a narrative context involving a battle. Both sentences are consistent with the 'fiction' genre, as they involve fictional characters and events. The semantic connection lies in their shared thematic and stylistic elements within a fictional universe. No topic disconnect or stylistic clash is present.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-cba548aac0ad41cd8bc715f05a2446ce",
+  "input": "Sentence 1: He bought his revolver to bear- Sentence 2: In other places, men are cleaning the elephant stables and storehouses for the chariot-shrines used to carry the gods through the streets during celebrations. Genre: fiction.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 mentions a revolver, which is a common element in fictional narratives (e.g., crime, mystery, or fantasy). Sentence 2 describes a ritual involving elephants and chariot-shrines, which is also a typical setting in fictional stories, especially those with mythological or cultural themes. Both sentences are part of a fictional context, even though their specific topics differ. Since the genre is 'fiction' and both sentences align with its characteristics, they belong to the same genre. However, the core topics (weapon vs. ritual) are not directly connected, but the genre classification is based on the overall category, not specific topic overlap. Thus, they are in the same genre.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-6-5a4131aa99d9414087148c9ca341b2cd",
+  "input": "Sentence 1: 14 So far, the net payments from the United States to foreign lenders have been small as a share of GDP, as shown in figure 3.3. Sentence 2: Government speech does not apply to private speech in every instance. Genre: government.",
+  "prediction": "Y",
+  "ground_truth": [
+    "N"
+  ],
+  "is_correct": false,
+  "reasoning": "Sentence 1 discusses U.S. economic data related to foreign lenders and GDP, which is a policy or fiscal topic. Sentence 2 addresses legal principles about government vs. private speech, a regulatory or legislative concern. Both sentences are rooted in government analysis or policy discourse, sharing the same genre despite differing specific focuses. The semantic connection is indirect but consistent with the 'government' category.",
+  "retries_used": 0
+}

@@ -1,0 +1,2167 @@
+{
+  "test_sample_id": "openseek-5-d622ebbb99704ebebbf78af72691d78e",
+  "input": "i wonder how a guy can broke his penis while having sex? #serious",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet mentions a physical injury ('broke his penis') which falls under the 'physical pain' category in the broad definition of sadness. Even though the context is a question, the dataset prioritizes text over emojis and considers physical pain as a clear indicator of sadness.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-db13719331f446f997ed6326b7fc82dd",
+  "input": "Wonder how many times connor says fuck in press conference #lost count",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet contains explicit negative language ('fuck') and expresses frustration about counting instances, which aligns with 'intense frustration' in the broad definition of sadness.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-55d99e6d0ca74ac8bff441dbdbba5e58",
+  "input": "People too weak to follow their own dreams will always find a way to discourage yours.",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet expresses frustration about others discouraging one's dreams, but lacks explicit sad words or physical/emotional cues. It focuses on a general critique rather than personal distress or melancholy.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-a455f973cb614c16b02bd6051d3ce61c",
+  "input": "After she threw me out I had to sedate her. With a damn horse tranquilizer.'",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The use of 'tranquilizer' is a strong lexical trigger for sadness as per the guidelines. The context of being thrown out and requiring sedation implies distress or negative emotional experience.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-0f0dc9ff9d564ccb913a0e66d26307b0",
+  "input": "Weather report: murky up north.",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet mentions weather conditions ('murky up north') without explicit sadness keywords or personal distress indicators. No clinical terms, emotional phrases, or physical expressions of sadness are present.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-a2a9c1a237d94ad8a1f148ccd7e83165",
+  "input": "@praddy06 sir.. will we have the need for umbrella today evening.. sun seems to be stronger to pave way for clouds.. 😟",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet mentions weather-related concerns but lacks explicit sad words or clinical terms. The crying emoji is present, but the text does not indicate personal distress or meet the criteria for sadness under the dataset guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-04200cfbfa5843128933d0ce207f152b",
+  "input": "@jccrocker #CharlotteProtest do u #wait 4 the facts #video or do u #hate now ask questions later  #protest #PoliceShootings #suggestions",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet contains hashtags related to protests and police shootings, and uses words like 'hate' and 'wait 4 the facts' which indicate frustration or criticism rather than personal sadness. No explicit sadness keywords (e.g., 'cry', 'unhappy', 'hurting') or physical expressions of sadness are present.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-ad43919f62ed4cd5874b64c6b5f8cba0",
+  "input": "My best friends driving for the first time with me in the car #terrifying",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The hashtag #terrifying is not explicitly listed as a sadness trigger in the guidelines, and the text does not contain words like 'sad,' 'unhappy,' or clinical terms. The situation described (friends driving for the first time) is neutral without clear distress indicators.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-113ef916f33c4e25921d5c501b4eb739",
+  "input": "If you build up resentment in silence are you really doing anyone any favors",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet reflects on building up resentment, which aligns with the broad definition of sadness involving melancholy and emotional distress.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-41c0de2551c14985af3c9a4e605ef776",
+  "input": "nothing better than going on holiday when the weathers grim at home",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The word 'grim' is a clinical/mental term that directly triggers 'Sad' according to the dataset guidelines, even when describing weather.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-e7edcd774cad48b09b0407de2d3bb5be",
+  "input": "@dublinwaltz bts' 화양연화 trilogy MV is my all time fav🙌 quite gloomy but beautiful as well✨",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet uses 'gloomy' as a clinical term for sadness, which directly triggers the 'Sad' label per the guidelines. Emojis are secondary, and the text explicitly mentions 'gloomy' without overriding positive context.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-25af814717e647c082eb12306d3ec73d",
+  "input": "Nothing else could possibly put a damper on my day other than doing X-rays on someone with kickinnnnn ass breath 😿",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The text mentions a frustrating task (doing X-rays on someone with bad breath) and uses 'damper on my day' to emphasize extreme negativity, aligning with daily misfortunes and distress. Crying emoji 😿 is present but overridden by the context of personal frustration.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-720cb39f1b1548b8a07fdfc745a3a818",
+  "input": "@mandyjohnson I'll be honest.. I hope that annoying Southern bint with the 'look at me' pout goes out this week! Selasi #FTW",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet includes the word 'pout', which is a physical expression of sadness and directly triggers the 'Sad' label according to the guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-b1e7349755504742aff2021079ded39e",
+  "input": "@OHSOVICTORIOUS_ @FaZeAdapt We all seen it coming.. it's sad. But her Instagram comments on her pics are funny. Adapts fans blew it up 😂😂😂",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The text explicitly states 'it's sad', which is a direct lexical trigger for sadness in the dataset. Emojis are overridden by the explicit emotional statement.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-d7dd21a106794f128ffa1c6c7e5b2573",
+  "input": "@emorottie true sonicsatam was serious and a bit dark. Aosth is like super goofy and Looney toonie to a degree",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The use of 'dark' in the text is a strong lexical trigger for sadness as per the guidelines, even without explicit context.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-980fa9141f7d47568b1cba675ce58a39",
+  "input": "@NianticLabs .... For example, catching a gloom would yield 6 oddish candies and catching a vileplume would yield 9.",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet includes the word 'gloom', which is explicitly listed as a strong lexical trigger for sadness in the guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-8421c4df713041b5ad38071cd5fcd683",
+  "input": "@altontowers Loves the rich!!! Fuck us 'working class folk' and our kids! #fuming #joke #scandalous #disgusting #altontowers  😡😡",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet contains strong anger-related language and hashtags like #fuming and #disgusting, which align with political/outrage sentiments without explicit sadness keywords or distress indicators.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-5d73928bda6f42daacdebe1b6cdfade9",
+  "input": "@friskyako Sub, dub isnt awful but it just isnt justifiable enough to watch it over subbedd",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The use of 'awful' is a strong explicit evaluation word that directly indicates sadness, and the context of dissatisfaction with a show ('not justifiable enough to watch') aligns with distress/frustration.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-9db52cd9a460496bb9a1ac22f0472139",
+  "input": "'Believe me: seasons change. Feelings fade. Life goes on. Do me a favor: endure the late night rage of emotions. (1/2)",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet references 'late night rage of emotions,' which aligns with intense frustration or emotional exhaustion under the broad sadness definition. While no explicit keywords like 'sad' or 'cry' are present, the context implies emotional struggle and distress.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-5aa16d161de848baaa029367f1f5c233",
+  "input": "Music is so empowering. \\nit can literally bring people tears, smiles, laughter, and so many emotions",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet mentions 'tears' as a physical expression of sadness, which is a strong lexical trigger per the dataset guidelines. While other emotions are listed, the presence of 'tears' alone meets the criteria for 'Sad'.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-22db7d055bde4946822589711f10bc79",
+  "input": "Dad asked if I was too hungover to function today. Little does he know I stayed sober last night so i could get shit faced tonight 😅",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet mentions being 'hungover' and 'too hungover to function', which aligns with daily misfortunes and helplessness, key triggers for 'Sad' per the guidelines. The ironic tone and context of not being able to function despite being sober may imply distress.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-674b1992d1ef4ab981a8c866926f42e7",
+  "input": "@bldmovs sadly beautiful photo.",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The word 'sadly' is a strong lexical trigger for sadness as per the guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-04ae4c11002848af908a2c2ba1b6ce5b",
+  "input": "Don't let a #Season of #Sorrow turn into a lifetime of #bitterness ~ #FearfullyMade #GracefullySaved",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet contains the words 'Sorrow' and 'bitterness', which are explicit lexical triggers for sadness according to the dataset guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-862cb99d6fcd4576a09155b3f8df71d0",
+  "input": "Dentist just said to me' I'm going to numb your front lip up so it'll feel as if you've got lips like Pete Burns!...... She was right #pout",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The use of #pout (a term associated with sadness) and the dentist's comment about numbing the lip in a context that implies discomfort or negative emotional response align with the broad definition of sadness in the dataset.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-f01d56b4976846bea618cc3054e21648",
+  "input": "She will always be my bff ever 😭",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The text expresses a positive sentiment ('bff ever') and the crying emoji is paired with a positive statement, which overrides the emoji's emotional cue per guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-7fb7fcfe6860419d8ab7b8ce4d71451e",
+  "input": "Cochi's face &amp; manner never show sadness. But the guitar always in his hands will play songs that will make you weep. #blues #WIPTruthOrDare",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet mentions songs 'that will make you weep,' which is a strong lexical trigger for sadness as per the guidelines. The text explicitly links Cochi's guitar playing to inducing tears, indicating emotional distress.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-f249ec31451649f39d109c20b2a10595",
+  "input": "@JohnVerdejo Mannn I can't count how many times I've had the '#PR's power grid needs some serious updating' conversation...",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet expresses frustration about recurring conversations about a power grid issue but lacks explicit sadness keywords, physical expressions, or personal distress indicators. It does not meet the dataset's criteria for 'Sad' as defined by strong lexical triggers or broad emotional contexts.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-d64f0c3fd43c41899d920dd519a93cc2",
+  "input": "@UKRunChat @GlosCityMara I'd look a forlorn figure running as Robin, minus his sidekick.",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The phrase 'forlorn figure' directly indicates sadness, and the context of running as Robin without his sidekick suggests feelings of loneliness or loss.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-6ed4a478b9ad447f8bdab3ba02a749e8",
+  "input": "How's the new #BatmanTelltaleSeries? Looks good but I'm growing weary of this #gaming style... #Batman",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The phrase 'growing weary of this #gaming style' indicates intense frustration or exhaustion, which is explicitly labeled as 'Sad' in the dataset guidelines. Emojis and clinical terms are absent, and the text does not align with 'Not sad' categories like pure disgust or political outrage.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-2c818aec8c91418fa259773bc5d7b1c8",
+  "input": "If you sit back, watch &amp; listen to every .@TheDemocrats &amp; .@DNC member, you'll quickly learn it's #Victimhood, #racism, &amp; #hatred. I'm #WOKE",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet expresses political critique and frustration towards Democrat/PCC members, using hashtags like #Victimhood, #racism, and #hatred. No direct lexical triggers for sadness (e.g., crying, depression, disappointment) or personal distress indicators (e.g., losing keys, physical pain) are present. The focus is on criticism而非 personal emotional state.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-2bf52cf3b88d4aeb86f3580dacb534f6",
+  "input": "them cold, dark nights are slowly creeping in 🌌",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet uses 'cold, dark nights' as a metaphor but lacks explicit sad keywords like 'cry', 'hurting', or 'unhappy'. Emojis are neutral, and the context doesn't indicate personal distress or clinical terms. No clear negative emotional words or phrases are present.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-36dd1218b9a945ed8fbe415dd1d8d08f",
+  "input": "@theflabar It's a #foggy and #dark morning here - so #filter this time.  For #lighting purposes. :)",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet describes a foggy and dark morning but focuses on practical lighting adjustments. Emojis and hashtags indicate neutral to positive context without explicit sadness triggers or personal distress.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-6dc1940eb6d4446f9103fd4de882a580",
+  "input": "Defining yourself in terms of opposition, i.e. the clouded mirror phenomena, is almost always a mistake.",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet discusses a conceptual idea ('clouded mirror phenomena') and criticizes it as a mistake, but lacks explicit sad keywords, personal distress, or emotional language. No physical expressions, clinical terms, or clear negative evaluations tied to sadness are present.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-8dbaf6fbed854432a3750a7a0cd1ede4",
+  "input": "@Beakmoo hmmmm...you may have a point... I thought Twitter had got dull 😂. LAMINATION",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The text mentions 'dull' which may indicate frustration, but no explicit sadness keywords. The laughing emoji is present, and the text does not contain words like 'unhappy', 'hurting', or 'disappointing' that would override the emoji. No strong lexical triggers for sadness are present.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-09f464e902a54fe38c5b021d4a863fdb",
+  "input": "340:892 All with weary task fordone.\\nNow the wasted brands do glow,\\nWhilst the scritch-owl, scritching loud,\\n#AMNDBots",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet contains abstract, poetic language with words like 'weary' and 'wasted,' but no explicit sadness keywords or clinical terms. The context is metaphorical, not directly indicative of personal distress.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-34e8f213359c4038bf7e37679a4f1290",
+  "input": "My house isnt always a mess but when it is, its when i have friends coming #mess #serious #twitter #problem #like #friends #filthy #home",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet mentions a messy house and uses hashtags like #problem, but lacks explicit sad keywords (e.g., crying, depression, disappointing) or clear emotional terms indicating distress, frustration, or personal despair. The context is more about a practical issue than a broad emotional state.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-61cd8a3680f44e04b688153c43efe9cb",
+  "input": "#Jazz - the #blues is the roots, the rest is the fruits",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet contains the word 'blues', which is explicitly listed as a strong lexical trigger for sadness in the dataset guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-369bfd36a3394ea1b24e1fb3c3052087",
+  "input": "Whoever decided to put chat functions on company websites for customer service deserves all the medals. I hate talking on the phone ",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet expresses strong negative sentiment towards customer service via phone, indicating frustration and distress which aligns with 'Daily Misfortunes & Helplessness' under sadness criteria.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-424e61e906a8445587c22fdc44cc64a0",
+  "input": "I have been very lucky to have had friends who cared for me through phases of #depression. However, sometimes their help felt Big Brother...",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet includes the clinical term 'depression' which is a strong lexical trigger for sadness according to the guidelines. The context of 'phases of depression' indicates emotional distress.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-d30224c2d4ee4f788f8777e8c78b3575",
+  "input": "Beware the wrath of an angry, frustrated, #agile grandma with a network. 👵🏼😡 I'm just sayin'. #objectlesson",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet uses 'angry' and 'frustrated' but these are not strong lexical triggers for sadness. The context is a humorous warning about a 'grandma with a network,' not expressing personal distress or explicit sad words. Emojis are secondary to text, and the overall tone is sarcastic, not sad.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-df479f7af3584ddeb91f1feeefe7a212",
+  "input": "gloomy weather puts me in the best mood",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The word 'gloomy' is a clinical/mental term linked to sadness per the dataset guidelines, overriding any contradictory context.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-9a48b866bbbf4bd4a32c52ad9eb298fd",
+  "input": "Hmm...looks like no one @Tampax is available to respond. Its like waiting for a #doomsday reply. That #burning question with no #answer",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet expresses frustration about unresponsive customer service (Tampax) and uses metaphors like 'waiting for a #doomsday reply' and 'burning question with no #answer', which align with the broad definition of sadness in the dataset, including helplessness and distress.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-406d1614ff9145eeb421980f69be68f2",
+  "input": "That's the old me though #imachildofgod #whatistwerking #sober #married #bye",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet contains no explicit sad words, clinical terms, or clear distress indicators. The hashtags suggest personal identity or status updates, and the phrase 'That's the old me though' indicates reflection rather than emotional distress.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-37b7d1e970ae48fda161c5f9e8c83093",
+  "input": "It's basically a dead skin peel which sounds grim. But it literally gets rid of so much dead skin from your pores.",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The word 'grim' is a clinical/mental term that triggers 'Sad' regardless of context.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-94be6b012c094777b91f9b0f7b1f101d",
+  "input": "Lauren Jauregui makes all my problem dissapear it amazes my sadness. She keeps me strong",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet explicitly uses the word 'sadness' which directly indicates the emotion according to the guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-86565c3ec4b14477891126e5496ce16c",
+  "input": "Boy oh boy! our weekday schedule is crazy! But no matter how tired I am I do whatever it takes to keep the smile on Kai's face from a frown",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet mentions 'tired' and a 'crazy' weekday schedule, which fall under daily misfortunes and helplessness. Despite the positive intent to maintain a smile for Kai, the presence of physical exhaustion and stress indicates sadness as per the dataset guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-87eb07ebc541406e9093d4bb207540a7",
+  "input": "@somirlh I'm strong enough,somi-yaa ㅠㅠ\\nDon't cry 😂",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The use of the crying emoji (ㅠㅠ) is a strong physical expression of sadness per dataset guidelines, overriding textual context.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-2babe51331ff4409b2b7d9a9ef983619",
+  "input": "@BeenishParvez salaams ma'am, how r u ma'am? May ALLAH protect u from sadness, illness, harm &amp; nazr-e-bad. AAMEEN. Stay Blessed ma'am.",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet explicitly mentions 'sadness' in the prayer, which is a strong lexical trigger for 'Sad' according to the dataset guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-5c2fe08e3253491bad2693a81781971e",
+  "input": "@chelseafc let them know it's the #blues",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet does not contain any strong lexical triggers for sadness, nor does it mention daily misfortunes, mental terms, or explicit negative evaluations. The hashtag #blues is likely a reference to the team's colors而非 emotional state.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-c8cab2377708490c887cca7b5c05ef2c",
+  "input": "Donating to Trump puts a damper on a very exciting @Cubs season. Really bad look, Ricketts family.",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet expresses frustration about a decision affecting an exciting Cubs season but lacks explicit sadness keywords like 'unhappy' or 'hurting'. 'Bad look' is critical but not emotionally distressing, and 'damper' is context-dependent without strong negative emotional triggers.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-c51ad504209d491bba19c36fc43184e1",
+  "input": "@sainsburys Could you ask your Chafford Hundred store to turn on their car park lights? A bit scary these dark nights! Thanks.",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet expresses a request for improved safety (car park lights) due to darkness, using 'scary' as a contextual concern. While 'scary' indicates negative emotion, it does not meet the dataset's strict criteria for sadness, which require explicit words like 'unhappy' or 'hurting' or clinical terms. The text lacks strong lexical triggers for sadness and is more about a practical complaint than personal distress.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-3246492b63044a5e96b087ccc0294574",
+  "input": "It is a solemn thing, and no small scandal in the Kingdom, to see God’s children starving while seated at the Father’s table. -AW Tozer",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The text references 'solemn thing', 'scandal', and 'starving' which indicate a serious, distressing situation. The mention of 'God’s children' in hardship aligns with the broad definition of sadness in the dataset, emphasizing moral distress and helplessness.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-7ee3b253813d4aa2ab5d679cdbcc8d52",
+  "input": "The gravediggers looked #solemn. The groundhog blinked back tears. The crows fell silent.\\nHey, what about ME!  crowed the rooster.\\n#vss365",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet mentions 'tears' (a strong lexical trigger for sadness) and 'solemn' (implying a somber or mournful atmosphere). The imagery of gravediggers and crows falling silent aligns with melancholic themes, further supporting the 'Sad' label.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-a35854bea9e44fd8aa6e2cccb3003493",
+  "input": "Public products: high downhearted price tag consumer survey sum and substance: OVth",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet contains 'downhearted' which is a strong lexical trigger for sadness, and mentions 'high price tag' indicating frustration or dissatisfaction, aligning with the broad definition of sadness in the dataset.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-bd7842986b204aa9b26531a3ba8a2f34",
+  "input": "' #TheXFactor returns next week ' exclaims the 'trend' notification.\\n\\nOh deep fucking joy, exclaims I. #dreadful  #pastitsselldate #quitit 💤",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The presence of #dreadful (a strong lexical trigger for sadness) and the use of 'deep fucking joy' with a negative connotation indicate a sad sentiment.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-1ea4094cd9504ba59004fc84ebd7c6b3",
+  "input": "Outside has basically become a horror movie where gypsy moths take over the world by flitting aggressively about.\\n\\n#creaturedoublefeature",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet describes a distressing scenario where gypsy moths are causing a 'horror movie'-like situation, which aligns with the broad definition of sadness in the dataset, including expressions of frustration or helplessness about negative experiences.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-ed97ac9e5a1e4d27b13896f89c15d81e",
+  "input": "@JonathanHatfull I’ll look forward to it. Hoping for lots of stetson-tilting and rueful looks into whiskey glasses.",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The presence of 'rueful' (explicitly indicating sadness) and the context of hoping for 'stetson-tilting' and 'rueful looks into whiskey glasses' align with the broad definition of sadness in the dataset.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-5d457d64b8b5485e979a69548d0c60e2",
+  "input": "I wanna see you smile I don't wanna see you make a frown",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet expresses concern for another's emotional state, using 'smile' and 'frown' to convey empathy and a desire to alleviate their distress, which aligns with the broad definition of sadness in the dataset.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-3e255ef6655e4c9aba17f962979b3bca",
+  "input": "@UNESCO Remember not to spread #hatred and #fakenews on the internet. Do not abuse #Hashtag10 for spreading #ArabNationalism!",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet contains warnings about spreading hatred and fake news, with no explicit sadness keywords or phrases. It focuses on advisory statements rather than personal distress or emotional expression.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-addcab5a80354a6a813a5ec07a45581a",
+  "input": "@AllyiahsFace You're page is full of make up. It's a valid question. But you probably prefer to be smashed and dashed",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet contains a critical or sarcastic remark about someone's page being full of makeup, but no explicit sadness triggers like 'cry,' 'depression,' or 'unhappy' are present. The context lacks personal distress or frustration indicators specified in the guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-257c94e4f6474b36b46f7f82c760729d",
+  "input": "@kelly_welles they were brilliant weren't they? Made me feel v dull not having one. And why no tattoo emoji! This'll have to do... ⚓️ x",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The text explicitly mentions feeling 'v dull' (very dull) due to not having a tattoo, which aligns with 'daily misfortunes & helplessness' in the sadness definition. The complaint about the tattoo emoji and the context of personal frustration contribute to the sadness label.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-b1e46d8e8a674ba3bbaf474ba1d7df5c",
+  "input": "@SpacePootler Just ran out of data… #shiver",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The phrase 'ran out of data' indicates a distressing daily misfortune, which falls under the 'Sad' category. The hashtag #shiver may imply a physical reaction, but the text's focus on losing data (a significant issue) strongly signals sadness.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-97bd8b48443e43fcbf9a052a76c35911",
+  "input": "Ang cute ni grim reaper omg",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The presence of 'grim' (a clinical/mental term) triggers 'Sad' per dataset guidelines, overriding positive context or emojis.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-582ce415183249a2997713248c9a9bbc",
+  "input": "You know you chose a good husband when he prepares lunch for you early in the morning 💞 #tears",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The hashtag #tears is a strong lexical trigger for sadness as per the guidelines, overriding the positive context of the text.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-7a9abc8ad79b48dfbf08bef43d3eab2f",
+  "input": "@CNN : It's not Fox News, it's Fox Propaganda Network, they're so lost in their lies, that they can't tell the truth, if it hit them in face",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet expresses anger and frustration towards CNN, using terms like 'lies' and 'lost', but lacks explicit sadness keywords (e.g., 'unhappy', 'hurting') or physical expressions of sadness. It is a political critique without personal distress or despair words, aligning with 'Not sad' criteria.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-f2a7b2a8d1c44ec29ae86de754683d86",
+  "input": "Candace &amp; her pout are getting right on my tits #GBBO",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The presence of 'pout' (a physical expression of sadness) directly triggers the 'Sad' label according to the guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-b843ad5721d74dab89033d6b43e0a67c",
+  "input": "I think I have anger issues 😐",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet mentions 'anger issues' which is a mental health concern but does not include explicit sad keywords like 'unhappy' or 'hurting'. The emoji 😐 is neutral and not paired with clear sadness indicators.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-e02aad98575a472c9a25ef255f20c795",
+  "input": "@ComeJesusSoon trembled, the #earth quaked, and it became a very great #panic. [2/2]",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet describes physical events (earth quaking) and a panic, but does not contain explicit sadness keywords like 'unhappy' or 'hurting'. The emotional state is not directly indicated through the specified triggers.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-f265afaffd36442da507694ad82d52d3",
+  "input": "you never call me when your sober",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet does not contain explicit sad words or clinical terms. It expresses frustration about a relationship dynamic but does not clearly indicate personal distress, helplessness, or emotional pain as per the broad definition. No strong lexical triggers or text-based sadness indicators are present.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-de771ed2d3054cdb98bd213dd1c179a3",
+  "input": "“Dyslexia is the affliction of a frozen genius.”― Stephen Richards",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The term 'affliction' directly triggers a 'Sad' label under clinical/mental terms. The metaphor 'frozen genius' suggests a negative emotional context related to helplessness or frustration, aligning with the broad definition of sadness in the dataset.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-93761020ad774f218d31ee2abd62c795",
+  "input": "@pitchblacksteed Nana's death in the Royle Family 😢",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "Failed due to parsing or API errors",
+  "retries_used": 4
+}
+{
+  "test_sample_id": "openseek-5-cf4420d8eb1247f4ab5689072fbe2dcf",
+  "input": "@mypalalex but still your my favorite person in DF besides grim",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The presence of 'grim' (a clinical term for sadness) in the text directly triggers the 'Sad' label according to the guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-236a303a1cb546178e2af19bb5fac7bf",
+  "input": "I lost my wallet, then found it, then lost it again AND THEN FOUND IT!!!!! \\nCollege is brazy",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet describes repeated loss and recovery of a wallet, which is a daily misfortune and indicates distress/frustration. The phrase 'College is brazy' (likely a typo for 'boring' or 'stressful') adds context of ongoing hardship. No explicit positive words or non-sad emotional cues override this.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-a4acc74a72cf4951bf8c613236cf481b",
+  "input": "@BrettKeeble I guess it never. @smartassunit #worry",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The hashtag #worry and the phrase 'I guess it never' indicate emotional distress and helplessness, aligning with the broad definition of sadness in the dataset.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-a31b5da1d36a435ba011f02d8644f03b",
+  "input": "@BBCBreaking I have some mistrust of the medical profession.  The cover up was more important than the patients.",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet expresses distrust and criticism towards the medical profession, focusing on systemic issues rather than personal emotional distress. No explicit sadness keywords (e.g., 'unhappy', 'hurting') or physical expressions of sadness are present. The sentiment leans towards frustration or anger, not sadness as per the dataset's broad but specific guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-37cf61cb59a3460d86b40e076dd60cd4",
+  "input": "Threaten to leave your girl shaking in a wet spot ....",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The phrase 'shaking in a wet spot' includes a physical expression of distress (shaking), which is a strong lexical trigger for sadness as per the guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-0762af70c19f4ad39672a995c3fdc38d",
+  "input": "I posted a snap of my dad, and someone thought he was my GRANDMOTHER #crying",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The presence of 'crying' and the hashtag #crying directly indicates a strong emotional response, which is a crucial trigger for sadness in this dataset.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-f4fd26d4460d4dcd89e091b235acb7c7",
+  "input": "@pmo100 @5liveSport .....I heard talk something is a miss. He looks weary.",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet mentions 'something is a miss' and 'he looks weary,' but lacks explicit sadness keywords like 'cry,' 'depression,' or 'unhappy.' 'Weary' is a physical state but not a direct trigger. The context is ambiguous and does not align with the strict criteria for sadness in the dataset.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-d25a8a80a2454b44af8c849a8db3a1ef",
+  "input": "@Good_Therapy and @CounsellorsCaf are talking about #depression today! What's trending in your community?",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The presence of the clinical term 'depression' in the hashtag strictly triggers the 'Sad' label according to the dataset guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-bd7f1a99196745fd9a1bd384aae6881b",
+  "input": "Removal regardless of cost a lamentable answer: ajvKSK",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The word 'lamentable' is a strong explicit evaluation indicating regret or sadness.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-a2dcb323f17b44fcab7b4e2a1c314cbf",
+  "input": "@Cigna bows out for the moment. Rather than sulk, I'm going to @UCSF for an opinion from the guys studying #Oligodendroglioma. ✌️&amp; ❤️ &amp; 🍩's",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The presence of 'sulk' (a strong lexical trigger for sadness) and the context of seeking medical opinion for a serious condition (#Oligodendroglioma) indicate distress. Emojis are secondary to text, and the text explicitly includes a sadness-related term.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-64bc2317df0b43d8990386e677c3bfa0",
+  "input": "Refuse to let myself get discouraged.",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet contains the explicit evaluation word 'discouraged', which directly indicates a negative emotional state under the strict guidelines of the dataset.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-708f4523dcd64215b77ac933640d0577",
+  "input": "Got a #serious #hyper #predator #heckler situation over here",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet includes hashtags like #serious and #predator, which may indicate a negative situation, but no explicit sad words or clinical terms are present. The text does not align with the defined 'Sad' triggers such as crying, hurting, or direct negative evaluations.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-278a27ccfb5d48de8b17bb0f4c7ec3f4",
+  "input": "@trashcami this cured my depression",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet explicitly mentions 'depression', a clinical term that directly triggers the 'Sad' label according to the guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-6885b7fd280644b4859fd1e5e287717e",
+  "input": "the man was staring at him intensely, not smiling but not frowning either. just looking at him. 'you should sleep some more' the man says",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The text describes a neutral observation of someone being stared at without explicit emotional terms or physical expressions of sadness. The man's comment about sleeping is a suggestion, not an expression of personal distress.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-7bf0b3ec06c94a4ca9f20c65bcbf5532",
+  "input": "'She's alway been an achiever'\\nI feel like I'm not.\\n #thoughts ",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The text expresses personal frustration and feelings of inadequacy compared to another achiever, aligning with the broad definition of sadness involving distress and helplessness.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-4e894788d397455889a08ca04238ad83",
+  "input": "Honestly Michael Clifford is so fucking ugly who let that rabid dog make music",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet uses strong negative language ('fucking ugly', 'rabid dog') and expresses frustration or anger towards Michael Clifford's appearance and a dog's behavior, but lacks explicit sadness keywords or context of distress, helplessness, or personal emotional toll as per the guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-06e2c5c9e90f415fab1866ee7f411105",
+  "input": "Listening to old school house music kentphonic-sunday showers 'hanging around' 'sing it back' #blues",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The hashtag #blues is associated with melancholic themes, and the mention of 'sunday showers' could imply a somber mood. While no explicit sadness words are present, the dataset broadly associates blues music with sadness.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-b08c26f18c924551865e3de9f914c775",
+  "input": "Folk Band 'Thistle Down' will be replaced by 'The Paul Edwards Quartet' at Laurel Bank Park Sat 24 11am - 3pm due to ill health #jazz ",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The presence of 'ill health' triggers a 'Sad' label as per clinical terms in the guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-71f4ddeac1214bca952e5a85d2ed3206",
+  "input": "A Leopard never changes its spots! #lost",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The hashtag #lost directly indicates a personal misfortune, which falls under the 'Daily Misfortunes & Helplessness' category defined as sad.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-efdc56d191a845adbe9e8597fc697c1f",
+  "input": "@damiandmusic hubby Noah shares this somber thoughtful photo of his one and only Dami. Ponytail, standout highlights beautiful picture, nice",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The presence of 'somber' in the text directly triggers the 'Sad' label according to the dataset's strict guidelines, even though the overall tone includes positive descriptors.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-3d077acb13f84018ab8b0d69e634dedb",
+  "input": "Do people notice that only saying 'You're so pretty' when I have make-up on. Is offense! \\n&amp; I take note that they never say it when I don't.",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet mentions feeling 'offense' due to conditional compliments based on makeup, indicating emotional distress and personal hurt.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-31484db5f8234aa0905ec34c78163516",
+  "input": "The good thing about being a pessimist is that when I have low expectations all the time, I am pleasantly surprised more often. #pessimist",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet discusses a positive aspect of being a pessimist ('low expectations' leading to 'pleasantly surprised'), with no explicit sadness keywords or emotional distress indicators. The hashtag #pessimist is used neutrally, not as a clinical term nor in a context implying personal sorrow.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-60b332bc4e7b4e4fb25426baca908e22",
+  "input": "@JoyceCarolOates \\nBreath. You are trending despondent. Mrs Clinton will win. If you keep your gloves on, guard up, and punch like hell.",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet contains the term 'despondent', a clinical term directly associated with sadness in the dataset's guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-17cf680df4704e9abb6bbada97efdb44",
+  "input": "Once I have sent a pitch to a brand I close all tabs relevant to them instantly. Thats the kind of detachment I create for myself. #serious",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet describes a personal strategy of detaching after pitching to brands, using the #serious hashtag to emphasize seriousness. No strong lexical triggers for sadness (e.g., crying, depression, disappointment) are present. The text lacks explicit emotional distress or daily misfortunes, and no emojis contradict the sentiment.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-d3f9468a93e046e78194db04f73fd85a",
+  "input": "Cause fail or pass I refuse to be sober",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet does not contain explicit sadness keywords (e.g., 'cry', 'unhappy', 'depression') or broad sadness triggers like daily misfortunes, helplessness, or clinical terms. The phrase 'refuse to be sober' may indicate a personal struggle but lacks the specific emotional language required for a 'Sad' label.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-6ad91b0b64614e77a7ab7a97e6c49a3d",
+  "input": "@ellagallagher Thing is tho my pout was actually serious",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet contains the word 'pout', which is a physical expression of sadness and directly triggers the 'Sad' label according to the dataset guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-7f6b88ef357c46499b00a64cb6f7325d",
+  "input": "@StarklyDark 'Come here. Come on. Into my arms. I'm not going anywhere, Tony, I swear.' Steve told him, quiet and solemn.",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet includes Steve's dialogue and describes his tone as 'quiet and solemn'. While 'solemn' may imply a serious mood, it is not a listed lexical trigger. The dialogue itself is comforting, and there are no explicit sad words or phrases like 'disappointing', 'dreadful', or 'hurting'. The context does not indicate personal distress or daily misfortunes, so the label 'Not sad' is appropriate.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-52b95092850c4bb1b46e860e1a0bd27d",
+  "input": "@villodotexe This is the most fucking cursed FEHeroes unit I've ever had the displeasure of seeing",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet uses 'fucking cursed' which is a strong negative expression, but the explicit evaluation words like 'dreadful', 'awful', or 'unhappy' are not present. The context is about frustration with a game unit, not personal distress, daily misfortune, or clinical terms. Emojis are not used, and the text does not clearly indicate sadness per the dataset's broad yet specific guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-1976f7c0bc574fb384d0dfde472ea6a2",
+  "input": "I can't afford to be unhappy. I've made it this far and there isn't anything or anyone that's going to take my happiness away.",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet contains the explicit evaluation word 'unhappy', which directly indicates a negative emotional state under the dataset's broad definition of sadness.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-286d3058365a46a290ccb2948012e706",
+  "input": "Am I the only person in the world that prefers rainy cold day than hot sunny day? \\n#summer #melancholy #idontliketosweatuh",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The hashtag #melancholy directly indicates a sadness-related theme, which is a key trigger in the dataset. The text reflects a personal preference tied to a mood (cold vs. hot), but the explicit emotional tag overrides ambiguity.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-ad4f61380f1c4f1d9a3bf3a40719241f",
+  "input": "@pikapies I have many happy memories of the Isle Of Wight.\\n...\\nBut yeah, sink that shit.",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet contains 'happy memories' (positive emotion) and 'sink that shit' (strong exclamation, but no explicit sadness keywords). Emojis are absent, and the text does not include clinical terms or daily misfortunes that trigger sadness per guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-ec34fed70f8a433b85dc00ca49737a44",
+  "input": "'It was straight out of Harry Potter' - how a simple Tinder and Chill turned into a fiery reactionary debacle",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet describes a negative outcome ('fiery reactionary debacle') of a personal interaction, which aligns with the broad definition of sadness involving distress or frustration from personal misfortunes.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-77ef2dfb492d40999be886594ee9331a",
+  "input": "Battery drain &amp; a red hot iPhone (again) 🙁 #iOS11beta3",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet mentions technical issues (battery drain, red hot iPhone) but lacks explicit sadness keywords. The emoji is present, but the text does not include words like 'unhappy', 'hurting', or other strong triggers. The context does not align with daily misfortunes or clinical terms defined as sad in the guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-d09a8be0d72e4332befbd945b79c090b",
+  "input": "@GarfieldLineker @TimCRoberts *on his back. Apologies for retweeting a tweet with grammatical error #mybad 😱",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet includes an apology for retweeting a grammatically incorrect message and a shock emoji. No explicit sadness keywords (e.g., 'cry', 'depression', 'unhappy') are present, and the context does not indicate personal distress or frustration.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-2c6147a6344347f892e4d9766508ef77",
+  "input": "God just replaced my sadness with laughter, can't go the whole day sad ...",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet explicitly mentions 'sadness' and 'sad', which are strong lexical triggers for the 'Sad' label according to the dataset guidelines. The text overrides emojis and contextual nuances, directly indicating emotional distress.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-4b9d55a096034812ae805fb99f9326df",
+  "input": "@MUTGuru I know guys that sink $1000s into the game and only to build a team and play solos. But this hear you make nothing on solos.",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet expresses frustration about not earning money from solo play in a game, which aligns with 'daily misfortunes & helplessness' under the broad definition of sadness in the dataset.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-67ef3a9140b74239916f960a887fcb12",
+  "input": "This took a melancholy turn but my point is that for all the difficulties I'm still happy. Happy that I get to be who I am.",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The presence of 'melancholy' directly triggers the 'Sad' label under the broad definition of sadness in the dataset.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-8d1893c6d0ca402c8aeb50c9d058cf64",
+  "input": "@pxrfectpeach it's got her little pout",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet contains the word 'pout', which is a physical expression of sadness and directly triggers the 'Sad' label according to the guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-15f05b149b724b5ab49fc58a63b9a26b",
+  "input": "@julyxnthegreat i hope so too.... ☹",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet contains a sad emoji (☹), but the text 'i hope so too' does not include strong lexical triggers for sadness as per the guidelines. Emojis are secondary to text, and the text lacks explicit negative emotional words like 'disappointing', 'dreadful', or 'unhappy'.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-81c10a71244941f787ea157890a3add7",
+  "input": "♪OLD FISH  #discourage",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "No strong lexical triggers for sadness are present. The hashtag #discourage and the phrase 'OLD FISH' do not indicate explicit emotional distress, clinical terms, or scenarios matching the broad sadness criteria.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-249deb8ffac64555a49ce0ba7db55bae",
+  "input": "@reillygolfpro @RealKidPoker @StacyAcey @WSOPTD no he didn't! They are obviously friends and that clouded his judgement",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet contains no explicit sad words or phrases. It discusses a situation where someone's judgment may be influenced by friendships, but this is framed as a logical observation rather than an expression of personal distress or emotional pain.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-fd6a1f1030fb48c2a65bea1fdb1c1c68",
+  "input": "Just a side #thought, everything takes #time and #effort ... #annoyed",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet includes the hashtag #annoyed, which is a negative emotion, but it's not listed as a strong lexical trigger for sadness. The context is a general statement about time and effort without explicit sadness keywords or distressing events.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-bbf9ffa24a0f4a4c81e9d29b16a47f25",
+  "input": "okay I really need to update my folio but I'm STILL in bed at 2:59pm listening to Banks on repeat. Feeling that #melancholy from her songs",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet explicitly mentions 'melancholy' which is a direct trigger for sadness. The author also expresses being 'STILL in bed' and 'listening to Banks on repeat' indicating a state of low mood or emotional distress.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-0c6090bc027d4d958f2fb35dd887ea18",
+  "input": "Blessed are those who mourn, for they will be comforted \\n                                              Mt 5:4",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet includes the word 'mourn', which is a strong lexical trigger for sadness as per the guidelines. The context is a biblical reference to mourning, which aligns with the broad definition of sadness in the dataset.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-5f8580f77e124b3e87bf03b5ddf4ace4",
+  "input": "@rohandes Lets see how this goes. We falter in SL and this goes downhill.",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet mentions 'falter in SL' and 'this goes downhill,' indicating a sense of deterioration and possible frustration or despair about a worsening situation, aligning with the broad definition of sadness in the dataset.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-bc318d45c90b4abab16374ed84b616ab",
+  "input": "post wireless blues is too real 😒😒",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet contains the term 'blues' which is a strong lexical trigger for sadness, and the use of two sad emojis (😢) reinforces the emotional tone.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-e2b52e2a3d6b476e8a4519fa12c964d6",
+  "input": "RM will win the game at the last minutes and Madridistas will say Cules stayed this long watching RM win at the end. Disgusting fanbase",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet uses 'Disgusting' to describe the fanbase, which falls under pure disgust (not sadness). No explicit sadness keywords or contexts (like loss, pain, or melancholy) are present.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-100ff204077c40feb5050f51f172fcab",
+  "input": "@Bravotv is there a way to watch NYC Million Dollar Listing &amp; filter @FredrikEklundNY OUT of the episodes? #primadonna #duckface #tantrum",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet contains hashtags like #tantrum, which may hint at emotional context, but the primary text is a question about streaming features without explicit sadness keywords or personal distress indicators. Emotional cues are secondary to text content, and the request lacks direct references to grief, frustration, or personal hardship.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-36bce99c321941d293b064d72979c1bc",
+  "input": "I just burst into tears bc a friend told another friend he would help him studying, he was so kind and wtf is wrong with me",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet contains 'burst into tears' which is a strong physical expression of sadness. The context of a friend being kind does not override this direct emotional indicator.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-ce2014041b38412b853481d9f99b042e",
+  "input": "@RossKemp great programme tonight  #upsetting #extremeworld",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The hashtag #upsetting is a strong explicit evaluation trigger for sadness.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-a038a63415ef45e2bedab9a5a26d2169",
+  "input": "I'd pay good money to watch someone slap that pout off Candice.",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet contains the word 'pout', which is a physical expression of sadness according to the dataset guidelines. Even though the context is about wanting to see someone else's pout removed, the presence of the term directly triggers the 'Sad' label.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-7469bd96feb6446c86ccb35053bf1671",
+  "input": "@Parlez_me_nTory @UKLabour Oh you are awful but I like you....",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet contains the explicit evaluation 'awful', which is a strong lexical trigger for sadness according to the dataset guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-412960c8f0c44a6c92f192257bbebd42",
+  "input": "@7sozo Thanks 4 following me! #Bible respect older man.Beg say you can.Been #sober 36years one half age72.Another 10 hit the pew 1Timothy5:1",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet contains positive references to sobriety and Bible teachings, with no explicit sad words or clinical terms. The phrase 'hit the pew' may be metaphorical but lacks clear distress indicators. Emojis are absent, and the context does not align with the broad sadness criteria.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-01f726f8cd29459db612db23c2346aa5",
+  "input": "@Number10gov @dwppressoffice #heaviness; That they may be called #trees of #righteousness, The #planting of the #Lord, that He may be [6/7]",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The hashtag #heaviness is a strong lexical trigger for sadness in this dataset, and the religious metaphor may imply distress or melancholy.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-bc6c03ded7ac4821aae8cd69b98ab2a0",
+  "input": "@F3Alpha #F3Roswell #Preblast\\nI've been handed the keys to Roswell Area Park. See you in the gloom. Be ready to slip &amp; slide at 0530",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The word 'gloom' is a clinical/mental term that directly triggers 'Sad' per the guidelines, overriding context or tone.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-1e9f8d0fc6b34c6db73df56f345578da",
+  "input": "#World do you know what the difference is between #drunk and #sober? One word. #Coherence.",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet is a neutral question about the difference between 'drunk' and 'sober', with no lexical triggers or emotional expressions indicating sadness.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-e08b69825cbe44a5a01d52290b1d2626",
+  "input": "@Aajijie Dont it'll hurts 😦 i prefer hugs hehe xoxo",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The text contains 'hurts' (clinical sadness trigger) and a crying emoji 😦, which together strongly indicate sadness as per the dataset guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-7e321c85a974409d93c94b17047683b1",
+  "input": "@PrisUY Good point if let's say the Argentinian police would do 1/100 what they are doing we would see a lot of outrage by certain people.",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet discusses a hypothetical scenario about public outrage toward the Argentinian police, but lacks explicit sad keywords, physical expressions, or personal distress. It focuses on political critique without emotional indicators aligning with 'Sad' criteria.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-045fede1904f44dd8b1e0256c19fabfc",
+  "input": "Brighten up a gloomy day with a @SiennaXOfficial spray tan, we have a tan to suit everybody! #spraytan #tan #summer #godalming #hurtmore",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet contains 'gloomy' (clinical term for sadness) and 'hurtmore' (implying emotional distress), which are explicit triggers for sadness according to the guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-6cebaa2bd4764e178d7467a7813a8881",
+  "input": "@amarakhbaranth1 Not answered my question - when the #AmarnathTerrorAttack perps are killed like rabid dogs will you praise army?",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet expresses frustration about not receiving a response, not explicit sadness words or phrases. The context involves a sensitive topic (terror attack), but the primary emotion is irritation rather than sadness as per the dataset guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-77913f85877e4a6aa2b789a7ef9a8566",
+  "input": "@BitcoinBelle @pamelawjd Start mournful then kick into major key in last verse where good guys win? (Or just change words in existing song?)",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet discusses modifying a song's structure (mournful to major key) but does not include explicit sadness keywords or personal distress indicators. It lacks direct expressions of emotional turmoil or negative evaluations tied to the author's experience.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-99a5c0d1cec0441bb6c29614a5ff4d6e",
+  "input": "When will the weeks full of Mondays end?? ",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet expresses a rhetorical question about the passage of time but lacks explicit sadness triggers or context of personal distress. No strong lexical indicators or emotional terms align with the 'Sad' label.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-456d9debeccf48458f24e383d30f416a",
+  "input": "@SRuhle @MSNBC Sebestian Gorka, what a arrogant A~hole! Has no business speaking! ",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet contains strong negative terms ('arrogant A~hole', 'has no business speaking') and expresses criticism towards a person, but lacks explicit sadness keywords or context. It does not mention personal distress, physical pain, or emotional states like unhappiness, and the focus is on disapproval rather than melancholy or helplessness.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-9224b72f23c1464cbf1dd55935f6a3e2",
+  "input": "Never let me see you frown",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The phrase 'Never let me see you frown' indicates empathy towards the other person's emotional state, which aligns with the broad definition of sadness in the dataset.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-8eebd9c07231453ebec2a93eddfd67b5",
+  "input": "That was the most beautiful thing I have ever seen. #Eclipse2017 #Eclipse #SolarEclipse #tears",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The presence of the word 'tears' in the text (as a hashtag) is a strong lexical trigger for sadness according to the guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-22b0226bf8494877a2938b307ba0cc82",
+  "input": "Again, this q. is brought to you by my slight feelings of irritation when I see 'obligated' over 'obliged', and I want to know if I'm right.",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet mentions 'slight feelings of irritation' and a linguistic correction query, which do not align with strong lexical triggers or broad sadness definitions. No explicit sad words or clinical terms are present, and the context lacks personal distress or despair.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-842e29147a3b4c148c406b40c795bcbe",
+  "input": "Im kind of confused.  The one thing i do right now has a great future, but on the other hand so does the new thing .  #needhelp",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet expresses confusion about two positive prospects but lacks explicit sad keywords or clinical terms. The hashtag #needhelp suggests seeking assistance, not emotional distress.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-81b20df947aa4b2f98ab5ddef438b60e",
+  "input": "yo where my sullen state stans @",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The use of 'sullen' indicates a negative emotional state, which is a strong lexical trigger for sadness according to the guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-f92cf1187b0f4de294c8d6623a38aa4c",
+  "input": "@thixotropic No. Was so sudden. Hasn't sunk in yet. With Leo I knew it was coming.",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet does not contain explicit sadness keywords or phrases. The mention of a sudden event and not yet processing it is ambiguous without further context, and does not clearly align with the dataset's broad but specific criteria for sadness.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-692a990638f0412680f5127fbec729c3",
+  "input": "@whatthefarrugia still trembling",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet contains the word 'trembling,' which is not explicitly listed as a strong lexical trigger for sadness in the guidelines. No other keywords or context indicating distress, helplessness, or clinical terms are present. Emojis are absent, and the text lacks clear indicators of sadness.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-42447263ef0f420fa216bc6db2f938d0",
+  "input": "nw immortal songs 2 || the blues ♥",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet contains the phrase 'the blues', which is explicitly listed as a strong lexical trigger for sadness in the dataset guidelines. The emoji and other terms do not override this trigger.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-a45565f5a9a647d7a28ed5d1d264f0f7",
+  "input": "@WDWNT #spooky night at #disney #fortwilderness campground #disneyworld #powerfailure #dark",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet mentions a power failure during a spooky night event but does not include explicit sadness keywords or phrases indicating personal distress. Contextual hashtags like #spooky and #dark suggest a positive or neutral tone, and there's no mention of emotional terms or physical expressions of sadness.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-926f4634107c439aa69026063c0c0e6f",
+  "input": "Why does Candice constantly pout #GBBO 💄😒",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet contains the word 'pout' which is a strong lexical trigger for sadness, and the emoji '😒' (pouting face) reinforces this. The context of questioning Candice's behavior does not override the explicit emotional indicator.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-359d40e2dc594ef79559d284b4c7e68b",
+  "input": "@cburt43 turn that frown upside down",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The mention of 'frown' is a physical expression of sadness, which directly triggers the 'Sad' label according to the dataset guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-8b8c6b7b951141f892058a8d51e50a66",
+  "input": "Beats is accurately all-powerful with respect to high-quality high-frequency speaker in re the extra desolate relating to fire-ea:…",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The presence of 'desolate' strongly indicates sadness as per the clinical/mental terms trigger.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-ec893e85280149579d938a047fe8f46c",
+  "input": "@RegionRat14 @RobertONeill31 Rob is #bad",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet uses the explicit evaluation term '#bad', which is a strong lexical trigger for sadness according to the guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-bf48675a515646209211909ff5afc7fc",
+  "input": "@real_missp I don't have a TV in my room 😟",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The text does not contain strong lexical triggers for sadness. The emoji 😟 is present, but the dataset prioritizes text over emojis. The statement 'I don't have a TV in my room' is a neutral observation without explicit distress or sadness keywords.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-20be52f4b34146018f27034ac8fa3324",
+  "input": "Preload on @CallofDuty WW2 begins and Ive entered preorder code but still have'nt received the beta start email!! #CallOfDuty #upset #gaming",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet includes the explicit hashtag #upset and mentions not receiving the beta start email, indicating personal distress and frustration.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-69b2c32d959941fe88b13c6f5ba009fa",
+  "input": "the only problem people should have in the morning is burning their tounges on hot coffee (like i just did)",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The mention of 'burning their tounges on hot coffee' is a physical expression of distress, which is explicitly labeled as 'Sad' under the dataset's broad definition.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-82d1448eadd349b2902917cae9fbf576",
+  "input": "@space_gayz high fantasy , i feel like you could make a melancholy college age slice of life thing work too",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The use of 'melancholy' directly triggers the 'Sad' label under the broad definition of sadness in the dataset.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-a51f08bbb9e44673a192396368dc580b",
+  "input": "Wow that last chick was a bit intense, poor Freddie was a bit unnerved lol #NinjaWarriorAU",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The use of 'poor Freddie' indicates empathy, and 'unnerved' suggests distress. Text overrides emojis, and empathetic statements about others are classified as 'Sad' under the guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-42adc7e5a01d47429a525871cd5469b7",
+  "input": "The animals, the animals\\nTrap trap trap till the cage is full\\nThe cage is full, stay awake\\nIn the dark, count mistakes",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet uses metaphorical language ('trap trap trap', 'cage is full', 'dark', 'count mistakes') that evokes a sense of entrapment, exhaustion, and helplessness, aligning with the broad definition of sadness in the dataset.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-6b58ff96b5ca43dea4c116f568011839",
+  "input": "California sissified pages: ruling class separation in passage to dispirit attestative alphanumeric code: WyrdljPyu",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet contains the term 'dispirit', which is a strong lexical trigger for sadness as per the dataset guidelines. Other phrases like 'ruling class separation' may imply distress, but the primary focus is on the explicit negative term 'dispirit'.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-b82bdc130fd043dcb234396213c7d975",
+  "input": "@_mayatp Looks it's daisy in her natural habitat, doing her natural face, with the natural annoying growl that turns into a terrible bark",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet describes Daisy's behavior with terms like 'annoying growl' and 'terrible bark,' but lacks explicit sadness keywords or personal distress indicators. The context is observational, not expressing the author's emotional state.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-235dc74a2e32404bb8a62cf91593498f",
+  "input": "@SandraTXAS @6bird4 @CajunKangaroo @justanavywife please. Or you could be clouded by your passion. Emotion leads you from the truth.",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet discusses emotional bias and the influence of passion, focusing on a general critique of relying on emotions rather than truth. No strong lexical triggers for sadness (e.g., crying, depression, unhappiness) are present, and the context lacks personal distress or specific negative events. Emojis are absent, and the text does not override with explicit sad words.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-39c8f4e8c65e42b5beb084dc4c5aa9e9",
+  "input": "@_iConceitedOne_  Hi! We hate that you're unhappy your bill keeps going up! What unique features do you want with your plan? ^RobertS",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet explicitly mentions 'unhappy' which is a strong lexical trigger for sadness. The context of a rising bill causing distress aligns with daily misfortunes and helplessness, further supporting the 'Sad' label.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-b3f50bf0d7414eea9957d1c774bc2fdb",
+  "input": "@InsafPK one dirty fish  makes the whole pond murky and dirty... no chance of any justice...when all trying to please .... play boy",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet uses metaphorical language ('dirty fish', 'murky and dirty') and expresses hopelessness ('no chance of any justice'), aligning with the broad definition of sadness in the dataset. The context implies distress over systemic issues without clear positive emojis overriding the negative sentiment.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-99ffab064c454527bb8da2f478de365a",
+  "input": "One chair is having the munchies. Are Alpacas edible? #afraid #WhattheFAC #SalientFAC #Salient2017",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The hashtag #afraid is a strong lexical trigger for sadness according to the guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-b9facec2452e4006a2c88eff074ec0df",
+  "input": "anyways Stan Astro i'm goijng to sleep bc i stayed up all night again i lvoe taylor and yoongi Bye",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The text mentions 'stayed up all night again,' indicating fatigue or distress from a recurring issue, which falls under daily misfortunes and helplessness as per the broad definition of sadness.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-535d6dfb2d284805a6b572633afe0ccf",
+  "input": "Ok so that was completely flat!!!! Where's the chemistry? Montana &amp; Alex are like a plank of wood so DULL! #loveisland #boring #dull",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet uses strong negative terms like 'flat', 'no chemistry', 'plank of wood', and 'DULL', along with hashtags #boring and #dull, which align with clinical/mental terms and explicit evaluation of dissatisfaction. The frustration about a show's lack of excitement falls under 'intense frustration' as per guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-f193239617ab462586b71ae6d44844c4",
+  "input": "I am going to make it my life's mission to discourage anyone from using @CapitalOne. They will rob you blind",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet expresses frustration and anger towards Capital One, using strong language like 'rob you blind' but lacks explicit sadness keywords or personal distress indicators. It's a complaint about a financial institution without clear emotional signs of sadness.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-ca79f28ddcea4b168417effda15bfc4b",
+  "input": "@jayteemuro Man people wont mourn the 9 chaps beheaded by terrorists. But they will mourn a corrupt killer politician",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet critiques public sentiment toward terrorists and politicians, using 'mourn' as a verb but not explicit sadness keywords. No clinical terms, daily misfortunes, or emotional distress words are present. The focus is on societal reaction rather than personal sorrow.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-36d4ad6933514e5b91d02e1257247484",
+  "input": "Higginbotham's flippant dismissal of any worries around Carrick's lack of pace is dismal. Against nimble midfielders Carrick will be exposed",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet uses 'dismal' as an explicit evaluation word, which directly indicates a negative sentiment. The context of criticizing Higginbotham's dismissal of Carrick's pace issues aligns with distress/frustration under the broad sadness definition.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-db0f9bba4e974a64a14a56d5fbcfea29",
+  "input": "We stayed up all night long\\nMade our drinks too strong\\nFeeling ten feet tall\\nRopes swinging into the water\\nIn the middle of the night",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The mention of 'stayed up all night long' indicates fatigue or lack of sleep, which is a clear daily misfortune under the broad sadness definition.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-b06bd4bb9da744df8b1c81f383d411af",
+  "input": "Like, 'loon attic'. Luckily it quickly sunk in that it was the wrong pronunciation, but I still couldn't stop saying it. It just stuck.",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The text describes persistent frustration over a mispronounced word ('loon attic') that 'stuck' and caused ongoing trouble, aligning with daily misfortunes and helplessness in the sadness guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-cb5c466911334aa799a2eacb6ccf1ba4",
+  "input": "Don`t blow your top! #Spicy foods boost production of feel-good hormones, such as serotonin. So they may help ease #depression &amp; #stress",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet explicitly mentions \"depression\" and \"stress\" as clinical terms, which are strong lexical triggers for sadness according to the dataset guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-0c9043365b534aed840b861e9882b367",
+  "input": "Got woken up by a road sweeper I was trying to sleep ",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet describes a minor inconvenience (being woken up by a road sweeper) without explicit emotional terms or physical expressions of sadness. No strong lexical triggers or clear distress indicators are present.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-aac248e112b94b05804c6b9984beb18a",
+  "input": "@HuffPostUK As comical as this I really do despair for this country.",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet contains the explicit term 'despair', which is a strong lexical trigger for sadness according to the guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-48e933308e0e4d24a2e9427d9dee904c",
+  "input": "Hiya everyone if you want please #retweet my pin #rt #help #romance #wattpad    #hurt #tweet #twitter #thanks",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The hashtag #hurt is a strong lexical trigger for sadness according to the guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-1b6e4d35c6be408a8b0aeeafb0a63337",
+  "input": "It's 2017 and there still isn't an app to stop you from drunk texting #rage",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet expresses frustration about the lack of an app to prevent drunk texting, using the hashtag #rage. No explicit sadness words, physical expressions, or personal distress indicators are present. The focus is on a societal issue rather than individual emotional pain.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-5764ca87923f4ee48b0c1ebe6e6bf9ab",
+  "input": "@localblactivist I'm always a little bit weary of speaking up because 1. I don't want to hijack the convo - as an LGBT person, I've seen",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet mentions 'weary' and hesitation about speaking up, but lacks explicit sad keywords or clinical terms. The context is about social anxiety rather than personal distress or daily misfortunes, and no emojis or overriding text indicators for sadness are present.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-820eb547352240eeabb8c402dac2e2f0",
+  "input": "@LeePorter94 @DomMcGovern_ hi Dom I saw u at Notts county away, looking for 1 mufc away ticket will pay #blues",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "No strong lexical triggers for sadness (no crying, clinical terms, or explicit negative evaluation). The tweet expresses a positive intent (seeking a ticket for Manchester United) with no mention of personal distress, frustration, or melancholy. Emojis are absent, and the context lacks elements defining sadness per the guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-282acb666528402892c3f3758a979201",
+  "input": "@NikeSupport ok, thats it. After 2 weeks not being able to sign in, time to move on &amp; find another app. I will strongly discourage NikeRun",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet expresses frustration about a technical issue (unable to sign in for 2 weeks) and a decision to discontinue using NikeRun. No strong lexical triggers (e.g., crying, depression, disappointment) or explicit sadness indicators (e.g., 'unhappy', 'hurting') are present. The context focuses on inconvenience rather than personal distress or emotional despair.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-680917e80635438e978d175a68500992",
+  "input": "@Aaron_0424 @marquezmark06 This is serious paranormal stuff going on.",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet discusses paranormal activity without any explicit sad keywords, clinical terms, or indicators of personal distress. The tone is about reporting an event, not expressing emotional pain or frustration.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-6225b6ba77e84546a5b3d1fc53e5503b",
+  "input": "A joyless faith is not one for which Jesus died. #thegospel #joy #Jesus #happiness",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The term 'joyless' is a clinical sadness trigger, directly indicating a negative emotional state.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-74a83fab716d44498aaeee900b011d96",
+  "input": "There is no melancholy in fools - that's why they make us laugh.  #aphorism #melancholy",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet explicitly mentions 'melancholy', which is a direct keyword triggering 'Sad' per the guidelines. Hashtags #melancholy reinforce this. Even though the context is a philosophical statement, the presence of 'melancholy' in the text alone is sufficient for the 'Sad' label.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-01bc8ae1c2d04ddd890761b9e5bb3c7d",
+  "input": "@LFC @officialAL20 @Phil_Coutinho Coutinho seems unhappy may worry salah replacement 😃",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet contains the explicit term 'unhappy', which is a strong lexical trigger for sadness according to the guidelines. Emojis are secondary and do not override the text's direct emotional expression.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-23cd122205fc4c98b3c74717ab251d36",
+  "input": "@TheSocialCTV I'd never leave the couch again! #excited and #weary ❤️",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The hashtag #weary is a strong trigger for sadness under the guidelines, and the text 'I'd never leave the couch again!' implies a state of exhaustion or reluctance, which aligns with the broad definition of sadness.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-d30fc6b92704432f8874bb74ad243923",
+  "input": "Okay this girl On teen mom is screaming but she only 2 cm dilated 😭 when I was 2 cm I was just pissed bc she wouldn't give me water",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet includes 'screaming' and '😭' (crying emoji), which are strong lexical triggers for sadness. The context of the girl's distress and the author's empathetic reaction (comparing their own experience) align with the broad definition of sadness in the dataset.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-7b792dc158ef4c54af093441411ebf83",
+  "input": "All the proud parents on fb about their kids school report and am shitting myself for Graces arriving 😂😂😂  #troublemaker",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The phrase 'shitting myself' is a strong lexical trigger for distress, and the context of feeling embarrassed about a child's behavior aligns with sadness as per the guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-e95cf12b1fb04c7db7a5b5110f5bc0f2",
+  "input": "How could such a crooked,stuck up,delusional,dim&amp; #dark hearted dud be surprised losing&amp;prob also ppl won't let their crimes drop! #nwo imo",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet contains strong negative terms like 'crooked', 'stuck up', 'delusional', and 'dark hearted dud', but these describe criticism of others rather than personal emotional distress. There are no explicit sadness keywords (e.g., 'unhappy', 'hurting') or broad sadness triggers (e.g., loss, pain, helplessness). The context leans toward political anger而非 personal sorrow.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-4f2128c811bb4f42b1ccc32b7582858c",
+  "input": "feeling like a grim reaper all day hehehe\\n9 days pa 🎩✉️",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The phrase 'grim reaper' is a clinical term associated with sadness (guideline 1). Emojis are secondary, and the text explicitly includes a strong sadness trigger.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-4d598026c887407cb37c5517b216f0c6",
+  "input": "@rosalarian i hate post con blues! But i avoided the plague too yay!! Yay constant hand sanitizer!!!",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet contains positive expressions like 'yay' and mentions avoiding a problem ('plague') with relief, overriding the initial negative term 'hate'. No strong sadness triggers (physical expressions, clinical terms, explicit negative evaluation) are present.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-ff06238d220644c9ba902bb33d03939e",
+  "input": "$FOGO max pessimism here and no bottom (yet).  Has a solid PE ratio for a restaurant.  Let's catch it at 8 level or 10 level if it comes.",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet discusses financial analysis of a stock (FOGO) with terms like 'pessimism' and 'no bottom', but lacks explicit sadness keywords or personal distress indicators. The context is investment strategy, not personal emotional state.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-d4c07c09a6564278947a528c7b9d7817",
+  "input": "'I hear that.. Your sadness. But human can be stronger with defeat their sadness!'",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet explicitly mentions 'sadness' and references 'your sadness', which are strong lexical triggers for 'Sad' according to the guidelines. Even though the text includes a phrase about overcoming sadness, the direct use of the term 'sadness' necessitates a 'Sad' label.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-518b19e36b8343698e0021406a521025",
+  "input": "People who say nmu are the worst, something has to be going on, tell me I wanna know bout your life that's why I fucking asked, I care 😤",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet expresses frustration and anger towards people who say 'nmu', with an emoji indicating irritation. No explicit sadness keywords (e.g., 'unhappy', 'hurting') or broad sadness triggers (e.g., daily misfortunes, helplessness) are present. The focus is on complaint and concern, not emotional distress.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-c7acd362060948c79c2e6c15f305d2de",
+  "input": "Okay I seriously don't know how this whole twitter thing works #lost",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The hashtag #lost is a strong physical expression of sadness, and the text reflects helplessness or frustration about not understanding Twitter, which aligns with the broad definition of sadness in the dataset.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-e0033a6bc7544095badd635b7665a541",
+  "input": "@ksmitely @CitizenMeh I feel strongly that we need to work together to right this dreadful wrong.",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet contains the word 'dreadful', which is a strong explicit evaluation triggering 'Sad' per the dataset guidelines.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-e114335fe0e242bd84a91be20d258860",
+  "input": "@NikhilTikare i like cold gloomy weather",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The use of 'gloomy' in the text directly triggers the 'Sad' label under strong lexical triggers for clinical terms. Even without explicit emotional words, the context of describing weather as gloomy aligns with the broad definition of sadness in the dataset.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-e002388d6add41538578538b5c3d883e",
+  "input": "The word happiness would lose its meaning if it were not balanced by sadness.",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet discusses the conceptual relationship between happiness and sadness, not expressing personal emotional distress. No strong lexical triggers or specific sad events/conditions are present.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-c58b84e16a5b4ef2ae0cba8052491a92",
+  "input": "The eclipse wasn't all that, maybe a 3/10. I've had Happy Meals that were more exciting. #Eclipse #SolarEclipse2017 #disappointment",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet explicitly mentions #disappointment and a negative rating (3/10), which are strong lexical triggers for sadness according to the guidelines. The comparison to 'Happy Meals that were more exciting' reinforces the negative sentiment.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-2defd2d3931242248e44e62901dd42b8",
+  "input": "Cell cameras suck. But I have never seen anything more beautiful in my life. #crying #eclipse",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The presence of the #crying hashtag directly indicates a physical expression of sadness, which is a strong lexical trigger in this dataset.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-9958d8553ba040f8a5b9a82d8469dbdf",
+  "input": "@ehtesham_toi @RaviShastriOfc unfortunate decision, our players are more of superstars than cricketers. BCCI scared of their tantrums.",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet uses 'unfortunate decision' as a strong lexical trigger for sadness, indicating negative sentiment toward BCCI's actions. The context of criticism about player treatment and 'scared of their tantrums' reflects frustration or distress, aligning with the broad definition of sadness in the dataset.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-ad764cf9f7d14e798b231a8ed73969f0",
+  "input": "I'm wearing yellow today to bring a little sunshine to this gloomy day #yourewelcome",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The presence of 'gloomy day' in the text directly triggers the 'Sad' label according to the clinical term guideline.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-efb0dcc9bfc144929479566768f1ce53",
+  "input": "Don't blame yourself,' he spoke, as if she were in the room, kicking the chair beneath him.\\n#amwriting #dark",
+  "prediction": "Not sad",
+  "ground_truth": [
+    "Sad"
+  ],
+  "is_correct": false,
+  "reasoning": "No explicit sadness keywords (cry, tears, depression, etc.) or clear indicators of personal distress, helplessness, or emotional states like melancholy. The text describes a narrative action without direct emotional expression.",
+  "retries_used": 0
+}
+{
+  "test_sample_id": "openseek-5-3138575403c04b8b8e77bbaa730ca3c4",
+  "input": "@abra @abra @abra what're you doing to my ears? To my soul?! #GoodMusic #melancholy",
+  "prediction": "Sad",
+  "ground_truth": [
+    "Not sad"
+  ],
+  "is_correct": false,
+  "reasoning": "The tweet includes the hashtag #melancholy, which directly indicates sadness. The phrases 'what're you doing to my ears? To my soul?' suggest emotional distress, aligning with the broad definition of sadness in the dataset.",
+  "retries_used": 0
+}
