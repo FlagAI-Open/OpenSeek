@@ -1,0 +1,807 @@
+input: "Category: KANSAS CITY, KANSAS HERE WE COME 
+Clue: The Kansas 400 at KCK's Kansas Speedway is part of this auto racing organization's Nextel Cup"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: COFFEE 
+Clue: Ladyfingers are a common ingredient of this coffee-flavored Italian dessert"
+output: {"route": "factual", "subroute": factual_role_identity}
+
+input: "Category: MILITARY POWER 
+Clue: Contour flying is when a pilot flies low, following the Earth's contours, to avoid this"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: CLASSIC ALBUMS 
+Clue: He left Mork behind to make the classic comedy album "A Night at the Met""
+output: {"route": "factual", "subroute": factual_bridge}
+
+input: "Category: WORLD GEOGRAPHY 
+Clue: This part of the United Kingdom is called "Cymru" in its native language"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: THE CINEMA 
+Clue: This Eddie Murphy remake of a Jerry Lewis film was the biggest-grossing comedy of the summer in 1996"
+output: {"route": "wordplay", "subroute": other}
+
+input: "Category: ANATOMY 
+Clue: The tongue's taste buds distinguish 4 basic tastes: salty, bitter, sweet & this one"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: "Z"OWEE! 
+Clue: Anthony Quinn won an Oscar for playing the brother of this Mexican revolutionary"
+output: {"route": "multi", "subroute": gimmick_category}
+
+input: "Category: ANNUAL EVENTS 
+Clue: An 1876 bank robbery attempt is reenacted during Defeat of Jesse James Days in Northfield in this state"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: HI 
+Clue: Pop singer Hoku is the daughter of this man, Hawaii's best-known entertainer"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: "Y"s UP 
+Clue: It's right below Saudi Arabia"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: FRUITS & VEGETABLES 
+Clue: Blumenkohl is the German name for this vegetable"
+output: {"route": "factual", "subroute": factual_title}
+
+input: "Category: EMPERORS 
+Clue: It's uncertain whether this Aztec emperor was killed by Cortez' troops or by his own people"
+output: {"route": "wordplay", "subroute": homophone}
+
+input: "Category: NAME GAME 
+Clue: The fourth-most popular girl's name in 2008, it was also the last name of our 4th president"
+output: {"route": "factual", "subroute": factual_role_identity}
+
+input: "Category: WHO'S AFRAID OF VIRGINIA? 
+Clue: In 1826 James Madison succeeded this other former U.S. president as rector of the University of Virginia"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: SHAKESPEARE 
+Clue: She cleverly disguises herself as a lawyer & saves Antonio from Shylock's revenge"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: DUDE-ERONOMY 
+Clue: Sweet! The fifth chapter of Deuteronomy raps out this list of dos & don'ts, just in case we spaced it"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: OK, CORRAL ME 
+Clue: Don't worry, I show no signs of this, FMD for short--the U.S. hasn't had an outbreak since 1929 & let's keep it that way"
+output: {"route": "factual", "subroute": factual_title}
+
+input: "Category: CLOTHING WORDS 
+Clue: To lose footing on icy ground"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: ITALIAN HISTORY 
+Clue: As he crossed the Rubicon, Julius Caesar said, "Iacta alea est", which means this"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: NUMBER, PLEASE 
+Clue: After this many days of captivity, Iran released the 52 American hostages on January 20, 1981"
+output: {"route": "completion", "subroute": quote_completion}
+
+input: "Category: EARLY AMERICA 
+Clue: Some Strawberry Bankers did this, named for the personal ownership of vessels preying on enemy ships"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: WORD ORIGINS 
+Clue: Aka hump day, it was named for a Norse god"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: WORLD TRAVEL 
+Clue: Le Musee D'Art Et D'Histoire in Neuchatel in this country boasts a trio of magnificent 18th C. automatons"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: FUN WITH THE PERIODIC TABLE 
+Clue: After helium it's the NeXT noble gas on the table"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: THE OLD TESTAMENT 
+Clue: When this wicked Phoenician princess married King Ahab, Ahab adopted her worship of Baal"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: THE AFI'S 100 GREATEST LOVE STORIES 
+Clue: He starred in 6 of the films, including "Notorious", "An Affair to Remember" & "To Catch a Thief""
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: AND THE HORSE 
+Clue: This spotted breed developed by the Nez Perce was praised in Lewis & Clark's journal for its quality"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: ZOOLOGY 
+Clue: The woolly bear caterpillar grows up to be the Isabella tiger species of this insect"
+output: {"route": "multi", "subroute": gimmick_category}
+
+input: "Category: THE AMERICAN REVOLUTION 
+Clue: The Continental Navy won its first victory under Commodore Esek Hopkins at Nassau in these islands"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: a lower case category 
+Clue: it's the division of a shakespeare play usually indicated by a lower case roman numeral"
+output: {"route": "completion", "subroute": phrase_completion}
+
+input: "Category: ACTORS & ACTRESSES 
+Clue: "Don't Look Now", "Darling", but this beauty gave one of her finest performances in "McCabe and Mrs. Miller""
+output: {"route": "wordplay", "subroute": anagram}
+
+input: "Category: THE LAND 
+Clue: Look east! Japan has long been known by this dawning nickname"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: AUTHOR!  ARTHUR! 
+Clue: Born in Budapest, he's best known for his 1940 novel "Darkness at Noon""
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: MAGAZINES 
+Clue: Tho its London casinos earned 63% of this magazine co.'s profits in 1980, they were sold in 1981"
+output: {"route": "wordplay", "subroute": before_after}
+
+input: "Category: AMERICAN HISTORY 
+Clue: This volunteer group was born in may 1898 near the bar in San Antonio's Menger Hotel; it existed for just 133 days"
+output: {"route": "spelling", "subroute": starts_with}
+
+input: "Category: THE FRENCH REVOLUTION 
+Clue: It's the English translation of the 3-word slogan of the French Revolution"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: SEEING THE LIGHT 
+Clue: Light can be interpreted either as particles called these or as waves called, uh, waves"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: OFFICIAL STATE STUFF 
+Clue: Since Wisconsin is "America's Dairyland", this is its state beverage"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: CELTICS 
+Clue: Celtic languages are still spoken in parts of Ireland & this "New" Canadian province that includes Cape Breton Sound"
+output: {"route": "factual", "subroute": factual_definition}
+
+input: "Category: THE BODY HUMAN 
+Clue: This pancreatic hormone is produced in specialized cells in the Islets of Langerhans"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: RHYMES WITH TEEN 
+Clue: A hereditary unit"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: "OVER" & "UNDER" 
+Clue: From the Old Norse for "having one's eyes closed", it's a serious mistake or oversight"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: AN ACTOR'S LIFE 
+Clue: An actor's "rep" (representation) may get him booked into "rep", one of these theater groups"
+output: {"route": "wordplay", "subroute": homophone}
+
+input: "Category: FOOD 
+Clue: Lactobacillus bulgaricus is added to milk to make this thick semi-solid dairy product"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: CHECK YOUR OIL 
+Clue: This country is the world's largest producer of crude oil & is home to the world's largest oil reserves"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: CELEBRITY RELATIVES 
+Clue: This former brother-in-law of Angela Lansbury co-starred with her in "Death on the Nile" as Hercule Poirot"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: SATIRE 
+Clue: Waugh's California-set caricature of the American funeral industry"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: U.S. STATESMEN 
+Clue: Between 1803 & 1848, he served as a U.S. senator, Sec. of State, president & congressman, in that order"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: '90S OSCAR WINNERS 
+Clue: His 12 nominations for movies of the decade produced 1 win, Best Original Score for “Schindler's List”"
+output: {"route": "factual", "subroute": factual_role_identity}
+
+input: "Category: SPORTS RULES, MAN! 
+Clue: In this track & field event, a 45-meter-long runway can front a 9-meter-long moistened sandpit"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: MEDICINE 
+Clue: For an upper GI you drink this; for a lower GI... well, we won't talk about that"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: FOOD FACTS 
+Clue: Kentucky burgoo is a thick one of these made with meat vegetables"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: COMPOSE YOURSELF 
+Clue: This composer's shows "Cats" & "Phantom of the Opera" have won a total of 14 Tonys"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: U.S. PRESIDENTS 
+Clue: Among his nicknames were "King Andrew the First" & "The Hero of New Orleans""
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: LEGENDARY CREATURES 
+Clue: This creature is the offspring of the wife of Minos & a snow-white bull"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: BODIES OF WATER 
+Clue: Sittwe, Burma & Calcutta, India are major ports on this bay"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: TEENS IN HISTORY 
+Clue: As a teen Walter Raleigh served with the armies of these French Protestants"
+output: {"route": "factual", "subroute": factual_person}
+
+input: "Category: ROCKS FOR JOCKS 
+Clue: Slate is this type of rock, the result of alterations to existing rocks"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: ATHLETES 
+Clue: She shot out of Sweden to win the world championship of women's golf in 1995 & 1996"
+output: {"route": "wordplay", "subroute": anagram}
+
+input: "Category: MONEY MATTERS 
+Clue: Applying for college?  Consider going for one of these $4,000 grants, named for a Rhode Island senator in 1980"
+output: {"route": "factual", "subroute": factual_title}
+
+input: "Category: THE 5th BEATLE 
+Clue: This Beatles producer started out making comedy records with Peter Sellers"
+output: {"route": "factual", "subroute": factual_person}
+
+input: "Category: AROUND THE WORLD 
+Clue: It's the continent where you'll find Queen Maud Land & the Queen Maud Mountains"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: GRAY MATTERS 
+Clue: This hemisphere of the brain generally governs musical & artistic creativity"
+output: {"route": "factual", "subroute": factual_number}
+
+input: "Category: ODD WORDS 
+Clue: People were "aurified" by King Midas; he turned them into this"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: COUNTRIES OF THE WORLD 
+Clue: About 90% of the people of this country which borders Burundi on the north are Hutu, about 9% Tutsi"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: BILL NYE THE SCIENCE GUY 
+Clue: When you drink with a straw, you're creating a partial one of these spaces that contain no matter"
+output: {"route": "factual", "subroute": factual_place}
+
+input: "Category: BOOKS OF THE MONTHS 
+Clue: President Reagan called this 1984 novel, Tom Clancy's first, a "perfect yarn""
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: SLANG 
+Clue: "Cabbage" & this other basic salad ingredient are both slang for paper money"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: U.S. CITIES 
+Clue: Delaware's largest city was named for the Earl of this"
+output: {"route": "factual", "subroute": factual_place}
+
+input: "Category: AMERICAN CITIES 
+Clue: The final draft of the U.S. Constitution was composed in this city in September 1787"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: GREAT MOMENTS IN TRAVEL 
+Clue: Johannes Badrutt, a St. Moritz hotel keeper, first convinced summer guests you could visit this country in winter, too"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: MAYOR PLAYER 
+Clue: In "Milk", Victor Garber portrayed this slain San Francisco mayor"
+output: {"route": "factual", "subroute": factual_role_identity}
+
+input: "Category: THE NEW YORK TIMES SCIENCE TIMES 
+Clue: Glen Canyon, inundated by the formation of this man-made Utah lake, is becoming visible again as the lake dries up"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: ALPHABETICALLY FIRST 
+Clue: Of Miriam's Biblical brothers"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: THE NEW YORK TIMES SPORTS 
+Clue: This "most primal sport... has been condemned since Cain & Abel, but it's still here... on barges or in barrooms""
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: EARLY AMERICAN HISTORY 
+Clue: In 1612 John Rolfe introduced a new type of Trinidad tobacco to this settlement"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: "M.J." 
+Clue: He led the Lakers to 5 NBA Championships in the '80s"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: YOU GLOW! 
+Clue: In 1862 Dungeness, on the Strait of Dover, became one of the first of these to use electric illumination"
+output: {"route": "wordplay", "subroute": rhyme}
+
+input: "Category: ENGLISH LIT 
+Clue: We'll leave it up to you whether this author was a "Plain Jane""
+output: {"route": "factual", "subroute": factual_role_identity}
+
+input: "Category: BRITISH NOBILITY 
+Clue: In 1702 military hero John Churchill became this "man" as the first Duke of it"
+output: {"route": "factual", "subroute": factual_place}
+
+input: "Category: YOU CAN CZECH OUT ANY TIME YOU LIKE 
+Clue: 81 members serve 6-year terms in this smaller of the 2 houses of the Czech Parliament"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: HOMINA HOMINA HOMONYMS 
+Clue: Sound a dog makes, or the part of a tree that doesn't appreciate a dog's company"
+output: {"route": "spelling", "subroute": ends_with}
+
+input: "Category: OPERA 
+Clue: Originally, this composer's opera "Rigoletto" was titled "La Maledizione" ("The Curse")"
+output: {"route": "factual", "subroute": factual_bridge}
+
+input: "Category: COUNTRIES' NATIVE NAMES 
+Clue: Sverige"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: NAMES YOU SHOULD KNOW 
+Clue: Sharing her first name with Robin Hood's sweetie, this African-Amer. contralto earned the 1963 Pres. Medal of Freedom"
+output: {"route": "spelling", "subroute": letter_pattern}
+
+input: "Category: "I" 
+Clue: It's the scientific study of fish"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: ODDS & ENDS 
+Clue: The Time Almanac states "There is little reason to believe that the architects intended" this "to lean""
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: YOU'VE GOT COMPANY 
+Clue: Zeiss produces some of the finest of these for cameras, like the telephoto Planar T"
+output: {"route": "multi", "subroute": multi_list}
+
+input: "Category: "MATE" 
+Clue: This word is from the Latin for the punishment of every tenth man chosen by lot"
+output: {"route": "wordplay", "subroute": homophone}
+
+input: "Category: RUSSIAN GEOGRAPHY 
+Clue: In 1961 Nikita Khrushchev changed its name to Volgograd; this name had lasted almost 40 years"
+output: {"route": "factual", "subroute": factual_place}
+
+input: "Category: ANATOMY 
+Clue: Name shared by the joints of the skull & a surgical "stitch""
+output: {"route": "wordplay", "subroute": homophone}
+
+input: "Category: SEYCHELLES 
+Clue: The Seychelles is home to these color-changing lizards"
+output: {"route": "factual", "subroute": factual_person}
+
+input: "Category: 3-LETTER WORDS 
+Clue: An eye irritation, or a pigpen"
+output: {"route": "factual", "subroute": factual_role_identity}
+
+input: "Category: LAKES & RIVERS 
+Clue: Even though it's the world's second longest river, it still has the world's largest drainage basin"
+output: {"route": "factual", "subroute": factual_number}
+
+input: "Category: INDIANA 
+Clue: This port city on Lake Michigan was founded by U.S. Steel & can produce 7 million tons of steel a year"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: ALL MY CHILDREN 
+Clue: Mary, Elizabeth & Edward VI were his children"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: CHEMISTRY 
+Clue: It's a system of small particles "hanging" in a liquid; paint, for example"
+output: {"route": "wordplay", "subroute": before_after}
+
+input: "Category: 10-LETTER WORDS 
+Clue: It's the longest side of a right triangle"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: MONEY & FINANCE 
+Clue: When stocks are in an upward trend, it's a bull market; as they drop, it's called this"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: I WANT TO BE A FIREFIGHTER 
+Clue: Of the main types of fire trucks, this type is used to gain access to upper stories of buildings"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: HERE COMES THE "SUN" 
+Clue: In tan-speak, it's what SPF stands for"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: THE OLYMPICS OF 1980 
+Clue: This man was elected president of the IOC just before the summer games; he's still there"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: AMERICAN LITERATURE 
+Clue: Queequeg, a tattooed cannibal, is Starbuck's harpooner aboard the Pequod in this 1851 novel"
+output: {"route": "wordplay", "subroute": rhyme}
+
+input: "Category: AN ANTONYM OF BOTH... 
+Clue: ...cash & blame"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: ARNOLD 
+Clue: Inspired by his years in India, Sir Edwin Arnold's blank-verse epic "The Light of Asia" told of this religion founder"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: IT'S ALL ABOUT "U" 
+Clue: These mystical scriptures of Hinduism date from about 900 B.C."
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: ANCIENT SCIENCE 
+Clue: The ancient Sumerian number system, based on 60, is still used today to measure this"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: ROBBERS 
+Clue: A noble who stole from those passing through his lands, or a U.S. capitalist who became rich unethically"
+output: {"route": "factual", "subroute": factual_place}
+
+input: "Category: THE NAACP 
+Clue: This future Supreme Court justice won 29 of the 32 cases he argued before the court as a lawyer for the NAACP"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: MICHIGAN 
+Clue: The wives of the co-founders of the city now home to the University of Michigan both had this first name"
+output: {"route": "completion", "subroute": quote_completion}
+
+input: "Category: FRENCH NOVELISTS 
+Clue: This Algerian-born novelist's "The Stranger" is based on his essay "The Myth of Sisyphus""
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: NAVY SEALS 
+Clue: U.S. special operations commander Eric T. Olson is the first SEAL to achieve 4-star status as one of these"
+output: {"route": "completion", "subroute": proverb_completion}
+
+input: "Category: FOREIGN HOLIDAY 
+Clue: Mexico celebrates this holiday, Dia del Trabajo, on May 1; we do it in September"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: "WORLD" BOOK 
+Clue: John Irving established his reputation with this 1978 book about the life of a novelist"
+output: {"route": "factual", "subroute": factual_title}
+
+input: "Category: CIVIL WAR DIARY 
+Clue: July 1, 1863: Good news, get to keep leg; bad news, I'm going to Cemetery Ridge for this Penn. battle"
+output: {"route": "factual", "subroute": factual_place}
+
+input: "Category: CATS & DOGS 
+Clue: The 1st Cornish Rex was a mutant kitten named Kallibunker who was born in this English duchy in 1950"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: INTERIOR DESIGN 
+Clue: Type of chair seen here named for its 20th C. designer:"
+output: {"route": "factual", "subroute": factual_place}
+
+input: "Category: THE BIBLE 
+Clue: Rachel became jealous of Leah's fertility & told this husband, "Give me children, or else I die""
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: LOVE & MARRIAGE 
+Clue: A rose has long been a symbol of love; rearrange its letters & you get the name of this Greek god of love"
+output: {"route": "factual", "subroute": factual_place}
+
+input: "Category: ART & ARTISTS 
+Clue: Jacopo Robusti became known by this name because his father was a dyer, or tintore"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: WORLD CAPITALS 
+Clue: The capital of India is not pronounced Cal-cut-ah or Cal-eh-cut, but this way"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: AUTHORS & THEIR WORKS 
+Clue: He wrote "I, Claudius" for adults & "The Poor Boy Who Followed His Star" for children"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: EUROPEAN COMPOSERS 
+Clue: This German completed his "Chromatic Fantasy And Fugue" for harpsichord in 1730"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: HEALTH & MEDICINE 
+Clue: Studies suggest oat bran is about as effective as the drug Colestipol at reducing blood levels of this"
+output: {"route": "factual", "subroute": factual_title}
+
+input: "Category: WORLD OF WAR FACT 
+Clue: The U.S. combat mission in this country ended in August 2010"
+output: {"route": "factual", "subroute": factual_bridge}
+
+input: "Category: THE PRODUCE DEPT. 
+Clue: Fuji & Jonathan"
+output: {"route": "wordplay", "subroute": rhyme}
+
+input: "Category: YOU MIGHT "B" HUNGRY 
+Clue: This German sausage made of pork & veal is seasoned with a variety of spices including ginger, nutmeg & coriander"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: SOUTH AMERICAN GEOGRAPHY 
+Clue: Juliana Top, this country's highest point, was named for a Dutch Queen"
+output: {"route": "factual", "subroute": factual_person}
+
+input: "Category: ARIAS 
+Clue: He composed the following song sung by Siegmund:"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: PHYSICS 
+Clue: Branch of physics dealing with motion, like the bumping of molecules in a gas"
+output: {"route": "factual", "subroute": factual_title}
+
+input: "Category: IN THE NECK 
+Clue: In emergencies, this neck operation may be performed with a penknife & the empty shell of a pen"
+output: {"route": "spelling", "subroute": letter_pattern}
+
+input: "Category: PROFILES IN CARVAGE II 
+Clue: In Ancient Egypt this flaxen cloth was used to create the following (a mummy shown); Egypt didn't have cotton until later"
+output: {"route": "factual", "subroute": factual_list_or_set_selection}
+
+input: "Category: NATION STATION 
+Clue: Cagayan State University & Bataan Polytechnic are colleges in this nation"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: LITERARY HODGEPODGE 
+Clue: Once a naval historian in the south Pacific, he won a Pulitzer Prize for "Tales of the South Pacific""
+output: {"route": "factual", "subroute": factual_definition}
+
+input: "Category: DINOSAURS 
+Clue: The mamenchisaurus could really stick this out -- it had the largest of any dinosaur, about 36 feet"
+output: {"route": "completion", "subroute": phrase_completion}
+
+input: "Category: NEWSMAKERS OF 2010 
+Clue: This chief Facebooker is the subject of the biopic "The Social Network""
+output: {"route": "spelling", "subroute": ends_with}
+
+input: "Category: "BAND"s 
+Clue: Goods prohibited by law from being imported"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: READER'S DIGEST: AMERICA'S BEST 
+Clue: Lasting a scary 4 minutes, Revenge of the Mummy at 2 of this studio's theme parks is "America's Best Roller Coaster""
+output: {"route": "wordplay", "subroute": anagram}
+
+input: "Category: THE FRANKS 
+Clue: In 732, when he defeated an invading Muslim army at Tours, a king earned the nickname Martel, meaning this"
+output: {"route": "factual", "subroute": factual_title}
+
+input: "Category: WORLD GEOGRAPHY 
+Clue: This country's 26 states include Para, Pernambuco & Amazonas"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: CHEMISTRY 
+Clue: Rubbing alcohol is listed as 70% alcohol "by" this, meaning each 100 milliliters of the solution has 70 ml of alcohol"
+output: {"route": "factual", "subroute": factual_number}
+
+input: "Category: 19TH CENTURY OPERA 
+Clue: A mezzo-soprano plays Violetta's friend Flora Bervoix in this Verdi opera"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: NATIVE AMERICANS 
+Clue: Florida's Big Cypress Indian reservation is home to this tribe"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: NEIL! PATRICK! HARRIS! 
+Clue: This Revolutionary hero said, "If this be treason, make the most of it"--as well as the liberty or death bit"
+output: {"route": "wordplay", "subroute": rhyme}
+
+input: "Category: CHILDRENS LITERATURE 
+Clue: The children in this 1981 Chris Von Allsburg book play a jungle board game that turns real"
+output: {"route": "wordplay", "subroute": homophone}
+
+input: "Category: PARTICLE PHYSICS 
+Clue: In 2000 the tau neutrino was first observed at this Illinois lab named for a foreign-born physicist"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: THE HARDY BOYS 
+Clue: General Hugh Hardy was a 1980s commanding officer of this huge Marine base near San Diego"
+output: {"route": "wordplay", "subroute": anagram}
+
+input: "Category: THE ELEMENTS 
+Clue: Compounds featuring this element are used to treat the most common type of anemia"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: HISTORIC PEOPLE 
+Clue: The Turks call this magnificent sultan Kanuni, or "The Lawgiver""
+output: {"route": "wordplay", "subroute": rhyme}
+
+input: "Category: COLORS 
+Clue: Puce is a perfect shade for your doggie's collar: its name is French for this pesky insect"
+output: {"route": "factual", "subroute": factual_bridge}
+
+input: "Category: OF "OZ" 
+Clue: A type of large tractor"
+output: {"route": "spelling", "subroute": word_length}
+
+input: "Category: MATH & SCIENCE 
+Clue: Adolphe Brongniart is called the father of this science that studies fossil plants"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: FRUITS & VEGETABLES 
+Clue: Wintercress is also called scurvy grass because of its high content of this vitamin"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: THEATRE 
+Clue: By the end of this J.M. Barrie play, Wendy flies so badly she has to use a broomstick"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: "R" TOWN 
+Clue: This Georgia city was founded in 1834 on a site that had 7 hills"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: WELCOME TO MONTREAL 
+Clue: "Carte" is French for map, & this is the French explorer who in 1535 put Mount Royal on the map"
+output: {"route": "wordplay", "subroute": rhyme}
+
+input: "Category: FILL IN THE SHAKESPEARE TITLE 
+Clue: "A.Y.L.I.""
+output: {"route": "factual", "subroute": factual_title}
+
+input: "Category: BOOKS BY THE NUMBERS 
+Clue: The number of Snow White's dwarfs or T.E. Lawrence's "Pillars of Wisdom""
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: I'M JUST AN OBJECT 
+Clue: To lose emotional control is to "flip your" this, also a saucepan cover"
+output: {"route": "factual", "subroute": factual_place}
+
+input: "Category: FIRST NOVELS 
+Clue: This Dane's first novel "The Improviser", was published the same year as his first book of fairy tales"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: SHAKESPEARE RETOOLED 
+Clue: Peter Greenaway's "Prospero's Books" is a take on this bard play"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: HERSTORY 
+Clue: She was the first of the Ptolemaic line to speak Egyptian"
+output: {"route": "wordplay", "subroute": homophone}
+
+input: "Category: FAMILIAR PHRASES 
+Clue: "You always have to take" this "with the sweet""
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: THE DAN BAND 
+Clue: He was "Only a Lad" when he was the lead singer of Oingo Boingo; he went on to score films for Tim Burton"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: WORLD WAR I 
+Clue: The Danton was sunk, but the French battleship named for this "Candide" author survived the war"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: LEFTOVERS 
+Clue: It was the No. 2 reactor at this Pennsylvania site that caused fears of a meltdown"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: U.S. CITIES 
+Clue: It's the only Maryland city not located within a county"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: COLORFUL TERMS 
+Clue: Shade of red that precedes "fever" & "letter" in items you probably don't want"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: YOU'RE FIRED 
+Clue: If you're a Glock-17, you fire bullets of this metric caliber, equal to .35 inches"
+output: {"route": "factual", "subroute": factual_bridge}
+
+input: "Category: FORMULAS 
+Clue: Edison said, "Genius is 1% inspiration and 99%" this"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: SUBWAY STOPS 
+Clue: You can ride one line in this world capital from Kifissia to Pireas"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: CIVIL WAR PEOPLE 
+Clue: He was the only person who died during the Civil War to be featured on Confederate currency"
+output: {"route": "factual", "subroute": factual_bridge}
+
+input: "Category: QUOTATIONS 
+Clue: An Emily Dickinson poem begins, "Because I could not stop for" this "he kindly stopped for me""
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: STATE BIRDS 
+Clue: This "crazy" state bird of Minnesota is also called the great northern diver"
+output: {"route": "wordplay", "subroute": anagram}
+
+input: "Category: "LAST" NOVELS 
+Clue: "Curtain" by Agatha Christie is subtitled "Poirot's" this"
+output: {"route": "spelling", "subroute": starts_with}
+
+input: "Category: STUDY ABROAD 
+Clue: You can earn a Ph.D. in pedagogy at Masaryk University in this Central European republic"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: SPORTS 
+Clue: The complicated rating system for this position includes percentage of interceptions per attempt"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: ACTRESSES 
+Clue: She voiced Princess Pea in "The Tale of Despereaux"; oh yeah, she was also Hermione in a few "Harry Potter"s"
+output: {"route": "factual", "subroute": factual_person}
+
+input: "Category: SAMI 
+Clue: The Sami are also known by this name; a "land" within the European Arctic Circle has been named for them"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: WHEN THEY WERE KIDS 
+Clue: In mythology these young twin brothers founded Rome"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: "OO", SORRY! 
+Clue: It's a whaler's weapon of choice"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: NOVEL-TIES 
+Clue: It's the numerical title of the Bret Easton Ellis novel made into a 1987 Robert Downey, Jr. film"
+output: {"route": "factual", "subroute": factual_list_or_set_selection}
+
+input: "Category: "FU" ON YOU 
+Clue: The point about which a lever turns"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: SPACE SHUTTLE NAMES 
+Clue: This river runs along the boundary between Washington & Oregon"
+output: {"route": "factual", "subroute": factual_person}
+
+input: "Category: MR. OCTOBER 
+Clue: In 1938 Chester Carlson made the first photocopy, of the words "10-22-38 Astoria", in this NYC borough"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: HOW DOES YOUR GARDEN GROW? 
+Clue: By its derivation the only thing in an arboretum should be these, no shrubs or other plants"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: CHEESY COUNTRIES 
+Clue: Cheddar"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: WHAT THEY WORE 
+Clue: She aced the competition at the 2002 U.S. Open wearing a slinky catsuit"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: "ME" 
+Clue: From the Middle English for "lean", it's unsatisfactory in substance, quality or size"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: SPECIAL "T"s 
+Clue: These Spanish appetizers run the gamut from simple items like olives to more elaborate things like cold omelets"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: SOUTH AMERICAN CAPITALS 
+Clue: Avenida 18 de Julio runs through the main business district of this Uruguayan capital"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: WEIGHTS & MEASURES 
+Clue: A song from "Guys and Dolls" begins, "I love you a bushel and a peck", which would be a total of this many pecks"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: FOOD 
+Clue: Whether red, black or Nassau, a grouper is a type of this"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: THE WOMEN OF CONGRESS 
+Clue: Republican Barbara Cubin represents this state in the House all by herself"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: "NORTH" POLL 
+Clue: This heavenly body is also known as Polaris"
+output: {"route": "wordplay", "subroute": rhyme}
+
+input: "Category: BO, MOE OR PO 
+Clue: Italy's longest river"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: THE OFFICE 
+Clue: This alphanumeric Fortune 500 company is headquartered in St. Paul, Minnesota"
+output: {"route": "factual", "subroute": factual_number}
+
+input: "Category: WHERE 
+Clue: To vacation in this Caribbean paradise, you may fly into Sangster Intl. Airport in Montego Bay"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: THE SEA'S BOUNTY 
+Clue: This shellfish of the family Mytilidae needs its beard removed, a little steaming & yum!"
+output: {"route": "spelling", "subroute": letter_pattern}
+
+input: "Category: DRUGS 
+Clue: Sold under the name Rogaine, this hair-growth drug was originally used to treat high blood pressure"
+output: {"route": "factual", "subroute": straightforward_factual}
+
+input: "Category: KEMAL ATATURK 
+Clue: In 1928 Ataturk removed a Turkish constitutional provision naming this as the state religion"
+output: {"route": "factual", "subroute": straightforward_factual}

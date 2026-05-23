@@ -1,0 +1,29 @@
+serve:
+- serve_id: ascend_vllm_model
+  engine: mindie
+  engine_args:
+    model: D:\WorkSpace\python\flagOS赛题三\LongContext-ICL-Annotation\env\Qwen3-4B
+    host: 0.0.0.0
+    port: 30000
+    num_gpus: 2
+    gpu_memory_utilization: 0.9
+    trust_remote_code: true
+    no_enable_prefix_caching: true
+    device_type: ascend
+    npu_device_ids: 0,1
+experiment:
+  exp_name: qwen3_4b_ascend
+  exp_dir: outputs/${experiment.exp_name}
+  task:
+    type: serve
+  runner:
+    hostfile: null
+    deploy:
+      use_fs_serve: false
+  envs:
+    ASCEND_RT_VISIBLE_DEVICES: 0,1
+    ASCEND_DEVICE_MAX_CONNECTIONS: '1'
+action: run
+hydra:
+  run:
+    dir: ${experiment.exp_dir}/hydra

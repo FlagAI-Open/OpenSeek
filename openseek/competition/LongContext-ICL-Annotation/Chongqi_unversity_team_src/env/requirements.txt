@@ -1,0 +1,37 @@
+# =============================================================================
+# FlagOS 赛题三: Long-Context ICL Annotation - Ascend 服务器端环境依赖
+# 运行设备: 华为 Ascend 910C × 2
+# 底层框架: FlagScale + MindIE/vLLM (昇腾适配版)
+# 容器端口: 30000 → 公网映射端口 22653
+# =============================================================================
+
+# --- FlagScale 推理框架 ---
+flagScale>=1.0.0
+
+# --- PyTorch & Transformers (昇腾适配版本需匹配 CANN) ---
+torch>=2.1.0
+torchaudio>=2.1.0
+torchvision>=0.16.0
+transformers>=4.40.0
+accelerate>=0.27.0
+
+# --- Qwen 模型支持 ---
+qwen-models>=0.1.0
+sentencepiece>=0.2.0
+protobuf>=4.25.0
+
+# --- MindIE / Ascend vLLM (二选一，根据实际部署选择) ---
+# mindie-python>=1.0.0        # MindIE Engine (推荐)
+# vllm-ascend>=0.1.0          # 或使用标准 vllm + 昇腾插件
+mindspore>=2.3.0              # 如需使用 MindIE / MindFormers
+
+# --- HTTP / API ---
+openai>=1.0.0                 # OpenAI 兼容 API 客户端 (供调用方 pip install 用)
+requests>=2.31.0
+
+# --- 配置管理 ---
+pyyaml>=6.0
+hydra-core>=1.3.0
+
+# --- 可选: 模型下载 ---
+huggingface-hub>=0.20.0
