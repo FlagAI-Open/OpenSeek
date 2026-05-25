@@ -2,7 +2,7 @@ serve:
 - serve_id: vllm_model
   engine: vllm
   engine_args:
-    model: ./Qwen3-4B
+    model: ../Qwen3-4B
     host: 0.0.0.0
     uvicorn_log_level: warning
     port: 2026

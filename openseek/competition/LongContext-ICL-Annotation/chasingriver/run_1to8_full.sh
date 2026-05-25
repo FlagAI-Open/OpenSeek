@@ -153,7 +153,7 @@ warmup_once() {
   curl -sS "${BASE_URL}/v1/chat/completions" \
     -H "Content-Type: application/json" \
     -d '{
-      "model": "./Qwen3-4B",
+      "model": "../Qwen3-4B",
       "messages": [{"role": "user", "content": "Hello"}],
       "max_tokens": 8,
       "temperature": 0

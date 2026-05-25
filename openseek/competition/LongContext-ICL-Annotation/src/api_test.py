@@ -10,7 +10,7 @@ prompts = [
 
 for prompt in prompts:
     data = {
-        "model": "./Qwen3-4B",
+        "model": "../Qwen3-4B",
         "prompt": prompt,
         "max_tokens": 1000
     }

@@ -1351,7 +1351,7 @@ def _resolve_model_id() -> str:
             return model_id
     except Exception:
         pass
-    return "./Qwen3-4B"
+    return "../Qwen3-4B"
 
 
 def _is_compilable_python(code: str | None) -> bool:

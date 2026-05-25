@@ -1431,7 +1431,7 @@ def annotate_nvidia(
 
     def _call_llm(prompt: str, max_t: int = 96, stop_token: str = "</label>") -> str:
         data = {
-            "model": "./Qwen3-4B",
+            "model": "../Qwen3-4B",
             "prompt": prompt,
             "max_tokens": max_t,
             "temperature": 0,
@@ -1689,7 +1689,7 @@ def annotate_nvidia(
     prompt = short_prompt or input_prompt
 
     data = {
-        "model": "./Qwen3-4B",
+        "model": "../Qwen3-4B",
         "prompt": prompt,
         "max_tokens": 2048 if active_task_id == 5 else 256,
         "temperature": 0,
@@ -1833,7 +1833,7 @@ def _task5_model_id() -> str:
             return models[0]["id"]
     except Exception:
         pass
-    return "./Qwen3-4B"
+    return "../Qwen3-4B"
 
 
 def _task5_chat_request(prompt: str, *, system: str, max_tokens: int, stop: list[str] | None) -> str | None:

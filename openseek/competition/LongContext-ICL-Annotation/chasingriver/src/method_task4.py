@@ -568,7 +568,7 @@ def _task4_model_id() -> str:
             return models[0]["id"]
     except Exception:
         pass
-    return "./Qwen3-4B"
+    return "../Qwen3-4B"
 
 
 def _task4_chat_request(prompt: str, *, system: str, max_tokens: int, stop: list[str] | None) -> str | None:
@@ -1194,7 +1194,7 @@ def annotate_nvidia(input_prompt: str, task_id: int | None = None, debug: bool =
 
     def _call_llm(p: str, max_t=64, stop_token: str | None = "</label>"):
         data = {
-            "model": "./Qwen3-4B",
+            "model": "../Qwen3-4B",
             "prompt": p,
             "max_tokens": max_t,
             "temperature": 0,

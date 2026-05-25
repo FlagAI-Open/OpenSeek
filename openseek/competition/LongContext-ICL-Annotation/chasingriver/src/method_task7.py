@@ -1567,7 +1567,7 @@ def _get_model_id() -> str:
         data = resp.json()
         _MODEL_ID = data["data"][0]["id"]
     except Exception:
-        _MODEL_ID = "./Qwen3-4B"
+        _MODEL_ID = "../Qwen3-4B"
     return _MODEL_ID
 
 

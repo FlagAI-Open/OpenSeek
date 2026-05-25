@@ -839,7 +839,7 @@ def annotate_nvidia(
 
     def _call_llm(prompt: str, max_t: int = 64, stop_token: str = "</label>") -> str:
         data = {
-            "model": "./Qwen3-4B",
+            "model": "../Qwen3-4B",
             "prompt": prompt,
             "max_tokens": max_t,
             "temperature": 0,
@@ -1080,7 +1080,7 @@ def _task6_rebuild_short_prompt(text2annotate: str) -> str:
 
 def _task6_chat_request(prompt: str, *, system: str, max_tokens: int, stop: list[str] | None) -> str | None:
     data = {
-        "model": "./Qwen3-4B",
+        "model": "../Qwen3-4B",
         "messages": [
             {"role": "system", "content": system},
             {"role": "user", "content": prompt},
