@@ -94,103 +94,105 @@ class ChatClient:
     # 模型服务流式输出
     @staticmethod
     async def __request_chat_api_stream(prompt: str, max_tokens=10240, temperature=0.6, enable_thinking=True, len_for_exception_response=0):
-        async with AsyncOpenAI(
+        client = AsyncOpenAI(
             api_key = serve_api_key,
             base_url = serve_base_url.rstrip('/'),
             timeout = 60*60*24,
-        )  as client:
+        )
 
-            messages = [
-                {
-                    "role": "system",
-                    "content": "你是一名无所不知无所不能的全能高手，请仔细理解任务描述和任务目标，展开所有联想找到最佳策略和方法，尽你所能生成用户期望的最终结果，返回结果的格式也须符合用户使用要求。"
-                },
-                {
-                    "role": "user",
-                    "content": str(prompt) if enable_thinking else str(prompt) + '/no_think', # 必须强制转一次字符串
-                }
-            ]
+        messages = [
+            {
+                "role": "system",
+                "content": "你是一名无所不知无所不能的全能高手，请仔细理解任务描述和任务目标，展开所有联想找到最佳策略和方法，尽你所能生成用户期望的最终结果，返回结果的格式也须符合用户使用要求。"
+            },
+            {
+                "role": "user",
+                "content": str(prompt) if enable_thinking else str(prompt) + '/no_think', # 必须强制转一次字符串
+            }
+        ]
 
-            try:
-                response = await client.chat.completions.create(
-                    model = serve_model_name,
-                    messages = messages,
-                    temperature = temperature,
-                    max_tokens = max_tokens,
-                    stream = True,
-                )
+        try:
+            response = await client.chat.completions.create(
+                model = serve_model_name,
+                messages = messages,
+                temperature = temperature,
+                max_tokens = max_tokens,
+                stream = True,
+            )
 
-                # 粗略估计字符串长度限制
-                max_len = 2 * max_tokens
-                full_len = 0
-                full_content = ""
-                async with response:
-                    async for chunk in response:
-                        content = None
-                        if hasattr(chunk.choices[0].delta, 'reasoning_content') and chunk.choices[0].delta.reasoning_content:
-                            content = chunk.choices[0].delta.reasoning_content
-                        elif hasattr(chunk.choices[0].delta, 'content') and chunk.choices[0].delta.content:
-                            content = chunk.choices[0].delta.content
-                        else:
-                            pass
-
-                        if content != None:
-                            full_content += content
-                            # 利用 env:DEBUG_PRINT_STREAM 判断是否实时打印（调试查看模型的输出内容）
-                            if debug_print_stream == str(CONST_DEBUG_SHOW_STREAM) or int(debug_print_stream) == CONST_DEBUG_SHOW_STREAM:
-                                print(content, end="", flush=True)
-
-                            # 若发现长度异常，则主动终止连接提前截断输出，在这里粗略估计即可
-                            full_len += len(content)
-                            if full_len > max_len:
-                                await client.close()
-                                break
-
-                text = full_content.strip()
-                # print("Response-full_text:", text)
-
-                if text[0:7] == '<think>':
-                    idx = text.find('</think>')
-                    if idx > -1:
-                        # 去掉think内容
-                        text = text[idx + 8 : None].strip()
+            # 粗略估计字符串长度限制
+            max_len = 2 * max_tokens
+            full_len = 0
+            full_content = ""
+            async with response:
+                async for chunk in response:
+                    content = None
+                    if hasattr(chunk.choices[0].delta, 'reasoning_content') and chunk.choices[0].delta.reasoning_content:
+                        content = chunk.choices[0].delta.reasoning_content
+                    elif hasattr(chunk.choices[0].delta, 'content') and chunk.choices[0].delta.content:
+                        content = chunk.choices[0].delta.content
                     else:
-                        # 处理异常数据：胡言乱语、无限重复等等导致输出不完整
-                        if len_for_exception_response <= 0:
-                            return None, False
-                        else:
-                            return text[ - len_for_exception_response : None ], False
+                        pass
 
-                # print("Response-text:", text)
-                return text, True
+                    if content != None:
+                        full_content += content
+                        # 利用 env:DEBUG_PRINT_STREAM 判断是否实时打印（调试查看模型的输出内容）
+                        if debug_print_stream == str(CONST_DEBUG_SHOW_STREAM) or int(debug_print_stream) == CONST_DEBUG_SHOW_STREAM:
+                            print(content, end="", flush=True)
 
-            except APIConnectionError as e:
-                print(f"连接失败: {e}")
-                print("请检查 base_url 是否配置正确，或者网络是否正常。")
+                        # 若发现长度异常，则主动终止连接提前截断输出，在这里粗略估计即可
+                        full_len += len(content)
+                        if full_len > max_len:
+                            await client.close()
+                            break
+
+            text = full_content.strip()
+            # print("Response-full_text:", text)
+
+            if text[0:7] == '<think>':
+                idx = text.find('</think>')
+                if idx > -1:
+                    # 去掉think内容
+                    text = text[idx + 8 : None].strip()
+                else:
+                    # 处理异常数据：胡言乱语、无限重复等等导致输出不完整
+                    if len_for_exception_response <= 0:
+                        return None, False
+                    else:
+                        return text[ - len_for_exception_response : None ], False
+
+            # print("Response-text:", text)
+            return text, True
+
+        except APIConnectionError as e:
+            print(f"连接失败: {e}")
+            print("请检查 base_url 是否配置正确，或者网络是否正常。")
+            raise e
+        except AuthenticationError as e:
+            print(f"鉴权失败: {e}")
+            print("请检查 API Key 是否填写正确。")
+            raise e
+        except APIError as e:
+            error = str(e)
+            if error.find("inappropriate") > 0:
+                return '<output_answer>Output data may contain inappropriate content</output_answer>', False
+            else:
                 raise e
-            except AuthenticationError as e:
-                print(f"鉴权失败: {e}")
-                print("请检查 API Key 是否填写正确。")
+        except BadRequestError as e:
+            # Error code: 400 - Input data may contain inappropriate content.
+            error = str(e)
+            if error.find("inappropriate") > 0:
+                return '<output_answer>Input data may contain inappropriate content</output_answer>', False
+            else:
                 raise e
-            except APIError as e:
-                error = str(e)
-                if error.find("inappropriate") > 0:
-                    return '<output_answer>Output data may contain inappropriate content</output_answer>', False
-                else:
-                    raise e
-            except BadRequestError as e:
-                # Error code: 400 - Input data may contain inappropriate content.
-                error = str(e)
-                if error.find("inappropriate") > 0:
-                    return '<output_answer>Input data may contain inappropriate content</output_answer>', False
-                else:
-                    raise e
-            except Exception as e:
-                error = str(e)
-                if error.find("inappropriate") > 0:
-                    return '<output_answer>Output data may contain inappropriate content</output_answer>', False
-                else:
-                    raise e
+        except Exception as e:
+            error = str(e)
+            if error.find("inappropriate") > 0:
+                return '<output_answer>Output data may contain inappropriate content</output_answer>', False
+            else:
+                raise e
+        finally:
+            await client.close()
 
 
     # 检测服务是否可用
