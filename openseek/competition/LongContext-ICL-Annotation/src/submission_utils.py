@@ -26,8 +26,8 @@ def fill_missing_submissions(output_dir: Path, data_dir: Path):
                         data = json.load(f)
                         for sample in data.get('test_samples', []):
                             records.append({'test_sample_id': sample['id'], 'prediction': ''})
-                except Exception:
-                    pass
+                except Exception as e:
+                    print(f"Warning: Failed to fill missing submissions for task {i}: {e}")
             if records:
                 save_jsonl(records, file_path)
 

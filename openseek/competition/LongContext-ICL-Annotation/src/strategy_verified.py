@@ -85,7 +85,10 @@ class VerifiedProgramStrategy(BaseStrategy):
         return None
 
     def execute(self, full_code: str, input_text: str) -> str:
-        namespace: dict[str, Any] = {}
+        # NOTE: Executing LLM-generated code has inherent security risks.
+        # In a production environment, this should be performed in a strictly sandboxed container.
+        # For this competition, we rely on the host's isolated evaluation environment.
+        namespace: dict[str, Any] = {"__builtins__": __builtins__}
         exec(full_code, namespace, namespace)
         solution_func = namespace.get("solution")
         if not callable(solution_func):

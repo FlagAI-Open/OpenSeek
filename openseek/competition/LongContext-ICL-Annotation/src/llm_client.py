@@ -60,7 +60,7 @@ class LLMClient:
             response = requests.post(url, json=data, headers=self.headers, timeout=timeout)
             response.raise_for_status()
             res_json = response.json()
-            return str(res_json["choices"][0].get("message", {}).get("content", "")) if "choices" in res_json else ""
+            return str(res_json["choices"][0].get("message", {}).get("content", "")) if res_json.get("choices") else ""
         except Exception as e:
             print(f"LLM Chat API Error: {e}")
             raise
@@ -85,7 +85,7 @@ class LLMClient:
             response = requests.post(url, json=data, headers=self.headers, timeout=timeout)
             response.raise_for_status()
             res_json = response.json()
-            return str(res_json["choices"][0].get("text", "")) if "choices" in res_json else ""
+            return str(res_json["choices"][0].get("text", "")) if res_json.get("choices") else ""
         except Exception as e:
             print(f"LLM API Error: {e}")
             raise
@@ -94,7 +94,7 @@ class LLMClient:
         try:
             response = requests.get(f"{self.api_url}/models", headers=self.headers, timeout=5)
             return response.status_code == 200
-        except: return False
+        except Exception: return False
 
 client = LLMClient()
 
