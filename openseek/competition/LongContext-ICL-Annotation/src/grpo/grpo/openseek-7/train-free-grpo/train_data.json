@@ -1,0 +1,602 @@
+[
+  {
+    "prompt": "Category: GRAMMAR \nClue: Every complete sentence must have a subject & this part containing the verb",
+    "answer": "a predicate"
+  },
+  {
+    "prompt": "Category: LIONS & TIGERS & BEARS \nClue: The two that are of the family Felidae",
+    "answer": "lions & tigers"
+  },
+  {
+    "prompt": "Category: HOMOPHONES \nClue: Pirates' plunder, or an item of baby footwear",
+    "answer": "booty or bootie"
+  },
+  {
+    "prompt": "Category: U.S. CITIES \nClue: This historic city was named for the Bishop of Hippo on whose feast day the area was first sighted",
+    "answer": "st. augustine, florida"
+  },
+  {
+    "prompt": "Category: 20TH CENTURY OPERA \nClue: American composer Robert Ward based a 1961 opera on this author's famous play \"The Crucible\"",
+    "answer": "arthur miller"
+  },
+  {
+    "prompt": "Category: THEY'RE \"GR\"EAT! \nClue: Thin oatmeal cereal in water; please, sir, may I have some more?",
+    "answer": "gruel"
+  },
+  {
+    "prompt": "Category: \"E\" CHANNEL \nClue: In 1974 Spokane's Cannon Island was the site of this, which featured an environmental theme",
+    "answer": "an expo"
+  },
+  {
+    "prompt": "Category: DECORATIVE ARTS \nClue: This opaque white glass is named for its resemblance to a certain dairy product",
+    "answer": "milk glass"
+  },
+  {
+    "prompt": "Category: WOMEN IN CHARGE \nClue: From 1966 to 1977 & from 1980 to 1984, she led the world's largest democracy",
+    "answer": "indira gandhi"
+  },
+  {
+    "prompt": "Category: ESPIONAGE \nClue: In 1962 the CIA enlisted the Mafia to assassinate this Cuban leader",
+    "answer": "fidel castro"
+  },
+  {
+    "prompt": "Category: GO DIRECTLY TO YALE \nClue: This late conservative columnist & Yale man's first book was 1951's \"God and Man at Yale\"",
+    "answer": "william f. buckley, jr."
+  },
+  {
+    "prompt": "Category: ANIMALS \nClue: In summer, when its coat is brown, the ermine is referred to by this name",
+    "answer": "stoat/weasel"
+  },
+  {
+    "prompt": "Category: COLONIAL AMERICA \nClue: In 1754, the French built Fort Duquesne on the present-day site of this city",
+    "answer": "pittsburgh"
+  },
+  {
+    "prompt": "Category: DOUBLE TALK \nClue: You'll find this \"big top\" casino in Las Vegas",
+    "answer": "circus circus"
+  },
+  {
+    "prompt": "Category: AMERICAN LITERATURE \nClue: It's the nickname of William Lonigan, the 15-year-old hero of a 1930s trilogy written by James T. Farrell",
+    "answer": "\"studs\""
+  },
+  {
+    "prompt": "Category: U.S. PRESIDENTS \nClue: Nearly 91 when he died the same day as Thomas Jefferson, he was the longest-lived president",
+    "answer": "john adams"
+  },
+  {
+    "prompt": "Category: THE BUREAU OF LAND MANAGEMENT \nClue: The Bureau's Hotshot Crews are part of its responsibility for these events on 388 million acres",
+    "answer": "forest fires"
+  },
+  {
+    "prompt": "Category: NUCLEAR ENERGY \nClue: 2-word term for the amount of fuel required to maintain a chain reaction; it varies according to the reactor",
+    "answer": "critical mass"
+  },
+  {
+    "prompt": "Category: POETS' RHYME TIME \nClue: A.A.'s ovens",
+    "answer": "milne\\'s kilns"
+  },
+  {
+    "prompt": "Category: ART & ARTISTS \nClue: An X-ray of his \"Blue Boy\" has revealed the figure of a small dog that was painted out",
+    "answer": "thomas gainsborough"
+  },
+  {
+    "prompt": "Category: FISH, BIRD OR MAMMAL \nClue: The wanderoo",
+    "answer": "a mammal"
+  },
+  {
+    "prompt": "Category: TV CAPTAINS \nClue: Captain Pike was in the pilot, but this captain replaced him in the series",
+    "answer": "capt. kirk"
+  },
+  {
+    "prompt": "Category: THE ANSWER LIES WITHIN \nClue: Overcome with emotion, the sheep is unable at the moment to make this customary sound",
+    "answer": "bleat"
+  },
+  {
+    "prompt": "Category: MUSEUMS \nClue: The Whizstreet \"Up In Smoke\" Museum is a web site exhibiting the art of these colorful cigar items",
+    "answer": "cigar bands"
+  },
+  {
+    "prompt": "Category: SUN \nClue: It's defined as the sun & the planets, moons, & whatever the heck else revolves around it",
+    "answer": "the solar system"
+  },
+  {
+    "prompt": "Category: MAIDEN NAMES \nClue: Billie Jean Moffitt",
+    "answer": "king"
+  },
+  {
+    "prompt": "Category: NATURE \nClue: A lack of this green pigment is one thing that separates fungi from other plants",
+    "answer": "chlorophyll"
+  },
+  {
+    "prompt": "Category: SOUNDS LIKE BEFORE & AFTER \nClue: This guy's vessel that's filled with animals 2 by 2 is quite the fixture on the Champs Elysees",
+    "answer": "noah\\'s arc de triomphe"
+  },
+  {
+    "prompt": "Category: REMEMBER 1989? \nClue: Attracting widespread media coverage, this star of \"The Queen of Outer Space\" slapped a cop",
+    "answer": "zsa zsa gabor"
+  },
+  {
+    "prompt": "Category: RADIO STARS \nClue: Kyle Cantrell, operations manager at Nashville's WSM-AM, is the Saturday night announcer for this show",
+    "answer": "grand ole opry"
+  },
+  {
+    "prompt": "Category: CLASSIC TOYS \nClue: Invented to be a synthetic rubber compound during WWII, it was first sold as Gooey Gupp",
+    "answer": "silly putty"
+  },
+  {
+    "prompt": "Category: FOOTBALL HALL OF FAMERS' TEAMS \nClue: Defensive lineman Mean Joe Greene",
+    "answer": "pittsburgh steelers"
+  },
+  {
+    "prompt": "Category: FROM THE GREEK \nClue: The name of this learning disability is partly from the Greek for 'word\"",
+    "answer": "dyslexia"
+  },
+  {
+    "prompt": "Category: STUPID ANSWERS \nClue: This American cyclist criticized Lance Armstrong in the July 15, 2004 issue of the French newspaper Le Monde",
+    "answer": "lemond"
+  },
+  {
+    "prompt": "Category: INSECTS \nClue: It's the shortest route taken back to the hive",
+    "answer": "beeline"
+  },
+  {
+    "prompt": "Category: POP CULTURE \nClue: During WWII this \"All-American Boy\" of radio drama helped track down Nazi spies & traitors",
+    "answer": "jack armstrong"
+  },
+  {
+    "prompt": "Category: FARMVILLE \nClue: On a farm who needs an alarm clock when you have this bird's cock-a-doodle-doo to wake you?",
+    "answer": "a rooster"
+  },
+  {
+    "prompt": "Category: POLITICAL CAMPAIGNS \nClue: This man's successful 2001 campaign was the most expensive non-presidential campaign in history",
+    "answer": "michael bloomberg"
+  },
+  {
+    "prompt": "Category: JAPAN \nClue: In spring 1989 this Japanese prime minister resigned after admitting involvement in a financial scandal",
+    "answer": "noburu takeshita"
+  },
+  {
+    "prompt": "Category: IT'S A CONSPIRACY! \nClue: Dorothy Kilgallen was found dead not long after conducting an interview with this nightclub owner & murderer",
+    "answer": "jack ruby"
+  },
+  {
+    "prompt": "Category: \"J\" WALKING THROUGH HISTORY \nClue: On Dec. 1, 1804 this Martinique-born beauty & an emperor-to-be had their second wedding",
+    "answer": "napoleon & josephine"
+  },
+  {
+    "prompt": "Category: MAJOR LEES \nClue: He starred in the films \"Fists of Fury\" & \"Game of Death\"",
+    "answer": "bruce lee"
+  },
+  {
+    "prompt": "Category: THAT NEWFANGLED ROCK 'N' ROLL \nClue: The name of this Florida band combines a blonde actress & the head of a \"murderous\" family",
+    "answer": "marilyn manson"
+  },
+  {
+    "prompt": "Category: LITERARY TRANSLATIONS \nClue: Translator Rosemary Edmonds leaves the final \"A\" off the last name of this Tolstoy title heroine",
+    "answer": "anna karenina"
+  },
+  {
+    "prompt": "Category: THE SOLOMON ISLANDS \nClue: The main industries in the Solomons include mining, timber & fishing for this fish",
+    "answer": "tuna"
+  },
+  {
+    "prompt": "Category: THEY NAMED A SCHOOL FOR ME \nClue: Ralph Lauren & James Baldwin are alumni of the NYC high school named for this Erie Canal builder",
+    "answer": "dewitt clinton"
+  },
+  {
+    "prompt": "Category: YAHWEH \nClue: In Exodus 6 Yahweh tells this man, \"Say unto the children of Israel, I am the Lord\"",
+    "answer": "moses"
+  },
+  {
+    "prompt": "Category: TV LAND'S TOP QUOTES \nClue: \"You're fired\"",
+    "answer": "trump"
+  },
+  {
+    "prompt": "Category: BY 2000 \nClue: Computers that recognize 00 as this date have to be fixed by the year 2000",
+    "answer": "1900"
+  },
+  {
+    "prompt": "Category: CASTLING \nClue: No castle is complete without this deep trench that prevents access from the surrounding land",
+    "answer": "a moat"
+  },
+  {
+    "prompt": "Category: GRADE AVIS \nClue: The red-winged this gets a \"B\" for its \"konk-ka-reee\" song; Mr. McCartney heard it \"singing in the dead of night\"",
+    "answer": "a blackbird"
+  },
+  {
+    "prompt": "Category: \"HOT\" AIR \nClue: A line in Rabelais' \"Gargantua and Pantagruel\" says to \"strike\" under this condition",
+    "answer": "while the iron is hot"
+  },
+  {
+    "prompt": "Category: BEFORE & AFTER \nClue: Star of \"The Exorcist\" who disappears from the Maryland woods in a scary 1999 film",
+    "answer": "linda blair witch project"
+  },
+  {
+    "prompt": "Category: PURPLE HAZE \nClue: This alliterative phrase refers to overly florid writing that tries to enlist a reader's sympathies",
+    "answer": "purple prose"
+  },
+  {
+    "prompt": "Category: POISONING \nClue: When this randy U.S. president died suddenly in Frisco after a trip to Alaska, rumors swirled his wife had poisoned him",
+    "answer": "warren g. harding"
+  },
+  {
+    "prompt": "Category: LANGUAGES \nClue: In this language heard in & around Barcelona, the Spanish \"bueno\" becomes simply \"bo\"",
+    "answer": "catalan"
+  },
+  {
+    "prompt": "Category: RICE, RICE BABY \nClue: Long grain rice is rich in amylose, a component of this carbohydrate, making it dry & fluffy when cooked",
+    "answer": "starch"
+  },
+  {
+    "prompt": "Category: KILL BILL: VOL. 1 \nClue: Anarchy reigned when this President was shot while in a receiving line at the 1901 Buffalo Pan-American Expo",
+    "answer": "william mckinley"
+  },
+  {
+    "prompt": "Category: THE FRENCH REVOLUTION \nClue: It's the English translation of the 3-word slogan of the French Revolution",
+    "answer": "liberty, equality, fraternity"
+  },
+  {
+    "prompt": "Category: ANNUAL EVENTS \nClue: Ten Days on the Island is an annual cultural festival taking place throughout this Australian state",
+    "answer": "tasmania"
+  },
+  {
+    "prompt": "Category: 20th CENTURY MONARCHS \nClue: Queen Ena of Spain, the last surviving granddaughter of this queen of England, died in 1969",
+    "answer": "queen victoria"
+  },
+  {
+    "prompt": "Category: CINEMA SEQUELS \nClue: In a 1996 sequel to this film, 2 dogs & a cat are \"Lost In San Francisco\"",
+    "answer": "\"homeward bound\""
+  },
+  {
+    "prompt": "Category: GUINNESS RECORDS \nClue: Though its name is only 3 letters long, it's the biggest retail fashion chain",
+    "answer": "gap"
+  },
+  {
+    "prompt": "Category: WHERE THE WILD THINGS WERE \nClue: The Xerces Blue of this insect, native to sand dunes in San Francisco's Sunset District, became extinct in the 1940s",
+    "answer": "butterflies"
+  },
+  {
+    "prompt": "Category: TECHNOLOGY \nClue: The Oxford Illustrated Encyclopedia says this tool has largely replaced the axe in forestry",
+    "answer": "chainsaw"
+  },
+  {
+    "prompt": "Category: THAT'S NOT HOW THAT BOOK ENDS! \nClue: ...All perfume no & his heart was going like mad & no I said no I won't no then I kicked him no",
+    "answer": "ulysses"
+  },
+  {
+    "prompt": "Category: IN THE TEENS \nClue: One of these \"wheelers\" is a large tractor-trailer truck rig",
+    "answer": "18-wheeler"
+  },
+  {
+    "prompt": "Category: THE APOLLO THEATER \nClue: (Cheryl of the Clue Crew on the stage of the Apollo Theater in Harlem)  Especially on Amateur Night, performers like to rub what's known as the tree of this, & yes, it springs eternal",
+    "answer": "hope"
+  },
+  {
+    "prompt": "Category: TV CAST CHANGES \nClue: In 1983 6' 2\" Christopher Hewitt replaced the 3' 10\" Herve Villechaize on this series",
+    "answer": "fantasy island"
+  },
+  {
+    "prompt": "Category: CHEMISTRY \nClue: It's the smallest unit of a substance that shows all the chemical properties of that substance",
+    "answer": "molecule"
+  },
+  {
+    "prompt": "Category: CONGRESS \nClue: The number of senators necessary to make a quorum",
+    "answer": "51"
+  },
+  {
+    "prompt": "Category: NOT JUST AN AD WRITER \nClue: Zelda Sayre broke her engagement with him (a broke adman) in 1919, but married him (now a successful novelist) in 1920",
+    "answer": "f. scott fitzgerald"
+  },
+  {
+    "prompt": "Category: BODY COUNT \nClue: Number of bones in the average adult human body plus zero",
+    "answer": "206"
+  },
+  {
+    "prompt": "Category: GAMBLING \nClue: You can win at blackjack with this method explained by Edward Thorp; don't get caught",
+    "answer": "card counting"
+  },
+  {
+    "prompt": "Category: DUE \"SOUTH\" \nClue: This Indiana city is named for a turning point in the St. Joseph River",
+    "answer": "south bend"
+  },
+  {
+    "prompt": "Category: JUST DESSERTS \nClue: Enjoy a cookie with chips of white chocolate & this Hawaiian nut",
+    "answer": "macadamia nuts"
+  },
+  {
+    "prompt": "Category: FREUD \nClue: The one great question Freud said he could not answer was \"What does\" one of these \"want?\"",
+    "answer": "a woman"
+  },
+  {
+    "prompt": "Category: STUPID ANSWERS \nClue: Leonardo da Vinci was born near this small Tuscan town in 1519",
+    "answer": "vinci"
+  },
+  {
+    "prompt": "Category: 1981 \nClue: In December a Peruvian named Javier Perez de Cuellar was named to this post",
+    "answer": "u.n. secretary-general"
+  },
+  {
+    "prompt": "Category: \"B\" IN FASHION \nClue: Sun, rain & Easter are all types of these",
+    "answer": "a bonnet"
+  },
+  {
+    "prompt": "Category: SMALL CAPITALS \nClue: The Grimaldis rule over this country's capital, nicknamed \"The Rock\" due to its position on a rocky promontory",
+    "answer": "monaco"
+  },
+  {
+    "prompt": "Category: DOWN EASTERS \nClue: This poet who wrote \"I shot an arrow in the air...\" was born in Portland",
+    "answer": "longfellow"
+  },
+  {
+    "prompt": "Category: ACADEMIA NUTS \nClue: Theoretical physicist John Dalton stated firmly in 1803, \"Thou knowest no man can split\" one of these",
+    "answer": "atom"
+  },
+  {
+    "prompt": "Category: CECIL \nClue: When he became Britain's poet laureate in 1968, his son Daniel, future star of \"The Last of the Mohicans\", was 10",
+    "answer": "cecil day-lewis"
+  },
+  {
+    "prompt": "Category: ENDS IN DOUBLE E \nClue: Ah, yes, hello, my dear, my little this bird of the titmouse family",
+    "answer": "chickadee"
+  },
+  {
+    "prompt": "Category: CAN I GET YOUR LITERARY NUMBER? \nClue: A game about Kevin Bacon was inspired by the title of this play",
+    "answer": "six degrees of separation"
+  },
+  {
+    "prompt": "Category: TV VARIETY SHOWS \nClue: This comedienne ended her telecasts by tugging her ear, a personal message to her grandmother",
+    "answer": "carol burnett"
+  },
+  {
+    "prompt": "Category: LET'S MAKE UP \nClue: The study, the art & the profession of using make-up is this -ology",
+    "answer": "cosmetology"
+  },
+  {
+    "prompt": "Category: TAKE A \"SHOT\" \nClue: For olympians, the ball weighs 16 pounds; for high school boys, 12, in this event",
+    "answer": "the shotput"
+  },
+  {
+    "prompt": "Category: THE SPORT OF KINGS \nClue: A female horse, age 4 or under; Rags to Riches became the first in 102 years to win the Belmont Stakes in 2007",
+    "answer": "a filly"
+  },
+  {
+    "prompt": "Category: LIBRARIES \nClue: Galleries at his Iowa Pres. Library & Museum include \"The Humanitarian Years\" & \"From Hero to Scapegoat\"",
+    "answer": "herbert hoover"
+  },
+  {
+    "prompt": "Category: FAMOUS MOUNTS \nClue: George Vancouver named this NW peak after a British rear admiral, not for the local weather",
+    "answer": "mount ranier"
+  },
+  {
+    "prompt": "Category: TOUGH CAPITALS \nClue: Nicosia",
+    "answer": "cyprus"
+  },
+  {
+    "prompt": "Category: BOOKS BY CELEBRITIES \nClue: In collaboration with Weight Watchers, she shares some low cal fare in \"Dining With the Duchess\"",
+    "answer": "sarah ferguson"
+  },
+  {
+    "prompt": "Category: ASTRONOMY \nClue: This Italian spent his last 8 years under house arrest for teaching... shh! the Earth goes around the sun!",
+    "answer": "galileo"
+  },
+  {
+    "prompt": "Category: THE GODFATHER \nClue: After a mock funeral for this counterculture icon, his goddaughter, Winona Ryder, moved in with him",
+    "answer": "timothy leary"
+  },
+  {
+    "prompt": "Category: PRICELINE \nClue: In the 1960s this famous structure really was \"falling down\", so Robert McCulloch paid $2,460,000 & moved it to Arizona",
+    "answer": "london bridge"
+  },
+  {
+    "prompt": "Category: JEOPARDY PLATFORMS \nClue: In 1975, the USS Kirk had to push helicopters off its deck as it helped people fleeing from this Asian capital",
+    "answer": "saigon"
+  },
+  {
+    "prompt": "Category: BUSINESS GIANTS \nClue: Highly diversified, it's the only co. in the Dow Jones Industrial Average that was included in the original index of 1896",
+    "answer": "general electric"
+  },
+  {
+    "prompt": "Category: AIRCRAFT OF WORLD WAR I \nClue: Germany's Halberstadt CL IV was powered by this engine brand named for a girl",
+    "answer": "mercedes"
+  },
+  {
+    "prompt": "Category: \"Y\"s \nClue: This 3-letter \"Y\" word begins the title of over 125 Billboard Top 40 hits",
+    "answer": "you"
+  },
+  {
+    "prompt": "Category: AUTHORS \nClue: The Prague tombstone of this German-language writer who died in 1924 is inscribed in Hebrew",
+    "answer": "franz kafka"
+  },
+  {
+    "prompt": "Category: POPES NAMED GREGORY \nClue: Gregory XIII is famous for his revision of this in 1582",
+    "answer": "the calendar"
+  },
+  {
+    "prompt": "Category: SABRINA'S WITCH HANDBOOK \nClue: (Hi, I'm Caroline Rhea)  Like many modern witches, the Spellmans use an upright vacuum cleaner to do this, as well as to clean (not that we ever clean!)",
+    "answer": "fly"
+  },
+  {
+    "prompt": "Category: THE WEST COAST \nClue: This port city is named for what James Ryan said upon arriving in 1850 (he may have been quoting Archimedes)",
+    "answer": "eureka, california"
+  },
+  {
+    "prompt": "Category: BIRDS \nClue: The willow ptarmigan, which makes its home in Arctic areas, is this state's official bird",
+    "answer": "alaska"
+  },
+  {
+    "prompt": "Category: HARRISON FORD \nClue: 1 of the 4 characters Ford has played more than once on film",
+    "answer": "han solo, jack ryan, indiana jones or bob"
+  },
+  {
+    "prompt": "Category: INTO AFRICA \nClue: The winner of 7 Oscars, the 1985 film \"Out of Africa\" takes place largely on a plantation in this country",
+    "answer": "kenya"
+  },
+  {
+    "prompt": "Category: ROYAL STORY PROBLEMS \nClue: If Queen Beatrix had a potter who could make 3 vases a day, it would take him this long to make a gross",
+    "answer": "48"
+  },
+  {
+    "prompt": "Category: HISTORY \nClue: In January of 1926, Theodoros Pangalos declared himself dictator of this country - he was deposed in August",
+    "answer": "greece"
+  },
+  {
+    "prompt": "Category: TRICKY QUESTIONS \nClue: The number of 4-cent stamps in a dozen",
+    "answer": "12"
+  },
+  {
+    "prompt": "Category: TAKE A POWDER \nClue: Locholest powder is designed to lower the levels of the \"bad\" cholesterol, known by this 3-letter abbreviation",
+    "answer": "ldl"
+  },
+  {
+    "prompt": "Category: AROUND THE WORLD \nClue: Dark Mount Lovcen gave this Yugoslav republic its name, meaning \"Black Mountain\"",
+    "answer": "montenegro"
+  },
+  {
+    "prompt": "Category: GREEK MYTHOLOGY \nClue: This narrow strait is so named because Phrixus' sister Helle drowned in it",
+    "answer": "hellespont"
+  },
+  {
+    "prompt": "Category: LANGUAGES \nClue: A variety of Malay called Bahasa Jakarta is spoken in the capital of this island nation",
+    "answer": "indonesia"
+  },
+  {
+    "prompt": "Category: STARTS WITH 3 CONSONANTS \nClue: It's a grant of financial aid awarded to a student for the purpose of attending college",
+    "answer": "scholarship"
+  },
+  {
+    "prompt": "Category: CHOCOLATE \nClue: He's credited with introducing chocolate to Spain after consuming it at the court of Montezuma",
+    "answer": "hernando cortez"
+  },
+  {
+    "prompt": "Category: YULETIDE FAVORITES \nClue: This song's Latin chorus, \"Gloria in Excelsis Deo\", means \"Glory to God in the Highest\"",
+    "answer": "\"angels we have heard on high\""
+  },
+  {
+    "prompt": "Category: PSYCH \"O\" \nClue: This type of \"working\" therapy gives the individual something meaningful to do",
+    "answer": "occupational therapy"
+  },
+  {
+    "prompt": "Category: ANNUAL EVENTS \nClue: Sedalia, Missouri has a June festival honoring this \"King of Ragtime\" who once studied music there",
+    "answer": "scott joplin"
+  },
+  {
+    "prompt": "Category: JEWELRY \nClue: When her emerald ring was auctioned in 1987, it brought a record price of $2,126,646",
+    "answer": "duchess of windsor"
+  },
+  {
+    "prompt": "Category: MOVIES BY INITIALS \nClue: 2008, starring Robert Downey Jr.: \"I.M.\"",
+    "answer": "iron man"
+  },
+  {
+    "prompt": "Category: ROBOTICS \nClue: GM helped develop cobots, or collaborative robots, for this production process on a line of the same name",
+    "answer": "an assembly line"
+  },
+  {
+    "prompt": "Category: MEASURE THIS, TREBEK! \nClue: Sailors can use a basic sextant to measure this at local noon, then check navigation tables to calculate latitude",
+    "answer": "the altitude of the sun"
+  },
+  {
+    "prompt": "Category: THE MATERIAL WORLD \nClue: The word serigraphy, a type of printing, comes from the Latin for this fabric",
+    "answer": "silk"
+  },
+  {
+    "prompt": "Category: LITERARY HEROINES \nClue: Don Quixote dubs Aldanza with this more romantic name",
+    "answer": "dulcinea"
+  },
+  {
+    "prompt": "Category: ALONG THE TRANS-CANADA HIGHWAY \nClue: The summit of Rogers Pass in British Columbia was the site of the 1962 opening of the highway by this Prime Minister",
+    "answer": "john diefenbaker"
+  },
+  {
+    "prompt": "Category: NATIVE AMERICA \nClue: Native American tribes that call this state home include the Penobscot & the Passamaquoddy",
+    "answer": "maine"
+  },
+  {
+    "prompt": "Category: DONE THAT \nClue: In 1817 Scotland's David Brewster patented this pattern-making tube made with mirrors & ground glass",
+    "answer": "a kaleidoscope"
+  },
+  {
+    "prompt": "Category: POETS \nClue: This baron was England's poet laureate from 1850 to 1892, longer than anyone else",
+    "answer": "alfred lord tennyson"
+  },
+  {
+    "prompt": "Category: AN \"A\" IN AMERICAN HISTORY \nClue: On March 6, 1836 Jim Bowie, weak as a kitten from illness, was killed by Mexican troops while lying in his cot there",
+    "answer": "the alamo"
+  },
+  {
+    "prompt": "Category: LOOKING FOR A LATIN LOVER \nClue: You'll be on the money knowing \"out of many, one\" is the translation of this Latin phrase",
+    "answer": "e pluribus unum"
+  },
+  {
+    "prompt": "Category: TV GETS REAL \nClue: This supermodel & onetime judge on \"America's Next Top Model\" started her own \"Modeling Agency\"",
+    "answer": "janice dickinson"
+  },
+  {
+    "prompt": "Category: THE FIRM \nClue: In 1950 the Minnesota Valley Canning Company changed its name to this 2-word one, after its \"Jolly\" brand",
+    "answer": "green giant"
+  },
+  {
+    "prompt": "Category: WORDS OF THE '60s \nClue: An emotional problem or inhibition, or what you do if a phone call bums you out",
+    "answer": "hangup"
+  },
+  {
+    "prompt": "Category: MYTH ME? \nClue: Go around this bush & notice its purple fruit:  it got that color from the blood of Pyramus",
+    "answer": "mulberry"
+  },
+  {
+    "prompt": "Category: TONY \nClue: The front of the Tony Award depicts these ancient twin symbols of theatre",
+    "answer": "comedy and tragedy"
+  },
+  {
+    "prompt": "Category: I PROBABLY COULDN'T PAINT THAT \nClue: Both Manet & this close friend had works titled \"Luncheon on the Grass\", but the friend's painting was 15 x 20 feet",
+    "answer": "monet"
+  },
+  {
+    "prompt": "Category: \"JAN\"UARY \nClue: This god's principal temple in the forum had a 2-faced statue of him, near doors facing east & west",
+    "answer": "janus"
+  },
+  {
+    "prompt": "Category: JACKIE ROBINSON \nClue: Hall of Fame executive who went out on a \"limb\" to bring Robinson to the majors",
+    "answer": "branch rickey"
+  },
+  {
+    "prompt": "Category: SWAHILI PHRASES \nClue: Hillary Clinton would translate the Swahili \"Mkono mmoja haulei mwana\" to this 8-word phrase",
+    "answer": "\\\"it takes a village to raise a child\\\""
+  },
+  {
+    "prompt": "Category: FROM THE PAGE TO THE STAGE \nClue: In 2005, in London, Val Kilmer had the \"mail\" lead in a play based on this James M. Cain novel",
+    "answer": "the postman always rings twice"
+  },
+  {
+    "prompt": "Category: AUTHORS' NATIVE LANDS \nClue: Celebrator of imperialism Rudyard Kipling",
+    "answer": "india"
+  },
+  {
+    "prompt": "Category: \"GO\" TO THE END \nClue: In mythology this ship on which Jason sailed contained magic wood from a sacred oak",
+    "answer": "argo"
+  },
+  {
+    "prompt": "Category: COMIC BOOK VILLAINS \nClue: This \"God of Mischief\" & trickster clashed with Thor many times attempting to claim the throne of Asgard",
+    "answer": "loki"
+  },
+  {
+    "prompt": "Category: MUSIC OF TODAY \nClue: We were \"Waiting On The World To Change\" when he got to perform \"Human Nature\" at Michael Jackson's memorial service",
+    "answer": "john mayer"
+  },
+  {
+    "prompt": "Category: NEWSMAKERS OF 2010 \nClue: This chief Facebooker is the subject of the biopic \"The Social Network\"",
+    "answer": "zuckerberg"
+  },
+  {
+    "prompt": "Category: PET PROJECTS? \nClue: Divine: \"Pink _____\"",
+    "answer": "flamingos"
+  },
+  {
+    "prompt": "Category: STATES' HIGHEST POINTS \nClue: Taum Sauk Mountain, convenient to the Ozark Trail",
+    "answer": "missouri"
+  },
+  {
+    "prompt": "Category: HOLIDAYS AND OBSERVANCES \nClue: The name of this Jewish holy day means \"beginning of the year\"",
+    "answer": "rosh hashanah"
+  }
+]

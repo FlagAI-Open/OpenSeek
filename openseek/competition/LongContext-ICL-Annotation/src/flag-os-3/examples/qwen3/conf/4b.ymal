@@ -1,0 +1,16 @@
+- serve_id: vllm_model
+  engine: vllm
+  engine_args:
+    model: /FlagRelease/Qwen3-4B-FlagOS-Ascend/  # path of weight of Qwen3-4B
+    served_model_name: Qwen3-4B-ascend-flagos
+    tensor_parallel_size: 2
+    gpu_memory_utilization: 0.95
+    host: 127.0.0.1  #Modify the host field in the 4b.yaml configuration file to use the machine's actual IP address.
+    port: 9010
+    block_size: 128
+    max_model_len: 35536
+    max_num_seqs: 16
+    enforce_eager: true
+    no_enable_prefix_caching: true
+    no_enable_chunked_prefill: true
+    request_timeout: 1800

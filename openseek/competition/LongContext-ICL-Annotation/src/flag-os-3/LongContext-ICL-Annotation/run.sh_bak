@@ -1,0 +1,4 @@
+for t in 1 2 3 4 5 6 7
+do
+	python src/main.py --tokenizer_path /FlagRelease/Qwen3-4B-FlagOS-Ascend/ --task_id $t  --threads 16
+done

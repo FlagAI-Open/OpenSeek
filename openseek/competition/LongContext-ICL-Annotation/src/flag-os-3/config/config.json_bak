@@ -1,0 +1,32 @@
+{
+  "agents": {
+    "defaults": {
+      "workspace": "__WORK_DIR__/config/workspace",
+      "model": "__MODEL_NAME__",
+      "provider": "auto",
+      "maxTokens": 20000,
+      "contextWindowTokens": 32768,
+      "contextBlockLimit": null,
+      "temperature": 0.7,
+      "maxToolIterations": 200,
+      "maxToolResultChars": 16000,
+      "providerRetryMode": "standard",
+      "reasoningEffort": null,
+      "timezone": "UTC",
+      "unifiedSession": false,
+      "dream": {
+        "intervalH": 2,
+        "modelOverride": null,
+        "maxBatchSize": 20,
+        "maxIterations": 10
+      }
+    }
+  },
+  "providers": {
+    "vllm": {
+      "apiBase": "__MODEL_URL__",
+      "extraHeaders": null,
+      "timeout":1800
+    }
+  }
+}

@@ -1,0 +1,206 @@
+[
+  {
+    "prompt": "Sentence 1: But the insurers are fighting an irresistible force. Sentence 2: The new rule would alter how current reporting requirements in Medicare hospitals work. Genre: government.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: Paul Wellstone, D-Minn., used the same dodge on Fox News Sunday : Can't we focus on issues that are important to people? Sentence 2: I couldn't believe they lost by such a small margin. Genre: slate.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: No more juice. Sentence 2: \"I am happy to help in any way I can,\" the sentiment filled Tuppence with enormous cheer.  Genre: fiction.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: 1 billion in 2002 and increased to $5. Sentence 2: There is no need for any staff in emergency rooms to screen patients. Genre: government.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: At the national level, there are a total of 575 wrestlers classed in six divisions according to their win-loss ratio in the annual tournaments. Sentence 2: There are about 60 wrestlers at the national level. Genre: travel.",
+    "answer": "Y"
+  },
+  {
+    "prompt": "Sentence 1: This may be RAPS4, which is designed for the ED, but it needs further direct testing. Sentence 2: HUD did absolutely nothing for Regulation X.   Genre: government.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: He watched the farmers, tradesmen, herders, and children finishing their day. Sentence 2: The camp was a sane and serene place. Genre: fiction.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: In the center of the five-aisled Gothic basilica, the Coro (choir) is a marvel of woodcarving. Sentence 2: The place is actually good. Genre: travel.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: He was smaller than the others and wore no helm. Sentence 2: If Bayliss wanted to use Drew's connection with the Range as a weapon against Hunt Rennie, Hunt Rennie's son would not let that happen.  Genre: fiction.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: Unfortunately, the cement used for its construction contained sea sand, which caused the iron reinforcing rods to corrode. Sentence 2: Sea salt causes iron to become smooth and shiny. Genre: travel.",
+    "answer": "Y"
+  },
+  {
+    "prompt": "Sentence 1: Room price guidelines below are for a double room with bath in high season, including breakfast and VAT (value-added tax). Sentence 2: It is more enjoyable for visit Hakone for day trips. Genre: travel.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: because there just cannot always be landfills uh my we have always saved aluminum just absolutely forever and uh i'm saving uh paper now and glass our biggest problem is that no one will take the paper it gets really difficult to find someone in fact now i'm donating it to a local church and by giving it to them they take it in mass and then our junk dealer gives them ten dollars just because they've they're a church and he writes it off as a donation but it's a real problem with with the paper to find that outlet for it after you've got it stacked up Sentence 2: He had to get two new ones. Genre: telephone.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: As soon as you came into the room, I knew  \" Mr. Carter held up his hand. Sentence 2: This girl, as you say! Genre: fiction.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: He rang up the Ritz and asked for Julius Hersheimmer. Sentence 2: She suffered many hardships during her life. Genre: fiction.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: You do not need to assess reliability if the data are used (1) only as background information or (2) in documents without findings, conclusions, or recommendations. Sentence 2: It never hurts to do reliability assessment for your own peace of mind, however. Genre: government.",
+    "answer": "Y"
+  },
+  {
+    "prompt": "Sentence 1: In Canada, under the headline Highway to NAFTA? Sentence 2: Under the headline Highway in Spain? Genre: slate.",
+    "answer": "Y"
+  },
+  {
+    "prompt": "Sentence 1: that's right sure yeah you you yeah you could just sit there and talk Sentence 2: Let me know if I can return the favor. Genre: telephone.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: I've given up trying to guess what he'll do next.\" Sentence 2: Pecina said she got help from a lawyer for free. Genre: fiction.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: I'm sorry about the whole business confoundedly sorry.\" Tommy came to himself with a start. Sentence 2: They can plead guilty and get less time. Genre: telephone.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: now he he is a good uh actually i did i played flute for almost ten years  and and uh so i i i i appreciate his too his his music he he he's from Ireland isn't he Sentence 2: Thank you too, goodbye. Genre: telephone.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: Not there, said Tuppence over her shoulder. Sentence 2: Coming back to reality was a sad experience for him, the game world was just so much better. Genre: fiction.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: Works such as Raphael's Bridgewater Madonna, a Rembrandt Self-Portrait, and Vel?¡zquez's Old Woman Cooking Eggs are only three from a collection that includes pieces by Titian, Van Dyck, Rubens, Constable, Turner, and Vermeer. Sentence 2: The bulk of the collection is by Titians and Rubens. Genre: travel.",
+    "answer": "Y"
+  },
+  {
+    "prompt": "Sentence 1: Athens became so attached to this source of easy money that dissent soon grew among the member cities, and Sparta led the confederacy from Athens after the Peloponnesian War (413  404 b.c. ). The Persians, sensing weakness in the ranks, launched another offensive, resulting in the Ae?Χean coast cities coming under Persian control in 387 b.c. Sentence 2: The Persians struck on an opportunity and won themselves coastal cities. Genre: travel.",
+    "answer": "Y"
+  },
+  {
+    "prompt": "Sentence 1: Some are also upset by the eroticism of Parmigianino in his strange but undeniably graceful Madonna with the Long Neck (1534) just look at those elongated fingers a masterpiece of the sophisticated and subsequently decadent Mannerism that followed the High Renaissance. Sentence 2: Madonna with the Long Neck was the most controversial piece ever displayed in a museum. Genre: travel.",
+    "answer": "Y"
+  },
+  {
+    "prompt": "Sentence 1: Small family-run hostelries and country inns are charming, but, depending of course on your budget and personal preferences, consider indulging for at least one night on the special comforts and pampering of the great hotels. Sentence 2: The Gothic loggia on the Piazza San Lorenzo are from the 12th century. Genre: travel.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: Such simulations can help policymakers assess the long-term consequences of fiscal policy and saving choices made today. Sentence 2: Nixon's decision to force Ho Chi Minh to withdraw saved 18,000 American lives  Genre: government.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: He also painted a chilling picture of corruption and depravity in Baghdad and claimed to have evidence that Saddam Hussein recently seduced the son of his latest wife, Samira Shabandar. Sentence 2: No, she didn't show us anything. Genre: fiction.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: Air Daily, For Now, Labor Capable of Meeting SCR Demand, Clear Air Regulations and Markets    Sentence 2: Continuing on with this. Genre: slate.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: but how come we weren't doing this say twenty years ago you know Sentence 2: Now's the time to get prepared. Genre: telephone.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: You know, Monsieur Poirot, that you have carte blanche in every way. Sentence 2: Derry was angry about losing the battle. Genre: fiction.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: All Good Candidates Lose Sentence 2: The villagers never liked weapons in the first place. Genre: fiction.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: Also of the massive lattice wooden screens though which unmarried daughters were allowed to peep at their parents' guests in the drawing room. Sentence 2: The unmarried daughters were looking forward to marriage. Genre: travel.",
+    "answer": "Y"
+  },
+  {
+    "prompt": "Sentence 1: He could hear the sound of other running feet outside. Sentence 2: The people will arrive in ten minutes. Genre: fiction.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: Another (and perhaps more famous) member of the family was Elizabeth Barrett, who married poet Robert Browning. Sentence 2: Robert Browning was a poet who never married. Genre: travel.",
+    "answer": "Y"
+  },
+  {
+    "prompt": "Sentence 1: Norman incursion began with an internal power struggle. Sentence 2: He agreed to accept. Genre: fiction.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: Naturally, she told him. Sentence 2: Viscount Powerscourt This mansion used to reside in this mansion. Genre: fiction.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: falling in love with the city all over again. Sentence 2: They stopped and looked my way when they saw me.  Genre: fiction.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: The CIA and FBI touted this arrest as proof that they had fixed the bureaucratic bungling that had allowed Ames to go undetected for six years. Sentence 2: It even served as prison for a while. Genre: slate.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: But there have been cases where the candidate gave us relevant numbers--and with success. Sentence 2: He did not have an imagination like that. Genre: fiction.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: uh-huh yeah i think uh Central America has always been one of those places where people are more passive you know where it's always the minority that are Sentence 2: The group decided that they were being outnumbered, and had to change that. Genre: fiction.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: You can also wander through the soothing Chinese garden, with its waterfalls and pretty red pergola. Sentence 2: He closed the door behind him and looked at another.  Genre: fiction.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: Her timely comments set a tone for open and extensive information sharing and collaboration. Sentence 2: If I were you, I would do that too. Genre: telephone.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: Capital gains (or losses) and lump-sum or one-time payments such as life insurance settlements are excluded. Sentence 2: Here in Texas we don't pay state income taxes yet, but the legislature wants to add one, there's a big debate about it. Genre: government.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: so it's one of those things that they really um and you wonder you know with all these oil spills Sentence 2: Gauve moved his head side to side. Genre: fiction.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: The Alliance's English-educated elite seemed to imagine that multiracial integration would come about through education and employment. Sentence 2: The English educated of the alliance imagined that multiracial integration would come naturally through education and employment. Genre: travel.",
+    "answer": "Y"
+  },
+  {
+    "prompt": "Sentence 1: Rayfield assists us with these contradictions by saying that, by the standards of his time, Chekhov was a judophile. Sentence 2: The writers didn't even attempt to write in terms that the people of the time could understand. Genre: slate.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: From 1925 to 1935 several wide-ranging reforms were introduced by President Ke?έal. Sentence 2: Your judgment is about politics, not about economics. Genre: slate.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: Originally planned under Louis XV, and begun in 1764, it wasn't consecrated until 1842. Sentence 2: It became sacred almost a hundred years after it begun because of politics. Genre: travel.",
+    "answer": "Y"
+  },
+  {
+    "prompt": "Sentence 1: I am Adrin of Faigon. Sentence 2: San'doro was heading toward the battle. Genre: fiction.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: He bought his revolver to bear- Sentence 2: In other places, men are cleaning the elephant stables and storehouses for the chariot-shrines used to carry the gods through the streets during celebrations. Genre: fiction.",
+    "answer": "N"
+  },
+  {
+    "prompt": "Sentence 1: 14 So far, the net payments from the United States to foreign lenders have been small as a share of GDP, as shown in figure 3.3. Sentence 2: Government speech does not apply to private speech in every instance. Genre: government.",
+    "answer": "N"
+  }
+]
