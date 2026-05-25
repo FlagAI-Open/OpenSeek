@@ -8,7 +8,7 @@ serve:
     port: 2026
     trust_remote_code: true
     dtype: bfloat16
-    gpu_memory_utilization: 0.68
+    gpu_memory_utilization: 0.8
     max_model_len: 32768
     max_num_seqs: 1
     enforce_eager: true
