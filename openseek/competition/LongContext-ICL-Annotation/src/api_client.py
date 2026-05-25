@@ -192,7 +192,8 @@ class ChatClient:
             else:
                 raise e
         finally:
-            await client.close()
+            if client:
+                await client.close()
 
 
     # 检测服务是否可用
