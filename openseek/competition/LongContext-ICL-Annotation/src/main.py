@@ -1,92 +1,157 @@
-import json, os, argparse
-from tqdm import tqdm, trange
-from transformers import AutoTokenizer
+import argparse
+import json
+from pathlib import Path
+from functools import partial
 
-# from method import build_prompt, select_examples, annotate
+# 全局设置 print 默认 flush=True，解决日志缓存问题
+print = partial(print, flush=True)
 
-from method import build_prompt, select_examples
+from method import (
+    get_strategy,
+    normalize_examples,
+    select_examples,
+)
+from llm_client import is_completion_server_available
+from strategy_verified import VerifiedProgramStrategy
+from submission_utils import (
+    ensure_directory,
+    get_output_file,
+    save_jsonl,
+    zip_submission_files,
+)
 
-from method import annotate_nvidia as annotate # For Nvidia GPU
-# from method import annotate_ascend as annotate # For Huawei Ascend
+SRC_DIR = Path(__file__).resolve().parent
+ROOT_DIR = SRC_DIR.parent
+DEFAULT_OUTPUT_DIR = ROOT_DIR / 'submission_results'
+DEFAULT_ZIP_PATH = DEFAULT_OUTPUT_DIR / 'result.zip'
+DEFAULT_DATA_DIR = ROOT_DIR / 'data'
 
 TASK_FILES = {
-    1: './data/openseek-1_closest_integers.json',
-    2: './data/openseek-2_count_nouns_verbs.json',
-    3: './data/openseek-3_collatz_conjecture.json',
-    4: './data/openseek-4_conala_concat_strings.json',
-    5: './data/openseek-5_semeval_2018_task1_tweet_sadness_detection.json',
-    6: './data/openseek-6_mnli_same_genre_classification.json',
-    7: './data/openseek-7_jeopardy_answer_generation_all.json',
-    8: '../data/openseek-8_kernel_generation.json',
+    1: DEFAULT_DATA_DIR / 'openseek-1_closest_integers.json',
+    2: DEFAULT_DATA_DIR / 'openseek-2_count_nouns_verbs.json',
+    3: DEFAULT_DATA_DIR / 'openseek-3_collatz_conjecture.json',
+    4: DEFAULT_DATA_DIR / 'openseek-4_conala_concat_strings.json',
+    5: DEFAULT_DATA_DIR / 'openseek-5_semeval_2018_task1_tweet_sadness_detection.json',
+    6: DEFAULT_DATA_DIR / 'openseek-6_mnli_same_genre_classification.json',
+    7: DEFAULT_DATA_DIR / 'openseek-7_jeopardy_answer_generation_all.json',
+    8: DEFAULT_DATA_DIR / 'openseek-8_kernel_generation.json',
 }
 
 def parser_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--task_id', type=int, required=True,
-                        help='Task ID to evaluate, should be in [1, 7].')
-    parser.add_argument('--max_input_length', type=int, default=10_000,
-                        help='Maximum input length for the model.')
-    parser.add_argument('--log_path_prefix', type=str, 
-                        default='../outputs/',
-                        help='Prefix path to save the evaluation logs.')
-    parser.add_argument('--tokenizer_path', type=str,
-                        default='/share/project/wuhaiming/spaces/data_agent/OpenSeek-main/openseek/competition/LongContext-ICL-Annotation/src/Qwen3-4B')
+    parser.add_argument('--task_id', type=int, nargs='*',
+                        help='Task IDs to evaluate. If omitted, runs all tasks 1-8.')
+    parser.add_argument('--limit', type=int, default=None,
+                        help='Limit the number of samples for each selected task. Useful for quick testing.')
+    parser.add_argument('--output_dir', type=str,
+                        default=str(DEFAULT_OUTPUT_DIR),
+                        help='Directory used to store submission jsonl files.')
+    parser.add_argument('--zip_path', type=str,
+                        default=str(DEFAULT_ZIP_PATH),
+                        help='Zip file path for direct competition submission.')
     args = parser.parse_args()
     return args
 
-def evaluate(task_id:int, 
-             qwen_tokenizer:AutoTokenizer,
-             max_input_length:int=128_000,
-             log_path_prefix:str='./outputs/'
-        )->float:
-    assert task_id in [i for i in range(1, 9)],\
-        f"task_id should be in [1, 8], but got {task_id}."
-    
+
+def resolve_task_ids(task_ids: list[int] | None) -> list[int]:
+    if not task_ids:
+        return list(TASK_FILES.keys())
+
+    invalid_task_ids = [task_id for task_id in task_ids if task_id not in TASK_FILES]
+    if invalid_task_ids:
+        raise ValueError(f"task_id should be in [1, 8], but got {invalid_task_ids}.")
+
+    return list(dict.fromkeys(task_ids))
+
+
+def evaluate_task(task_id: int,
+                  output_dir: Path = DEFAULT_OUTPUT_DIR,
+                  limit: int | None = None,
+                  ):
+    assert task_id in TASK_FILES, f"task_id should be in [1, 8], but got {task_id}."
+
     task_file = TASK_FILES[task_id]
-    with open(task_file, 'r') as f:
+    with open(task_file, 'r', encoding='utf-8') as f:
         task_dict = json.load(f)
-    
-    task_name = task_dict['task_name']
+
     task_description = task_dict['Definition'][0]
-    icl_examples = task_dict['examples'][:100]
     test_samples = task_dict['test_samples']
-    
-    version = 1
-    output_file = f'{log_path_prefix}openseek-{task_id}-v{version}.jsonl'
-    output_path = os.path.dirname(output_file)
-    os.makedirs(output_path, exist_ok=True)
-    while os.path.exists(output_file):
-        version += 1
-        output_file = f'{log_path_prefix}openseek-{task_id}-v{version}.jsonl'
-    with open(output_file, 'w') as f:
-        pass
-    
-    examples_str = None
-    for test_sample in tqdm(test_samples, desc=f'Evaluation on Task {task_id}: {task_name}'):
-        test_record = dict()
-        
+    if limit is not None:
+        test_samples = test_samples[:limit]
+
+    output_file = get_output_file(task_id, output_dir)
+    ensure_directory(output_dir)
+
+    records: list[dict] = []
+    total_samples = len(test_samples)
+
+    if not is_completion_server_available():
+        print(f'Model service is unavailable. Please check your config.')
+        for test_sample in test_samples:
+            records.append({'test_sample_id': test_sample['id'], 'prediction': None})
+        save_jsonl(records, output_file)
+        return output_file, 0, 0
+
+    raw_examples = task_dict['examples']
+    all_normalized_examples = normalize_examples(raw_examples)
+    prompt_examples = select_examples(raw_examples, example_count=3)
+
+    strategy = get_strategy(task_id)
+    print(f"Starting Task {task_id} using {strategy.__class__.__name__}...")
+
+    if hasattr(strategy, '_select_relevant_examples'):
+        current_context_examples = all_normalized_examples
+    else:
+        current_context_examples = prompt_examples
+
+    solution_code = None
+    if isinstance(strategy, VerifiedProgramStrategy):
+        solution_code = strategy.prepare_solution(
+            task_description=task_description,
+            prompt_examples=prompt_examples,
+        )
+        if not solution_code:
+            print(f"Failed to generate code for Task {task_id}, will retry execution for each sample if needed.")
+
+    for idx, test_sample in enumerate(test_samples, 1):
         test_sample_id = test_sample['id']
-        test_record['test_sample_id'] = test_sample_id
-        
-        
-        text2annotate = test_sample['input']
-        prompt = build_prompt(task_description, text2annotate)
-        if examples_str is None:
-            examples_str = select_examples(icl_examples, task_description, text2annotate)
-        input_prompt = prompt.replace("[[EXAMPLES]]\n\n", examples_str+'\n\n')
-        
-        # tokenized_input = qwen_tokenizer(input_prompt, return_tensors="pt")
-        # if tokenized_input['input_ids'].shape[1] > max_input_length:
-        #     test_record['prediction'] = None
-        # else:
-        #     prediction = annotate(input_prompt)
-        #     test_record['prediction'] = prediction
-        prediction = annotate(input_prompt)
-        test_record['prediction'] = prediction
-        with open(output_file, 'a') as f:
-            f.write(json.dumps(test_record)+'\n')
+        input_text = test_sample['input']
+
+        try:
+            if isinstance(strategy, VerifiedProgramStrategy) and solution_code:
+                prediction = strategy.execute(solution_code, input_text)
+            else:
+                prediction = strategy.predict(
+                    task_id=task_id,
+                    task_description=task_description,
+                    prompt_examples=current_context_examples,
+                    input_text=input_text
+                )
+        except Exception as exc:
+            print(f"Execution failed for sample {test_sample_id}: {exc}")
+            prediction = None
+
+        records.append({'test_sample_id': test_sample_id, 'prediction': prediction})
+        print(f"[{idx}/{total_samples}] ID: {test_sample_id} | Prediction generated.")
+        save_jsonl(records, output_file)
+
+    return output_file, len(records), total_samples
+
 
 if __name__ == '__main__':
     args = parser_args()
-    qwen_tokenizer = AutoTokenizer.from_pretrained(args.tokenizer_path)
-    evaluate(args.task_id, qwen_tokenizer, args.max_input_length, args.log_path_prefix)
+    output_dir = Path(args.output_dir)
+    zip_path = Path(args.zip_path)
+    task_ids = resolve_task_ids(args.task_id)
+
+    task_results: list[tuple[int, Path, int, int]] = []
+    for task_id in task_ids:
+        output_file, processed, total = evaluate_task(task_id, output_dir, args.limit)
+        task_results.append((task_id, output_file, processed, total))
+
+    zip_submission_files(output_dir, zip_path, DEFAULT_DATA_DIR)
+
+    for task_id, output_file, processed, total in task_results:
+        print(f'Task {task_id} completed. Processed {processed}/{total} samples.')
+        print(f'output_file: {output_file}')
+    print(f'zip_file: {zip_path}')
