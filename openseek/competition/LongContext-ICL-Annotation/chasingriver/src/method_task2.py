@@ -237,7 +237,7 @@ def annotate_nvidia(input_prompt:str)->list[str]:
     URL="http://0.0.0.0:2026/v1/completions"
     
     data = {
-        "model": "../Qwen3-4B",
+        "model": "./Qwen3-4B",
         "prompt": input_prompt,
         "max_tokens": 10_000, # max_token = 10k
     }
@@ -397,7 +397,7 @@ def annotate_nvidia(input_prompt: str) -> str | None:
     prompt = short_prompt or input_prompt
 
     data = {
-        "model": "../Qwen3-4B",
+        "model": "./Qwen3-4B",
         "prompt": prompt,
         "max_tokens": 120,
         "temperature": 0,
@@ -758,7 +758,7 @@ def _task2_model_id() -> str:
             return models[0]["id"]
     except Exception:
         pass
-    return "../Qwen3-4B"
+    return "./Qwen3-4B"
 
 
 def _task2_chat_request(prompt: str, *, system: str, max_tokens: int, stop: list[str] | None) -> str | None:

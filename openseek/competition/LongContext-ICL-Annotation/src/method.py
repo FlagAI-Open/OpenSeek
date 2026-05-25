@@ -233,7 +233,7 @@ def annotate_nvidia(input_prompt:str)->list[str]:
     URL="http://0.0.0.0:2026/v1/completions"
     
     data = {
-        "model": "../Qwen3-4B",
+        "model": "./Qwen3-4B",
         "prompt": input_prompt,
         "max_tokens": 10_000, # max_token = 10k
     }
