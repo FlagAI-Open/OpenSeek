@@ -1,0 +1,1032 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenSeek LongContext ICL Annotation Demo</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --panel: #ffffff;
+      --ink: #172033;
+      --muted: #657086;
+      --line: #dfe6ef;
+      --blue: #2563eb;
+      --teal: #0f9f9a;
+      --green: #138a4f;
+      --amber: #b7791f;
+      --rose: #be3455;
+      --shadow: 0 12px 30px rgba(24, 35, 60, 0.08);
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        linear-gradient(180deg, rgba(37, 99, 235, 0.07), rgba(15, 159, 154, 0.03) 320px),
+        var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+      overflow-x: hidden;
+    }
+
+    html {
+      overflow-x: hidden;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    textarea,
+    input,
+    select {
+      font: inherit;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 16px 28px;
+      border-bottom: 1px solid rgba(223, 230, 239, 0.86);
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(16px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .brand > div:last-child {
+      min-width: 0;
+    }
+
+    .mark {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border-radius: var(--radius);
+      background: #14213d;
+      color: #fff;
+      font-weight: 800;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.2;
+      overflow-wrap: anywhere;
+    }
+
+    .brand p {
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 0 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .shell {
+      display: grid;
+      grid-template-columns: 292px minmax(0, 1fr);
+      gap: 20px;
+      width: min(1520px, 100%);
+      margin: 0 auto;
+      padding: 22px 28px 34px;
+    }
+
+    .sidebar {
+      align-self: start;
+      position: sticky;
+      top: 82px;
+      display: grid;
+      gap: 12px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.86);
+      box-shadow: var(--shadow);
+    }
+
+    .sidebar-title {
+      padding: 2px 4px 6px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 750;
+      text-transform: uppercase;
+    }
+
+    #taskNav {
+      display: grid;
+      gap: 8px;
+    }
+
+    .task-button {
+      width: 100%;
+      min-height: 68px;
+      padding: 11px 12px;
+      border: 1px solid transparent;
+      border-radius: var(--radius);
+      background: transparent;
+      color: var(--ink);
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .task-button:hover {
+      background: #eef6ff;
+    }
+
+    .task-button.active {
+      border-color: rgba(37, 99, 235, 0.28);
+      background: #eaf2ff;
+      box-shadow: inset 3px 0 0 var(--blue);
+    }
+
+    .task-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      margin-right: 8px;
+      border-radius: var(--radius);
+      background: #13223a;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 800;
+      vertical-align: middle;
+    }
+
+    .task-button strong {
+      font-size: 14px;
+      vertical-align: middle;
+    }
+
+    .task-button span:last-child {
+      display: block;
+      margin: 7px 0 0 35px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    main {
+      min-width: 0;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: start;
+      margin-bottom: 18px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .hero > div {
+      min-width: 0;
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--teal);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .hero h2 {
+      margin: 0;
+      font-size: 28px;
+      line-height: 1.15;
+    }
+
+    .hero p {
+      max-width: 860px;
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+    }
+
+    .run-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-width: 132px;
+      min-height: 40px;
+      padding: 0 14px;
+      border: 0;
+      border-radius: var(--radius);
+      background: var(--blue);
+      color: #fff;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 10px 22px rgba(37, 99, 235, 0.22);
+    }
+
+    .run-button:hover {
+      background: #1d4ed8;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: minmax(420px, 1fr) minmax(360px, 0.82fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      background: #fbfcfe;
+    }
+
+    .panel-header h3 {
+      margin: 0;
+      font-size: 15px;
+    }
+
+    .panel-header small {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .io-panel {
+      align-self: start;
+    }
+
+    .flow-panel {
+      align-self: start;
+    }
+
+    .io-grid {
+      display: grid;
+      gap: 12px;
+      padding: 16px;
+    }
+
+    .io-card {
+      padding: 13px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .io-card b {
+      display: block;
+      margin-bottom: 8px;
+      color: #344056;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    pre {
+      min-height: 96px;
+      margin: 0;
+      padding: 12px;
+      border-radius: var(--radius);
+      background: #101827;
+      color: #e9f2ff;
+      font-size: 13px;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    textarea.input-editor {
+      width: 100%;
+      min-height: 230px;
+      margin: 0;
+      padding: 12px;
+      border: 1px solid #26364f;
+      border-radius: var(--radius);
+      outline: none;
+      resize: vertical;
+      background: #101827;
+      color: #e9f2ff;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    textarea.input-editor:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(15, 159, 154, 0.14);
+    }
+
+    .input-help {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .checks {
+      display: grid;
+      gap: 10px;
+      padding: 0 16px 16px;
+    }
+
+    .check {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      color: #344056;
+      font-size: 13px;
+      line-height: 1.45;
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .dot {
+      flex: 0 0 auto;
+      width: 9px;
+      height: 9px;
+      margin-top: 5px;
+      border-radius: 999px;
+      background: var(--teal);
+    }
+
+    .trace {
+      margin: 16px 16px 0;
+      padding: 18px;
+      border: 1px solid rgba(37, 99, 235, 0.38);
+      border-left: 6px solid var(--blue);
+      border-radius: var(--radius);
+      background: #eef6ff;
+      box-shadow: 0 12px 24px rgba(37, 99, 235, 0.12);
+    }
+
+    .trace h4 {
+      margin: 0 0 10px;
+      font-size: 15px;
+      color: #1d4ed8;
+      text-transform: uppercase;
+    }
+
+    .trace-line {
+      min-height: 34px;
+      color: #2c3b58;
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.55;
+    }
+
+    .trace-meter {
+      height: 9px;
+      margin-top: 12px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #cbdcff;
+    }
+
+    .trace-meter span {
+      display: block;
+      width: 15%;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--blue);
+      transition: width 180ms ease, background 180ms ease;
+    }
+
+    .trace.running {
+      border-color: rgba(15, 159, 154, 0.42);
+      border-left-color: var(--teal);
+      background: #e9fbf8;
+    }
+
+    .trace.running h4 {
+      color: #08766e;
+    }
+
+    .trace.running .trace-meter span {
+      width: 65%;
+      background: var(--teal);
+    }
+
+    .trace.done {
+      border-color: rgba(19, 138, 79, 0.36);
+      border-left-color: var(--green);
+      background: #ecfdf3;
+    }
+
+    .trace.done h4 {
+      color: var(--green);
+    }
+
+    .trace.done .trace-meter span {
+      width: 100%;
+      background: var(--green);
+    }
+
+    .trace.error {
+      border-color: rgba(190, 52, 85, 0.4);
+      border-left-color: var(--rose);
+      background: #fff1f3;
+    }
+
+    .trace.error h4 {
+      color: var(--rose);
+    }
+
+    .trace.error .trace-meter span {
+      width: 100%;
+      background: var(--rose);
+    }
+
+    .trace-line.error {
+      color: var(--rose);
+      font-weight: 700;
+    }
+
+    .image-wrap {
+      padding: 14px;
+      background: #fff;
+    }
+
+    .image-wrap img {
+      display: block;
+      width: 100%;
+      max-height: 380px;
+      object-fit: contain;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      max-width: 100%;
+      min-height: 26px;
+      padding: 0 9px;
+      border-radius: 999px;
+      background: #edf7f5;
+      color: #08766e;
+      font-size: 12px;
+      font-weight: 750;
+      overflow-wrap: anywhere;
+    }
+
+    .tag:nth-child(2n) {
+      background: #eef3ff;
+      color: #2451bc;
+    }
+
+    .tag:nth-child(3n) {
+      background: #fff5df;
+      color: var(--amber);
+    }
+
+    @media (max-width: 1100px) {
+      .shell {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .sidebar-title {
+        grid-column: 1 / -1;
+      }
+
+      #taskNav {
+        grid-column: 1 / -1;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 14px 16px;
+      }
+
+      .brand {
+        width: 100%;
+      }
+
+      .brand h1 {
+        max-width: 260px;
+        word-break: break-all;
+      }
+
+      .shell {
+        display: block;
+        width: 100vw;
+        max-width: 100vw;
+        padding: 16px;
+      }
+
+      .sidebar {
+        margin-bottom: 22px;
+        grid-template-columns: 1fr;
+      }
+
+      #taskNav {
+        grid-template-columns: 1fr;
+        min-width: 0;
+      }
+
+      .sidebar,
+      .hero,
+      .panel {
+        width: calc(100vw - 64px);
+        max-width: calc(100vw - 64px);
+      }
+
+      .task-button {
+        min-width: 0;
+      }
+
+      .tag-row {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .tag {
+        justify-content: center;
+      }
+
+      .panel-header small {
+        display: none;
+      }
+
+      textarea.input-editor {
+        min-height: 220px;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h2 {
+        font-size: 22px;
+      }
+
+      .top-actions {
+        flex-wrap: wrap;
+        white-space: normal;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="mark">OS</div>
+      <div>
+        <h1>OpenSeek LongContext-ICL-Annotation Demo</h1>
+        <p>穿过溪流 · 长上下文标注链路展示</p>
+      </div>
+    </div>
+    <div class="top-actions">
+      <span class="pill">Live Demo API</span>
+      <span class="pill">Task 1 / 2 / 3 / 5 / 6 / 7</span>
+    </div>
+  </header>
+
+  <div class="shell">
+    <aside class="sidebar" aria-label="Task navigation">
+      <div class="sidebar-title">Demo Tasks</div>
+      <div id="taskNav"></div>
+    </aside>
+
+    <main>
+      <section class="hero">
+        <div>
+          <p class="eyebrow" id="taskCode"></p>
+          <h2 id="taskTitle"></h2>
+          <p id="taskSummary"></p>
+          <div class="tag-row" id="taskTags"></div>
+        </div>
+        <button class="run-button" id="runBtn" type="button" aria-label="Run trace">
+          <span>Run Live</span>
+        </button>
+      </section>
+
+      <section class="content-grid">
+        <article class="panel io-panel">
+          <div class="panel-header">
+            <h3>Live Input / Output</h3>
+            <small>editable case</small>
+          </div>
+          <div class="trace">
+            <h4>Progress Monitor</h4>
+            <div class="trace-line" id="traceLine">修改输入后点击 Run Live，后端会返回新的输出和 trace。</div>
+            <div class="trace-meter" aria-hidden="true"><span id="traceMeter"></span></div>
+          </div>
+          <div class="io-grid">
+            <div class="io-card">
+              <b>Editable Input</b>
+              <textarea class="input-editor" id="sampleInput" spellcheck="false"></textarea>
+              <p class="input-help" id="inputHelp"></p>
+            </div>
+            <div class="io-card">
+              <b>Live Output</b>
+              <pre id="sampleOutput"></pre>
+            </div>
+          </div>
+          <div class="checks" id="checks"></div>
+        </article>
+
+        <article class="panel flow-panel">
+          <div class="panel-header">
+            <h3>Flowchart Preview</h3>
+            <small id="flowchartName"></small>
+          </div>
+          <div class="image-wrap">
+            <img id="flowchart" alt="">
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const tasks = [
+      {
+        id: 1,
+        code: "Task 1 · MinGapAudit-S12",
+        title: "最小绝对差审计",
+        summary: "把整数列表求最小间距拆成可信排序、相邻差分和成对归约三段，避免模型一次性猜答案。",
+        tags: ["verified sorting", "local gap audit", "pairwise min"],
+        image: "../reports/flowchart/task1.png",
+        input: "numbers = [9, 2, 14, 5]",
+        help: "可输入任意整数列表，例如：numbers = [12, -4, 8, 9]",
+        output: "&lt;label&gt;3&lt;/label&gt;",
+        checks: [
+          "排序结果必须是原列表的合法重排：[2, 5, 9, 14]",
+          "只计算相邻差值：[3, 4, 5]",
+          "最终最小值由 Qwen 子步骤归约，后处理只收束标签"
+        ],
+        steps: [
+          ["Input Guard", "读取整数列表，强调不能丢数、改符号或交换最终语义。"],
+          ["Qwen Sort", "模型先只输出升序列表，本地只检查是否为合法重排。"],
+          ["Gap Audit", "基于可信排序逐对计算 NEXT - CURRENT，异常时局部重试。"],
+          ["Pairwise Min", "模型对候选差值做两两取小，逐轮收敛到最终整数。"],
+          ["Label Extract", "解析 &lt;label&gt;INTEGER&lt;/label&gt;，只提交整数标签。"]
+        ],
+        trace: [
+          "sort pass -> [2, 5, 9, 14]",
+          "adjacent gaps -> 5-2=3, 9-5=4, 14-9=5",
+          "pairwise reduction -> min(3,4)=3, min(3,5)=3",
+          "final label -> 3"
+        ]
+      },
+      {
+        id: 2,
+        code: "Task 2 · SyntaxAudit-R14",
+        title: "长上下文词性计数",
+        summary: "30k 长上下文负责规则激活与目标聚焦，短提示负责逐 token 审计和稳定整数输出。",
+        tags: ["30k prepass", "token audit", "noun / verb count"],
+        image: "../reports/flowchart/task2.png",
+        input: "target = nouns\nsentence = \"The pilot checked the engine before departure.\"",
+        help: "格式建议：target = nouns 或 verbs；sentence = \"...\"",
+        output: "&lt;label&gt;3&lt;/label&gt;",
+        checks: [
+          "Round 1 只输出 target / focus XML，不直接给最终答案",
+          "Round 2 按目标词性逐 token 审计",
+          "pilot、engine、departure 计为 nouns，checked 不计入 nouns"
+        ],
+        steps: [
+          ["30k Context Prepass", "读取规则附录和 active task，确认当前统计目标是 nouns。"],
+          ["XML Focus", "输出结构化摘要：status、target、focus，隔离长上下文噪声。"],
+          ["Short Prompt Counter", "进入已校准短提示，只处理当前句子的词性边界。"],
+          ["Token Filter", "逐 token 判断目标词性，排除动词、限定词和介词。"],
+          ["Integer Label", "输出 &lt;label&gt;3&lt;/label&gt;，保证批处理可解析。"]
+        ],
+        trace: [
+          "target focus -> nouns",
+          "token audit -> The(no), pilot(noun), checked(no), engine(noun), departure(noun)",
+          "count -> 3",
+          "final label -> 3"
+        ]
+      },
+      {
+        id: 3,
+        code: "Task 3 · ParityStep-C11",
+        title: "Collatz 单步变换",
+        summary: "对列表中每个整数只执行一次奇偶分流：偶数减半，奇数变为 3x+1，失败时逐位置修复。",
+        tags: ["whole-list pass", "position repair", "reassembly"],
+        image: "../reports/flowchart/task3.png",
+        input: "numbers = [8, 5, 11]",
+        help: "可输入整数列表。Demo 只执行一次 Collatz 变换，不会迭代到 1。",
+        output: "&lt;label&gt;[4, 16, 34]&lt;/label&gt;",
+        checks: [
+          "每个位置只做一次变换，不计算到 1",
+          "输出列表长度必须等于输入列表长度",
+          "若整表输出包含公式或错位，降级为逐位置 prompt"
+        ],
+        steps: [
+          ["Rule Focus", "激活 even -> x/2，odd -> 3x+1，并禁止输出公式。"],
+          ["Whole-list Pass", "先让模型一次性输出完整列表，追求批量效率。"],
+          ["Validity Check", "检查格式、长度、顺序和每个位置的单步结果。"],
+          ["Position Repair", "整表失败时，逐个元素单独计算并 retry。"],
+          ["Reassembly", "按原顺序重组结果，输出最终 &lt;label&gt; 列表。"]
+        ],
+        trace: [
+          "8 is even -> 8 / 2 = 4",
+          "5 is odd -> 3 * 5 + 1 = 16",
+          "11 is odd -> 3 * 11 + 1 = 34",
+          "final label -> [4, 16, 34]"
+        ]
+      },
+      {
+        id: 5,
+        code: "Task 5 · AffectBoundary-WC5",
+        title: "Tweet 悲伤边界判定",
+        summary: "不把悲伤词当作充分证据，而是先判断 tweet 是否表达可归因的 sadness，再输出 Sad / Not sad。",
+        tags: ["semantic boundary", "30k prepass", "short classifier"],
+        image: "../reports/flowchart/task5.png",
+        input: "tweet = \"我外卖被偷了\"",
+        help: "输入 tweet 文本即可，例如：tweet = \"movie title: sad songs\"",
+        output: "&lt;label&gt;Sad&lt;/label&gt;",
+        checks: [
+          "第一人称失落和哭泣行为构成 sadness evidence",
+          "话题词、歌词、quote、公共事件描述不能单独触发 Sad",
+          "Round 1 做语义预读，Round 2 做稳定二分类"
+        ],
+        steps: [
+          ["30k Semantic Prepass", "在长上下文中激活情绪边界规则和干扰样式。"],
+          ["XML Summary", "只记录 sadness evidence 与 distractor，不直接提交标签。"],
+          ["Short Classifier", "用稳定短提示重新读取 tweet，避免长上下文噪声漂移。"],
+          ["Boundary Filter", "排除只有主题相似、玩笑、歌词或新闻话题的样本。"],
+          ["Sadness Label", "输出 Sad 或 Not sad，并保持固定标签格式。"]
+        ],
+        trace: [
+          "speaker evidence -> first-person missing + crying",
+          "distractor scan -> not quote, not title, not public-news-only",
+          "decision -> Sad",
+          "final label -> Sad"
+        ]
+      },
+      {
+        id: 6,
+        code: "Task 6 · GenreBridge-M24",
+        title: "Genre Pair Bridge 分类",
+        summary: "核心不是 topic similarity，而是先确认 Sentence 1 anchor，再确认 Sentence 2 是否有具体配对桥梁。",
+        tags: ["S1 anchor", "pair bridge", "few-shot retrieval"],
+        image: "../reports/flowchart/task6.png",
+        input: "genre = travel\nS1 = \"The old harbor is the main attraction in the town.\"\nS2 = \"Visitors often start their walk at the town's old harbor.\"",
+        help: "格式建议：genre、S1、S2 三行。重点看 S1 anchor 和 S2 bridge。",
+        output: "&lt;label&gt;Y&lt;/label&gt;",
+        checks: [
+          "S1 先站住 target genre：travel guide / destination description",
+          "S2 与 S1 共享具体地点 old harbor，而不是只共享话题",
+          "同 genre few-shot 只在 Round 2 参与最终判定"
+        ],
+        steps: [
+          ["30k Pair Prepass", "读取 genre 规则和 active pair，聚焦 anchor 与 bridge。"],
+          ["Source Anchor", "判断 Sentence 1 是否属于目标 genre。"],
+          ["Few-shot Retrieval", "检索同 genre 高密度样例，校准正负边界。"],
+          ["Bridge Check", "检查同人、同地、同机构、同事件框架或共享改写框架。"],
+          ["Y/N Label", "只有 anchor 与 bridge 同时成立，才输出 &lt;label&gt;Y&lt;/label&gt;。"]
+        ],
+        trace: [
+          "S1 anchor -> travel destination description",
+          "S2 relation -> same place: old harbor",
+          "bridge -> travel guide rewrite with shared frame",
+          "final label -> Y"
+        ]
+      },
+      {
+        id: 7,
+        code: "Task 7 · AnchorCandidate-R4",
+        title: "Jeopardy 答案生成",
+        summary: "开放答案先压缩成 clue anchor、目标类型和少量候选，再用闭集选择器投票收敛。",
+        tags: ["clue anchor", "candidate set", "closed-choice vote"],
+        image: "../reports/flowchart/task7.png",
+        input: "category = Authors\nclue = \"This author of Animal Farm also wrote 1984.\"",
+        help: "格式建议：category = ...；clue = \"...\"。Demo 内置少量候选知识。",
+        output: "&lt;label&gt;george orwell&lt;/label&gt;",
+        checks: [
+          "category 要求返回作者，不是作品名",
+          "Animal Farm 与 1984 是 clue anchor，共同指向同一作者",
+          "后处理去掉 who is / what is 和解释文本，只保留可提交答案"
+        ],
+        steps: [
+          ["Target Parse", "从 category 与 clue 中解析答案类型、格式约束和关系模式。"],
+          ["Example Retrieval", "检索同类 Jeopardy 样例，优先匹配 type 与 relation。"],
+          ["Candidate Pass", "生成少量候选答案，而不是一次性自由长答。"],
+          ["Closed Selector", "选择器只能从候选编号中选，多轮换序投票。"],
+          ["Normalize Label", "归一化大小写、前缀和标点，输出最终 label。"]
+        ],
+        trace: [
+          "target type -> author / person",
+          "clue anchor -> Animal Farm + 1984",
+          "candidate set -> george orwell, aldous huxley, ray bradbury",
+          "closed selector -> george orwell"
+        ]
+      }
+    ];
+
+    const nav = document.getElementById("taskNav");
+    const taskCode = document.getElementById("taskCode");
+    const taskTitle = document.getElementById("taskTitle");
+    const taskSummary = document.getElementById("taskSummary");
+    const taskTags = document.getElementById("taskTags");
+    const sampleInput = document.getElementById("sampleInput");
+    const sampleOutput = document.getElementById("sampleOutput");
+    const checks = document.getElementById("checks");
+    const flowchart = document.getElementById("flowchart");
+    const flowchartName = document.getElementById("flowchartName");
+    const runBtn = document.getElementById("runBtn");
+    const traceLine = document.getElementById("traceLine");
+    const tracePanel = document.querySelector(".trace");
+    const traceMeter = document.getElementById("traceMeter");
+    const inputHelp = document.getElementById("inputHelp");
+
+    let current = tasks[0];
+    let timer = null;
+
+    function renderNav() {
+      nav.innerHTML = "";
+      tasks.forEach((task) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "task-button";
+        button.dataset.task = task.id;
+        button.innerHTML = `
+          <span class="task-number">${task.id}</span>
+          <strong>${task.code.split("·")[1].trim()}</strong>
+          <span>${task.title}</span>
+        `;
+        button.addEventListener("click", () => renderTask(task.id));
+        nav.appendChild(button);
+      });
+    }
+
+    function renderTask(taskId, overrideInput = null) {
+      const task = tasks.find((item) => item.id === taskId) || tasks[0];
+      current = task;
+      clearInterval(timer);
+      timer = null;
+
+      document.querySelectorAll(".task-button").forEach((button) => {
+        button.classList.toggle("active", Number(button.dataset.task) === task.id);
+      });
+
+      taskCode.textContent = task.code;
+      taskTitle.textContent = task.title;
+      taskSummary.textContent = task.summary;
+      sampleInput.value = overrideInput || task.input;
+      inputHelp.textContent = task.help;
+      sampleOutput.innerHTML = task.output;
+      flowchart.src = task.image;
+      flowchart.alt = `${task.code} flowchart`;
+      flowchartName.textContent = `task${task.id}.png`;
+      tracePanel.classList.remove("running", "done", "error");
+      traceLine.classList.remove("error");
+      traceLine.textContent = "修改输入后点击 Run Live，后端会返回新的输出和 trace。";
+      traceMeter.style.width = "15%";
+
+      taskTags.innerHTML = task.tags.map((tag) => `<span class="tag">${tag}</span>`).join("");
+      checks.innerHTML = task.checks.map((item) => `
+        <div class="check"><span class="dot"></span><span>${item}</span></div>
+      `).join("");
+    }
+
+    async function runTrace() {
+      clearInterval(timer);
+      tracePanel.classList.remove("done", "error");
+      tracePanel.classList.add("running");
+      traceLine.classList.remove("error");
+      traceLine.textContent = "calling /api/run ...";
+      traceMeter.style.width = "38%";
+      runBtn.disabled = true;
+
+      let result;
+      try {
+        const response = await fetch("/api/run", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            task: current.id,
+            input: sampleInput.value
+          })
+        });
+        result = await response.json();
+        if (!response.ok || !result.ok) {
+          throw new Error(result.error || `HTTP ${response.status}`);
+        }
+      } catch (error) {
+        tracePanel.classList.remove("running", "done");
+        tracePanel.classList.add("error");
+        traceLine.classList.add("error");
+        traceLine.textContent = `后端没有返回有效结果：${error.message}。请用 demo/server.py 启动服务。`;
+        traceMeter.style.width = "100%";
+        runBtn.disabled = false;
+        return;
+      }
+
+      sampleOutput.textContent = result.output;
+      checks.innerHTML = result.checks.map((item) => `
+        <div class="check"><span class="dot"></span><span>${item}</span></div>
+      `).join("");
+
+      const liveTrace = result.trace.length ? result.trace : current.trace;
+      let index = 0;
+      traceLine.textContent = liveTrace[0];
+      traceMeter.style.width = `${Math.max(45, Math.round(100 / Math.max(1, liveTrace.length)))}%`;
+      runBtn.disabled = false;
+
+      timer = setInterval(() => {
+        index += 1;
+
+        if (index >= liveTrace.length) {
+          clearInterval(timer);
+          timer = null;
+          tracePanel.classList.remove("running", "error");
+          tracePanel.classList.add("done");
+          traceLine.textContent = `${liveTrace[liveTrace.length - 1]} · trace complete`;
+          traceMeter.style.width = "100%";
+          return;
+        }
+
+        traceLine.textContent = liveTrace[index];
+        traceMeter.style.width = `${Math.round(((index + 1) / liveTrace.length) * 100)}%`;
+      }, 760);
+    }
+
+    renderNav();
+    const params = new URLSearchParams(window.location.search);
+    const requestedTask = Number(params.get("task") || "1");
+    const requestedInput = params.get("input");
+    renderTask(requestedTask, requestedInput);
+    runBtn.addEventListener("click", runTrace);
+    if (params.get("run") === "1") {
+      window.setTimeout(runTrace, 350);
+    }
+  </script>
+</body>
+</html>

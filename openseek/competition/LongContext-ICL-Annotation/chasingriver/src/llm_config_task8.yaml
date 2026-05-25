@@ -1,0 +1,34 @@
+serve:
+- serve_id: vllm_model
+  engine: vllm
+  engine_args:
+    model: ../Qwen3-4B
+    host: 0.0.0.0
+    uvicorn_log_level: warning
+    port: 2026
+    trust_remote_code: true
+    dtype: bfloat16
+    gpu_memory_utilization: 0.68
+    max_model_len: 32768
+    max_num_seqs: 1
+    enforce_eager: true
+    no_enable_prefix_caching: true
+
+experiment:
+  exp_name: qwen3_4b_task8
+  exp_dir: outputs/${experiment.exp_name}
+  task:
+    type: serve
+  runner:
+    hostfile: null
+    deploy:
+      use_fs_serve: false
+  envs:
+    CUDA_VISIBLE_DEVICES: 0
+    CUDA_DEVICE_MAX_CONNECTIONS: 1
+
+action: run
+
+hydra:
+  run:
+    dir: ${experiment.exp_dir}/hydra

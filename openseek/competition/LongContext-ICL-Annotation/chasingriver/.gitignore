@@ -1,0 +1,40 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+myenv/
+.venv/
+venv/
+flagos_chasingriver/
+
+# Model / checkpoint directories
+Qwen3-4B/*
+!Qwen3-4B/.gitkeep
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+
+# Output / logs / generated results
+outputs/*
+!outputs/.gitkeep
+*.log
+*.out
+*.zip
+
+# Local tool metadata
+.codex/
+src/.codex/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+FlagScale/
+
+
+reports/team_introduction/*
