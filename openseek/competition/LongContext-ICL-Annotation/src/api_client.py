@@ -30,9 +30,6 @@ if not serve_base_url.endswith('/v1'):
 LongContext_ICL_Annotation_DIR = os.path.dirname(os.path.dirname(__file__))
 
 api_visit_history_filepath = os.path.join(LongContext_ICL_Annotation_DIR, 'api_visit_history.log')
-if not os.path.exists(api_visit_history_filepath):
-    with open(api_visit_history_filepath, 'w') as f:
-        f.write('')
 
 # 记录ICL提取执行进度
 def log_api_visit_history(*args):
