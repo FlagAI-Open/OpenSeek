@@ -227,11 +227,11 @@ def parse_result(answer: str, return_data_type: str):
         return None, False
 
     answer = answer.strip()
-    if answer[0:8] == '<result>':
-        answer = answer[8:None]
+    if answer.startswith('<result>'):
+        answer = answer[8:]
 
-    if answer[-9:None] == '</result>':
-        answer = answer[0:-9]
+    if answer.endswith('</result>'):
+        answer = answer[:-9]
 
     match return_data_type:
         # 数字
