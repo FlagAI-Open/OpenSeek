@@ -1,0 +1,20 @@
+# Core Python dependencies for the LongContext-ICL-Annotation competition workflow.
+# GPU runtime packages such as torch and vLLM are installed with environment_h20.yml
+# and bootstrap_h20.sh because their exact wheels depend on the target CUDA stack.
+
+hydra-core==1.3.2
+wandb==0.19.1
+numpy==1.26.4
+scipy==1.14.1
+scikit-learn==1.8.0
+pandas==2.2.3
+matplotlib==3.9.4
+tqdm==4.67.1
+requests==2.32.3
+aiohttp==3.11.11
+PyYAML==6.0.2
+regex==2025.10.22
+typer>=0.9.0
+openai==2.29.0
+transformers==4.57.6
+pypdf==5.4.0
