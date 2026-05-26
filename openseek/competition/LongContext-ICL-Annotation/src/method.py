@@ -194,7 +194,7 @@ def select_operations(task_operations: list[dict], tokenizer: AutoTokenizer, sta
 
 
 # 获取关键操作的提示词
-def parse_operations(answer: str) -> list:
+def parse_operations(answer: str) -> tuple[list | None, bool]:
     """
     提取字符串中<operation>标签内的所有内容(字符串形式)，统计出现次数最多的内容
     :answer: 包含<operation>标签的原始字符串
