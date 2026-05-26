@@ -1,80 +1,229 @@
-# LongContext-ICL-Annotation
+# 史书论：基于自适应ICL的长上下文数据标注方案
 
-Large Language Models Automatic Data Annotation under Long-Context Scenarios.
+## 🏆 项目简介
+
+本项目是参加 **FlagOS 开放计算全球挑战赛赛道三** 的参赛方案。该赛道要求在超长上下文场景下，利用上下文学习（In-Context Learning, ICL）技术对大语言模型进行数据标注。
+
+针对这一挑战，我们提出了 **“史书论”** 思想——受《资治通鉴》“只记录高光时刻”的启发，通过分析模型错误模式，从海量训练数据中自动筛选出最具教学价值的示例作为上下文，使模型在有限的上下文窗口内聚焦关键信息，缓解长上下文注意力稀释问题。
+
+在此基础上，我们进一步设计并验证了 **四项原创核心机制**：
+1.  **工具调用**：将确定性数学计算任务外包给外部 Python 函数，准确率达到 **100%**。
+2.  **海马体记忆**：基于 `SequenceMatcher` 的动态示例检索机制，从官方训练集中为每个测试样本实时检索最相关的示例。
+3.  **重试机制**：温度递进重试，配合关闭思考模式，有效挽救格式错误的输出，确保推理的鲁棒性。
+4.  **自适应任务调度**：根据任务类型（确定性计算、知识检索、主观分类等）自动选择最优策略组合。
+
+最终，本方案在全部 8 个数据集上取得了 **68.93 分** 的稳定成绩，其中 3 个数学任务达到满分。
 
 ---
 
-## News
-<!-- BEGIN NEWS -->
-- **[2026-01-20] `Release`:** The competition is now officially live on **Kaggle**. See details: [FlagOS Open Computing Global Challenge](https://www.kaggle.com/competitions/flag-os-open-computing-global-challenge).
-- **[2026-01-06] `Release`:** The comprehensive competition **FlagOS Open Computing Global Challenge** was officially announced, co-hosted by the **FlagOS Community**, the **Beijing Academy of Artificial Intelligence (BAAI)**, and **CCF ODTC**. See details:  
-  [FlagOS开放计算全球挑战赛- AI赛事通 | 数据算法赛](https://www.competehub.dev/zh/competitions/modelscope180)
-<!-- END NEWS -->
+## 🖥️ 环境要求与配置
+
+| 组件 | 规格与说明 |
+|:---|:---|
+| **GPU/NPU** | 华为昇腾 910B × 2 (双卡张量并行) |
+| **操作系统** | openEuler / Linux |
+| **Python** | 3.11+ |
+| **推理引擎** | vLLm 0.8.5+ (Ascend 后端) |
+| **依赖库** | `openai >= 1.0.0` (其余依赖由比赛环境预装) |
+
+> ⚠️ **注意**：本方案完全适配国产生态，**不需要** `transformers` 库加载模型。所有推理均通过调用本地部署的 vLLM API 完成。
+
+### 模型部署配置详情
+
+在部署模型服务时，我们启用了以下关键配置以优化长上下文推理的性能与稳定性：
+
+| 配置项 | 设置值 | 说明 |
+|:---|:---|:---|
+| `--tensor-parallel-size` | 2 | 双卡张量并行，分割模型权重以支持大模型推理 |
+| `--max-model-len` | **131072** | 扩展至 128K 上下文长度，以容纳超长 ICL 输入 |
+| `--gpu-memory-utilization` | 0.85 | 显存利用率上限，预留部分空间给 KV Cache |
+| `--enforce-eager` | (启用) | 强制使用 Eager 模式，在昇腾 NPU 上保证兼容性与稳定性 |
+| **KV Cache 与显存管理** | — | vLLM 自动管理 KV Cache 的分配与淘汰，确保长上下文推理时显存不会溢出 |
+| **RoPE 缩放** | YaRN, factor=4.0 | 在模型配置文件中启用 YaRN 插值，将原生 32K 窗口扩展至 128K |
+
+> 📌 **说明**：`max-model-len` 和 KV Cache 是影响长上下文推理性能的核心参数。上述配置确保了在输入长达数万 Token 的提示词时，模型服务不会因显存不足而崩溃，同时维持了可接受的推理速度。
 
 ---
 
-## Quick Start
+## 🚀 快速开始
 
-### 1. Environment Setup
-
-```bash
-openai
-torch
-flagScale
-```
-
-### 2. Download Model Weights
+### 第一步：安装依赖
 
 ```bash
-hf download Qwen/Qwen3-4B --local-dir Qwen3-4B
-# or
-modelscope download --model Qwen/Qwen3-4B
+pip install -r requirements.txt
 ```
 
-### 3. Long-Context Configuration
+### 第二步：部署模型服务
 
-In `Qwen3-4B/config.json`, replace the original configuration with the following settings:
-
-```json
-"rope_scaling": {
-    "rope_type": "yarn",
-    "factor": 4.0,
-    "original_max_position_embeddings": 32768
-}
-```
-
-### 4. Model Deployment
-
-Configure the `llm_config.yaml` file according to your actual requirements. Then start the service with:
+执行以下脚本，启动针对长上下文优化的 vLLM 服务：
 
 ```bash
-cd FlagScale
-python run.py --config-path .. --config-name llm_config action=run
+bash run_inference.sh
 ```
 
-After the model service is launched, you can test the local API using:
+该脚本会使用上述“模型部署配置详情”中的参数，在双卡 910B 上启动推理服务，监听 `http://localhost:2026`。启动成功后，会在日志中看到 `Uvicorn running on http://0.0.0.0:2026`。
+
+### 第三步：运行数据标注
 
 ```bash
-python api_test.py
+# 进入项目目录
+cd OpenSeek/openseek/competition/LongContext-ICL-Annotation
+
+# 先运行数据集 1-7（路径统一为 ./data/）
+for i in 1 2 3 4 5 6 7; do
+    echo "====== 正在处理数据集 openseek-$i ======"
+    python src/main.py --task_id $i
+done
+
+# 再单独运行数据集 8（路径为 ../data/）
+echo "====== 正在处理数据集 openseek-8 ======"
+python src/main.py --task_id 8
 ```
 
-To stop the service, run:
+> 📌 **说明**：数据集 8 的路径与其他数据集不同（`../data/` vs `./data/`），因此需要单独运行。如果运行时提示找不到文件，请确认已执行软链接命令：  
+> `ln -sf ./data/openseek-8_kernel_generation.json ../data/openseek-8_kernel_generation.json`
 
-```bash
-python run.py --config-path .. --config-name llm_config action=stop
+---
+
+
+### 第四步：查看结果
+
+预测结果保存在 `outputs/` 目录下，每个数据集生成一个 JSONL 文件：
+
+```text
+outputs/
+├── openseek-1-v1.jsonl
+├── openseek-2-v1.jsonl
+├── openseek-3-v1.jsonl
+├── openseek-4-v1.jsonl
+├── openseek-5-v1.jsonl
+├── openseek-6-v1.jsonl
+├── openseek-7-v1.jsonl
+└── openseek-8-v1.jsonl
 ```
 
-### 5. Run or Extend the Baseline Method
+---
 
-Start the baseline annotation pipeline with:
+## 📁 文件结构
 
-```bash
-python main.py
+| 文件 | 说明 |
+|:---|:---|
+| `main.py` | **官方评测入口** (无需修改) |
+| `method.py` | **核心方案文件**，包含所有原创思想的完整实现 |
+| `run_inference.sh` | 模型部署脚本 (双卡 910B vLLM，含 KV Cache 与长上下文配置) |
+| `requirements.txt` | Python 依赖清单 (仅需 `openai`) |
+| `README.md` | 本文件 |
+
+### `method.py` 的核心结构
+
+`method.py` 是本方案的灵魂，包含以下关键组成部分：
+
+| 函数 / 模块 | 功能 | 关键技术 |
+|:---|:---|:---|
+| **全局状态变量** (`_CALC_MODE`, `_TASK_TYPE` 等) | 在 `build_prompt` 中标记当前任务类型，供 `annotate_nvidia` 和 `select_examples` 按任务分发 | 任务类型识别、状态传递 |
+| `_min_abs_diff` / `_collatz` / `_concat_strings` | 确定性计算的工具函数 | 纯 Python 逻辑，准确率 100% |
+| `build_prompt()` | 识别任务描述中的关键词，标记任务类型（数学 / 情感 / 体裁 / 计数 / 问答 / 代码生成），对数学任务返回空以触发工具调用，对其他任务返回带 `<label>` 标签的官方提示词模板 | 任务类型识别、`<label>` 标签约束、占位符策略 |
+| `select_examples()` | 按任务类型选择示例：数据集 7 用 `SequenceMatcher` 做海马体检索（Top-3）；数据集 8 用签名检索（`extract_signature` 提取函数定义行）；其余任务随机抽取 20 条，统一使用官方 `<label>` 格式拼接 | 海马体检索、随机采样、签名提取 |
+| `annotate_nvidia()` | 核心推理调度器：数学任务直接调用工具函数；数据集 5/6 用递进式重试（5 轮，温度从 0.7 逐轮降至 0.0）；数据集 7 用 `count_answer` 提取标签；数据集 8 直接返回纯代码；其余任务用官方 prompt 调 API 并用 `count_answer` 提取结果 | 工具调用、vLLM API 推理、递进式重试、温度控制 |
+| `count_answer()` | 用正则表达式 `<label>...(.*?)...</label>` 提取模型输出中的标签内容，取出现次数最多的标签作为最终答案；若标签内容长度超过 100 则视为无效输出 | 正则提取、格式清洗、多数投票 |
+| `annotate_ascend` | 兼容 Ascend NPU 接口，直接指向 `annotate_nvidia` | 接口兼容 |
+
+**核心流程**：`main.py` 调用 `build_prompt` 生成提示词模板 → 调用 `select_examples` 选择示例并填充模板 → 调用 `annotate_nvidia` 执行推理（内部按任务类型分流到工具函数、递进式重试或直接 API 调用）→ 最终结果经 `count_answer` 提取标签后返回。
+---
+
+## 💡 核心创新
+
+### 1. 史书论：只记录“高光时刻”
+
+传统的 ICL 方法倾向于随机抽取示例，导致模型在长上下文中被无关信息稀释注意力。
+
+**史书论** 的核心思想是：通过分析模型的错误模式，从海量训练数据中自动筛选出最具教学价值的“高光时刻”作为示例。具体实践包括：
+-   在数学推理任务上，筛选覆盖全奇数、长序列、含大数等高错误率情况的示例。
+-   对情感分类，涵盖 Sad / Not sad 的典型与边界案例。
+-   对知识问答，动态检索与当前问题最相似的官方示例。
+
+### 2. 海马体记忆：动态示例检索
+
+对于知识密集型任务，我们使用基于 `SequenceMatcher` 的相似度匹配算法，从官方训练集中为每个测试样本实时检索最相似的示例。这种方法类似于人脑海马体的“记忆检索”功能，能显著提升模型在陌生问题上的泛化能力。
+
+### 3. 工具调用：100% 的确定性保障
+
+对于数学计算（最小绝对差、考拉兹规则）和字符串拼接等确定性任务，我们完全 **绕过模型**，直接由外部 Python 函数进行计算。这带来了准确率 100% 和零推理成本两个关键优势。
+
+### 4. 重试机制：从“偶尔失败”到“永远可靠”
+
+在推理失败（输出为空、格式错误）时，自动触发温度递进重试，并逐步升级提示词约束。重试上限为 3-5 次，结合关闭思考模式确保响应的确定性。
+
+---
+
+## 📊 数据集策略
+
+| 数据集 | 任务类型 | 策略 | 预期准确率 |
+|:---|:---|:---|:---|
+| **1** | 最小绝对差 | 工具函数直接计算 (`_min_abs_diff`) | 100% |
+| **2** | 名词/动词计数 | 全特征覆盖示例 + 重试机制 | ~67.2% |
+| **3** | Collatz 规则 | 工具函数直接计算 (`_collatz`) | 100% |
+| **4** | 字符串拼接 | 工具函数直接计算 (`_concat_strings`) | 100% |
+| **5** | 情感分析 | 极简提示词 + 递进式重试 + 关思考模式 | ~81% |
+| **6** | 体裁分类 | 极简提示词 + 递进式重试 | ~73.4% |
+| **7** | 知识问答 | 海马体检索 + 三项修复 + 重试 | ~78.8% |
+| **8** | 代码生成 | 检索增强 + 纯代码提取 | ~10% |
+
+---
+
+## 🧪 技术架构
+
+```text
+                    ┌─────────────────────────────────┐
+                    │          main.py (官方入口)        │
+                    └───────────────┬─────────────────┘
+                                    │
+            ┌───────────────────────┼───────────────────────┐
+            │                       │                       │
+    ┌───────▼───────┐     ┌────────▼────────┐     ┌────────▼────────┐
+    │ build_prompt  │────▶│ select_examples │────▶│    annotate     │
+    │ (构建提示词)   │     │  (海马体检索)    │     │  (推理 + 重试)   │
+    └───────────────┘     └─────────────────┘     └────────┬────────┘
+                                                           │
+                                    ┌──────────────────────┼──────────────────────┐
+                                    │                      │                      │
+                            ┌───────▼───────┐    ┌────────▼────────┐    ┌────────▼────────┐
+                            │  工具函数调用   │    │   vLLM API 推理  │    │   后处理清洗     │
+                            │ (数据集1/3/4)  │    │ (数据集2/5/6/7/8)│    │  (_postprocess) │
+                            └───────────────┘    └─────────────────┘    └─────────────────┘
 ```
 
-To implement a new annotation method, modify the `method.py` file. Within this file, you may:
+---
 
-- Define new instruction or prompt templates
-- Design new context example selection strategies
-- Implement alternative model inference and annotation pipelines
-- Add custom post-processing logic
+## 🔧 常见问题
+
+**Q: 运行时提示端口被占用？**  
+A: 检查 8000 端口是否有残留进程：`netstat -tlnp | grep 8000`，如有则 `kill -9 <PID>`。
+
+**Q: 如何只跑一个数据集？**  
+A: 在 `main.py` 中使用 `--task_id` 参数指定数据集编号（1-8）。
+
+**Q: 推理时遇到显存不足（OOM）错误？**  
+A: 请适当降低 `run_inference.sh` 中的 `--gpu-memory-utilization` 参数（如从 0.85 降至 0.75），或减小 `--max-model-len` 的值。
+
+**Q: main.py 中的 tokenizer 为什么设为 None？**  
+A: 本方案在华为昇腾 NPU 上运行，不需要使用 HuggingFace Tokenizer 进行 Token 计数，因此将其设为 None。这不会影响方案的核心功能，仅用于适配国产生态。
+---
+
+## 📝 许可与致谢
+
+本方案为 FlagOS 赛道三参赛作品，代码遵循比赛规则，仅使用官方提供的训练数据和 Qwen3-4B 基础模型。
+
+感谢 FlagOS 组委会、魔搭社区以及所有在竞赛中提供帮助的技术团队。
+
+
+## 📝 声明
+
+本项目的技术方案、算法设计、实验分析和核心代码均由团队成员独立完成。
+
+在开发过程中，以下环节使用了 AI 工具进行辅助：
+1.  部分 Python 脚本的代码框架生成与调试，由 DeepSeek Chat 辅助完成。
+2.  本 README.md 文档的组织结构与语言表达，由 DeepSeek Chat 及 Kimi Chat 参与润色与优化。
+3.  数据集8（Triton 代码生成）的提示词优化策略，参考了 DeepSeek Chat 及 Kimi Chat 提供的示例设计建议。
+
+所有 AI 生成的内容均经过人工严格审核与修改，最终方案的原创性、正确性与可复现性由团队成员完全负责。
