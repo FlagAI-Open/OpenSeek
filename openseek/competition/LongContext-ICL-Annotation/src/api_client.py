@@ -20,7 +20,9 @@ except ValueError:
     debug_print_stream = 0
 
 # url格式处理
-serve_base_url = serve_base_url.split('v1')[0].rstrip('/') + '/v1'
+serve_base_url = serve_base_url.rstrip('/')
+if not serve_base_url.endswith('/v1'):
+    serve_base_url += '/v1'
 
 
 
