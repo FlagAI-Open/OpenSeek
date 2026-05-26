@@ -206,7 +206,7 @@ def parse_operations(answer: str) -> list:
     if answer == None:
         return None, False
 
-    operations = _parse_operations_from_str(answer)
+    operations = __parse_operations_from_str(answer)
     if len(operations) == 0:
         return None, False
 
@@ -279,7 +279,7 @@ def parse_result(answer: str, return_data_type: str):
 
 
 # 提取关键操作的英文短语
-def _parse_operations_from_str(text: str):
+def __parse_operations_from_str(text: str):
     if text.find('<operation>') > -1:
         arr = []
         # 首个是空字符或者无关信息
