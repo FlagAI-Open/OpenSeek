@@ -296,7 +296,7 @@ def check_evaluate_retry(task_id:int, qwen_tokenizer:AutoTokenizer, reps = 0):
         for data in outputs:
             f.write(json.dumps(data)+'\n')
 
-    # 覆盖旧文件
+    os.replace(new_result_file, result_file)
     os.rename(new_result_file, result_file)
     log_test_progress(task_id, "*"*50)
 
