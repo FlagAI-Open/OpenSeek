@@ -148,7 +148,7 @@ def select_examples(icl_examples: list[dict], tokenizer: AutoTokenizer, start: i
 
 
 # 批量拼接关键操作提示词operations
-def select_operations(task_operations: list[dict], tokenizer: AutoTokenizer, start: int, stop: int, target_length=8192) -> str:
+def select_operations(task_operations: list[dict], tokenizer: AutoTokenizer, start: int, stop: int, target_length=8192) -> tuple[str, int]:
     """
         Select operations from task_operations to fit into the target context length (适配Qwen3-4B的token计算).
         task_operations:
