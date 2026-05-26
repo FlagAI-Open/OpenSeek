@@ -39,7 +39,7 @@ In `Qwen3-4B/config.json`, replace the original configuration with the following
 "rope_scaling": {
     "rope_type": "yarn",
     "factor": 4.0,
-    "original_max_position_embeddings": 32768
+    "original_max_position_embeddings": 40960
 }
 ```
 
@@ -71,7 +71,7 @@ Start the baseline annotation pipeline with:
 
 ```bash
 cd src
-python main.py --task_id=0 --task_step=0
+python main_batch.py --task_id=0 --task_step=0
 ```
 
 To implement a new annotation method, modify the `method.py` file. Within this file, you may:

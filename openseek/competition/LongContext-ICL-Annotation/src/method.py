@@ -10,17 +10,28 @@ from const import CONST_LIMIT_OUTPUT_MAX_TOKENS
 # 利用ICL提取Operation的Prompt
 def make_icl_prompt(task_description: str, icl_sample_data: str):
     temperature = 0.7
-    prompt = f"你是一名专业的数据标注专家，请仔细阅读理解示例数据的任务目标(在==左侧的<input>与</input>之间)与任务结果(在==右侧的<output>与</output>之间)，首先利用示例数据按照任务描述的要求对任务目标与任务结果进行推理和推导，并且必须使用使用逆向思维、跳跃思维和横向关联以避免深陷在反复思考或递归循环之中，然后分析提取出从任务目标得到任务结果所必须执行的在10个以内的关键操作，并且必须是在对所有示例数据需要的普适通用的关键操作，并且必须与任务描述强相关的，并且必须与示例数据弱相关的，然后表示为言简意赅的纯英文提示词短语，不能包含引号、逗号、分号、句号、括号、横线、表情等标点符号或特殊符号，不能包含数字或项目符号，不能是无关的或冗余的，不能是示例数据或解释内容，不能是假设或推测，必须用<operation>与</operation>包裹每个关键操作提示词。\
+    prompt = f"你是一名专业的数据标注专家，请仔细阅读理解示例数据的任务目标(在==左侧的<input>与</input>之间)与任务结果(在==右侧的<output>与</output>之间)，首先利用示例数据按照任务描述的要求对任务目标与任务结果进行推理和推导，并且必须使用使用逆向思维、跳跃思维和横向关联以避免深陷在反复思考或递归循环之中，然后分析提取出从任务目标得到任务结果所必须执行的在10个以内的关键操作，并且必须是在对所有示例数据需要的普适通用的关键操作，并且必须与任务描述强相关的，并且必须与示例数据弱相关的，然后表示为言简意赅的纯英文提示词短语，不能包含引号、逗号、分号、句号、括号、横线、表情等标点符号或特殊符号，不能包含数字或项目符号，不能是无关的或冗余的，不能是示例数据或解释内容，不能是假设或推测，最后必须用<operation>与</operation>包裹每个关键操作提示词。\
         任务描述: {task_description} \
         示例数据: {icl_sample_data}"
 
     return prompt, temperature
 
 
+MORES = {
+    'text': '',
+    'array': '',
+    'number': '',
+    'phrase': '',
+    'code': '必须使用编程语言类库方法生成完整的符合人们使用经验的真实文件格式的可直接执行代码脚本，'
+}
+
 # 利用Operation和Test获取Result的Prompt
-def make_test_prompt(task_description: str, task_input: str, core_operations: str):
+def make_test_prompt(task_description: str, task_input: str, core_operations: str, return_data_type:str):
+    assert return_data_type in MORES.keys(), f"return_data_type must be one of {MORES.keys()}, but your is error: {return_data_type}"
+
+    more =  MORES[return_data_type]
     temperature = 0.3
-    prompt = f"你是一名永远都保持冷静与理性的解题高手，请仔细阅读理解任务描述、任务目标和关键操作(在每个<operation>与</operation>之间)，你必须要一直保持冷静与理性地解决问题，不要让外界信息影响到你的情绪和判断，首先参考任务描述与关键操作进行联想和思考，从中找出最相关的关键操作, 并且根据你的最佳经验对当前任务目标补充缺失的关键操作，然后按照任务描述的要求对任务目标进行推理和推导，并且必须使用逆向思维、跳跃思维和横向关联以避免深陷在反复思考或递归循环之中，并且按照任务描述的规范生成任务目标的任务结果，并且其格式与数据类型必须严格符合任务描述的规范与要求，结果不能是假设或推测，结果不能是重复罗嗦或敷衍，如果任务没有要求包含步骤或解释那么结果就不能包含步骤或解释，如果任务是编程需求那么必须是markdown格式包裹的可直接调用的代码脚本，必须将任务结果全用英文表达作为标准答案，填写在<result>与</result>之间。\
+    prompt = f"你是一名永远都保持冷静与理性的解题高手，请仔细阅读理解任务描述、任务目标和关键操作(在每个<operation>与</operation>之间)，你必须要一直保持冷静与理性地解决问题，不要让外界信息影响到你的情绪和判断，首先参考任务描述与关键操作进行联想和思考，从中找出最相关的关键操作, 并且根据你的最佳经验对当前任务目标补充缺失的关键操作，然后按照任务描述的要求对任务目标进行推理和推导，并且必须使用逆向思维、跳跃思维和横向关联以避免深陷在反复思考或无限循环之中，并且按照任务描述的规范生成任务目标的任务结果，并且其格式与数据类型必须严格符合任务描述的规范与要求，结果不能是假设或推测，结果不能是重复罗嗦或粗浅描述，结果不能包含的多余的空格空行，{more} 必须将任务结果全用英文表达作为标准答案，最后必须填写在<result>与</result>之间。\
         任务描述: {task_description} \
         任务目标: {task_input} \
         关键操作: {core_operations}"
@@ -41,7 +52,7 @@ def refer_get_operation_for_icl(task_description: str, icl_sample_data: str, max
 
 # 同步单个提交测试推理请求到模型服务端，提交的数据是一个批次的Operation，一个测试数据
 def refer_get_result_for_test(task_description: str, task_input: str, core_operations: str, return_data_type: str, max_tokens=10240):
-    prompt, temperature = make_test_prompt(task_description, task_input, core_operations)
+    prompt, temperature = make_test_prompt(task_description, task_input, core_operations, return_data_type)
     max_tokens = min(max_tokens, CONST_LIMIT_OUTPUT_MAX_TOKENS)
     answer, state = ChatClient.request_llm_api_stream(prompt, max_tokens, temperature)
     if state == False:
@@ -77,7 +88,7 @@ def batch_refer_get_result_for_test(task_description: str, task_input_list: list
     temperature = None
     prompts = []
     for task_input in task_input_list:
-        prompt, temperature = make_test_prompt(task_description, task_input, core_operations)
+        prompt, temperature = make_test_prompt(task_description, task_input, core_operations, return_data_type)
         prompts.append(prompt)
 
     max_tokens = min(max_tokens, CONST_LIMIT_OUTPUT_MAX_TOKENS)
@@ -213,17 +224,17 @@ def parse_operations(answer: str) -> list:
 
 # 获取测试数据的预测结果
 def parse_result(answer: str, return_data_type: str):
-    assert return_data_type in ['number', 'array', 'phrase', 'code', 'text'], f"return_data_type must be one of [number, array, phrase, code, text], but your is error: {return_data_type}"
+    assert return_data_type in MORES.keys(), f"return_data_type must be one of {MORES.keys()}, but your is error: {return_data_type}"
 
     if answer == None:
         return None, False
 
     answer = answer.strip()
     if answer[0:8] == '<result>':
-        answer = answer[8:None]
+        answer = answer[8:None].strip()
 
     if answer[-9:None] == '</result>':
-        answer = answer[0:-9]
+        answer = answer[0:-9].strip()
 
     match return_data_type:
         # 数字
@@ -240,7 +251,7 @@ def parse_result(answer: str, return_data_type: str):
 
         # 包含多种编程的任意英文字符串
         case 'code':
-            langs = ['python', 'java', 'rust', 'go', 'sql', 'php', 'zig', 'swift', 'javascript', 'c', 'c++', 'c#', 'ruby', 'sh', 'bash']
+            langs = ['python', 'java', 'go', 'sql', 'php', 'rust', 'zig', 'swift', 'javascript', 'c', 'cpp', 'csharp', 'ruby', 'sh', 'bash']
             pattern =  r'(' + '|'.join([f'```{lang}\n?' for lang in langs]) + ')'
             arr = re.findall(pattern, answer, re.I)
             if len(arr) > 0:

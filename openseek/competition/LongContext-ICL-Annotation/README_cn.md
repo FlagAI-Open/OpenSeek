@@ -34,7 +34,7 @@ modelscope download --model Qwen/Qwen3-4B
 "rope_scaling": {
     "rope_type": "yarn",
     "factor": 4.0,
-    "original_max_position_embeddings": 32768
+    "original_max_position_embeddings": 40960
 }
 ```
 
