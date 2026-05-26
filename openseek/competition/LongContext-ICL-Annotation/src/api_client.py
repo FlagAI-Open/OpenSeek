@@ -223,33 +223,7 @@ class ChatClient:
             raise e
 
 
-async def fetch_url(url):
-    async with aiohttp.ClientSession() as session:
-        async with session.get(url) as response:
-            return await response.text()
-
-async def fetch_url_and_count(urls):
-    tasks = [fetch_url(url) for url in urls]
-    results = await asyncio.gather(*tasks)
-
-    cnts = []
-    for url, content in zip(urls, results):
-        cnts.append(f"{url}: {len(content)} bytes")
-
-    return cnts
-
-
 if __name__=="__main__":
-    # print('response:', ChatClient.ping_serve())
-
-    # urls = [
-    #     "https://example.com",
-    #     "https://python.org"
-    # ]
-
-    # cnts = asyncio.run(fetch_url_and_count(urls))
-    # for s in cnts:
-    #     print(s)
 
     debug_print_stream = 1
     ChatClient.request_llm_api_stream("请列举Golang中GC的原理和案例")

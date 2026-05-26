@@ -75,9 +75,7 @@ def processing(task_id:int, qwen_tokenizer:AutoTokenizer, start = 0, stop = -1):
         # 与上一轮的去重合并
         with open(operation_file, 'r') as f:
             old_operations_list = json.load(f)
-            for s in old_operations_list:
-                for v in _parse_operations_from_str(s):
-                    task_operations.add(v)
+            task_operations.update(old_operations_list)
     else:
         operation_dir = os.path.dirname(operation_file)
         if not os.path.exists(operation_dir):
