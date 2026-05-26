@@ -236,6 +236,10 @@ def check_evaluate_retry(task_id:int, qwen_tokenizer:AutoTokenizer, reps = 0):
         print(f'task_id={task_id}没有异常数据，无需检查')
         return
 
+    # backup
+    backup_result_file = result_file + '_backup'
+    shutil.copy(result_file, backup_result_file)
+
     # 加载Operation
     operation_file = get_operation_filepath(task_id)
     log_test_progress(task_id, 'operation_file', operation_file)
@@ -268,7 +272,6 @@ def check_evaluate_retry(task_id:int, qwen_tokenizer:AutoTokenizer, reps = 0):
             test_sample_id_list.append(test_samples[i]['id'])
             test_input_list.append(test_samples[i]['input'])
 
-
         log_test_progress(task_id, f"Retry items={sample_idxs}")
         prediction_list = batch_refer_get_result_for_test(task_description, test_input_list, core_operations, CONST_TASK_TEST_RETURN_DATA_TYPES[task_id], CONST_TASK_OUTPUT_MAX_TOKENS_SIZES[task_id])
 
@@ -282,7 +285,9 @@ def check_evaluate_retry(task_id:int, qwen_tokenizer:AutoTokenizer, reps = 0):
             j += 1
 
             # 保存测试结果
-            outputs[checks[test_sample_id]] = {'test_sample_id': test_sample_id, 'state': state, 'reps': reps, 'prediction': prediction, "raw": raw}
+            outputs[checks[test_sample_id]] = {'test_sample_id': test_sample_id, 'state': state, 'reps': reps, 'prediction': prediction}
+            if raw != prediction:
+                outputs[checks[test_sample_id]]['raw'] = raw
 
 
     new_result_file = get_result_filepath(task_id, version + 1)
@@ -325,7 +330,7 @@ def parser_args():
     return parser.parse_args()
 
 
-
+# 任务执行参数解析
 def parse_args_task_id_or_step(arg_value: str, default_list: list):
 
     arg_value = arg_value.strip()
@@ -378,12 +383,8 @@ if __name__ == '__main__':
 
         # 最后检查Result异常数据：可能是GPU负荷太高、GPU高温降频等无法正常完成，也可能是KV缓存干扰，也可能是模型输出不稳定，可能是网络问题等等
         if 3 in task_step_list:
-            result_file = get_result_filepath(task_id, 1)
-            if os.path.exists(result_file):
-                backup_result_file = result_file + '_backup'
-                shutil.copy(result_file, backup_result_file)
-                # 检查3遍
-                for i in range(3):
-                    reps = i + 1
-                    check_evaluate_retry(task_id, qwen_tokenizer, reps)
-                    time.sleep(30 * reps)
+            # 检查3遍
+            for i in range(3):
+                reps = i + 1
+                check_evaluate_retry(task_id, qwen_tokenizer, reps)
+                time.sleep(30 * reps)
