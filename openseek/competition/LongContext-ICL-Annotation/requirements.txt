@@ -1,0 +1,4 @@
+# FlagOS 赛道三 - 方案依赖（适配国产生态）
+# 本方案通过 API 调用本地 vLLM 服务，因此仅需 openai 一个额外依赖。
+# 其余所有依赖（torch, vllm, transformers 等）已由比赛环境预装。
+openai>=1.0.0
