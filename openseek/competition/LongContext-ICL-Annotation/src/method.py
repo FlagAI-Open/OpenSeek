@@ -117,7 +117,6 @@ def select_examples(icl_examples: list[dict], tokenizer: AutoTokenizer, start: i
     # 遍历所有示例，基于Qwen3-4B的tokenizer计算token数
     while start <= stop:
         example = icl_examples[start]
-        start += 1
 
         # 提取input和output(兼容output是列表的情况)
         input_text = example['input']
@@ -135,9 +134,14 @@ def select_examples(icl_examples: list[dict], tokenizer: AutoTokenizer, start: i
             token_num += (length + 7 + 18 + 9)
             # 拼接示例字符串
             examples_str += f"<input>{input_text}</input>==<output>{output_text}</output>"
+            start += 1
         else:
-            # 超过长度限制，当前截止拼接
-            break
+            if token_num == 0:
+                # 单个数据超过长度限制，跳过该数据
+                start += 1
+            else:
+                # 累计数据超过长度限制，当前截止拼接
+                break
 
     # 返回已拼接的示例和已选数量，作为当前批次
     return examples_str, start
@@ -165,7 +169,6 @@ def select_operations(task_operations: list[dict], tokenizer: AutoTokenizer, sta
     # 遍历所有示例，基于Qwen3-4B的tokenizer计算token数
     while start <= stop:
         operation = task_operations[start]
-        start += 1
 
         # 核心: 用Qwen3-4B的tokenizer计算input+output的token数(替代原length键)
         # encode返回token id列表，len即为token数
@@ -177,9 +180,14 @@ def select_operations(task_operations: list[dict], tokenizer: AutoTokenizer, sta
             token_num += (length + 11 + 12)
             # 拼接单个示例字符串
             operations_str += f"<operation>{operation}</operation>"
+            start += 1
         else:
-            # 超过长度限制，当前截止拼接
-            break
+            if token_num == 0:
+                # 单个数据超过长度限制，跳过该数据
+                start += 1
+            else:
+                # 累计数据超过长度限制，当前截止拼接
+                break
 
     # 返回已拼接的示例和已选数量，作为当前批次
     return operations_str, start
