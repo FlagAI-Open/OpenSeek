@@ -291,12 +291,7 @@ def _parse_operations_from_str(text: str):
 
 # 提取英文数值,例如: -0.9, 12.33, 10_000
 def __parse_number(text: str) -> list:
-    arr = []
-    # . 是小数点 - 是负号 _ 也是英文数字连接
-    for s in re.split(r'[,;:!?@#$%&*()\[\]{}<>|/~`^"\'\\\s\n\t]', text):
-        arr.extend(re.findall(r'-?\d+(?:[\d._]*\d)?', s.strip()))
-
-    return arr
+    return re.findall(r'-?\d+(?:[\d._]*\d)?', text)
 
 
 # 提取英文短语
