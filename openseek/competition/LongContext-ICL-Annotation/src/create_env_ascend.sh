@@ -3,7 +3,7 @@
 # vllm
 VLLM_TARGET_DEVICE=empty pip install vllm==0.13.0 --extra-index https://download.pytorch.org/whl/cpu
 # 忽略vllm依赖torch的版本提示
-pip install vllm_ascend==v0.13.0rc1
+pip install vllm_ascend==0.13.0rc1
 pip install vllm-plugin-fl==0.1.0+vllm0.13.0 --extra-index-url https://resource.flagos.net/repository/flagos-pypi-hosted/simple
 
 # FlagScale
