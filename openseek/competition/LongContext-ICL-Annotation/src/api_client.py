@@ -14,7 +14,10 @@ from const import CONST_DEBUG_SHOW_STREAM, CONST_DEBUG_SHOW_ANSWER
 serve_api_key = os.environ.get('SERVE_API_KEY', '')
 serve_base_url = os.environ.get('SERVE_BASE_URL', 'http://localhost:2026/v1')
 serve_model_name = os.environ.get('SERVE_MODEL_NAME', 'Qwen/Qwen3-4B')
-debug_print_stream = os.environ.get('DEBUG_PRINT_STREAM', 0)
+try:
+    debug_print_stream = int(os.environ.get('DEBUG_PRINT_STREAM', 0))
+except ValueError:
+    debug_print_stream = 0
 
 # url格式处理
 serve_base_url = serve_base_url.split('v1')[0].rstrip('/') + '/v1'
