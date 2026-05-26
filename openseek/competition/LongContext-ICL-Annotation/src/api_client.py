@@ -125,6 +125,8 @@ class ChatClient:
                 async with response:
                     async for chunk in response:
                         content = None
+                        if not chunk.choices:
+                            continue
                         delta = chunk.choices[0].delta
                         if hasattr(delta, 'reasoning_content') and delta.reasoning_content:
                             content = delta.reasoning_content
