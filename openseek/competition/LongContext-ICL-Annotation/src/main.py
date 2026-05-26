@@ -134,14 +134,12 @@ def evaluate(
     version = 1
     result_file = get_result_filepath(task_id, version)
     result_dir = os.path.dirname(result_file)
-    if not os.path.exists(result_dir):
-        os.makedirs(result_dir, mode=0o755, exist_ok=True)
-    else:
-        while os.path.exists(result_file):
-            version += 1
-            result_file = get_result_filepath(task_id, version)
-        with open(result_file, 'w') as f:
-            pass
+    os.makedirs(result_dir, mode=0o755, exist_ok=True)
+    while os.path.exists(result_file):
+        version += 1
+        result_file = get_result_filepath(task_id, version)
+    with open(result_file, 'w') as f:
+        pass
 
     # 提交测试
     start = start if start >= 0 else 0
