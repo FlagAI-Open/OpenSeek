@@ -1,0 +1,268 @@
+--- Rule Set 1 ---
+import torch
+import triton
+import triton.language as tl
+
+@triton.jit
+def _l2_norm_bwd_kernel(
+    X,  # pointer to the input
+    DY,  # pointer to the output gradient
+    DX,  # pointer to the input gradient
+    stride_x_row,  # how much to increase the pointer when moving by 1 row
+    N,  # number of columns in X
+    eps,  # epsilon to avoid division by zero
+    BLOCK_N: tl.constexpr,
+):
+    row = tl.program_id(0)
+    X += row * stride_x_row
+    DX += row * stride_x_row
+    DY += row * stride_x_row
+    cols = tl.arange(0, BLOCK_N)
+    x = tl.load(X + cols, mask=cols < N, other=0.0).to(tl.float32)
+    x = tl.where(cols < N, x, 0.0)
+    var = tl.sum(x * x)
+    rstd = 1 / tl.sqrt(var + eps)
+    dy = tl.load(DY + cols, mask=cols < N, other=0.0).to(tl
+
+--- Rule Set 2 ---
+import torch
+import triton
+import triton.language as tl
+
+@triton.jit
+def _l2_norm_bwd_kernel(
+    X, DY, DX,
+    stride_x_row, stride_dy_row, stride_dx_row,
+    N, eps, BLOCK_N:
+
+--- Rule Set 3 ---
+<think>
+Okay, I need to figure out the rules for generating Triton kernels and wrappers based on the examples provided. Let's start by looking at the previous examples and see what they have in common.
+
+First, the kernel functions are all decorated with `@triton.jit`. They take various input pointers and parameters, including strides and dimensions. The wrapper functions, like `custom_add`, `dequantize_rowwise`, or `matmul`, set up the necessary parameters, determine the grid size, and launch the kernel with those parameters.
+
+Each kernel has a specific set of parameters. For example, in the `_add_kernel`, there's `A`, `B`, `C`, `size`, and `BLOCK`. The wrapper function `custom_add` defines `BLOCK` as 16, sets the grid, and launches the kernel. The kernel uses `tl.program_id(0)` to get the row index and processes each row in blocks.
+
+Another example is `rmsnorm_triton`, which uses `BLOCK_N_SIZE` for the K dimension. The wrapper `rmsnorm_wrapper` sets the output tensor, computes the block size, and launches the kernel with the correct parameters. The kernel uses `tl.zeros` to initialize the accumulator and loops over the K dimension in blocks.
+
+Looking at the `bmm_kernel` example, the kernel is autotuned with multiple configurations and uses `tl.dot` for matrix multiplication. The wrapper function `bmm` initializes the output tensor, sets up the grid, and calls the kernel with the appropriate strides.
+
+The key elements seem to be:
+
+1. Kernel functions start with `@triton.jit` and have a specific set of parameters, including input and output pointers, strides, and dimension variables. They use `tl.program_id` to determine the thread block's position and process data in blocks.
+
+2. Wrapper functions handle the setup of input and output tensors, determine the block size, compute grid dimensions using `triton.cdiv` or similar, and launch the kernel with the correct arguments. They often include checks for tensor contiguity and handle the parameters for the kernel.
+
+3. The kernel code uses `tl.load` and `tl.store` with masks to avoid out-of-bounds access. It uses `tl.zeros` for accumulators and loops over the dimensions in blocks, using `BLOCK_SIZE` or similar variables.
+
+4. Autotuning is done using `@triton.autotune` with various configurations, each specifying different block sizes and number of warps/stages. The key parameter for autotuning is often the `BLOCK_SIZE` or `BLOCK_N` and `num_warps`.
+
+5. The kernel functions are structured with a loop over the K dimension, loading blocks, computing the dot product, and accumulating results. The wrapper functions ensure that the parameters are correctly passed, including strides and block sizes.
+
+6. The wrapper functions often include a `num_warps` and `num_stages` based on the kernel's autotune configurations. They also handle the output tensor, possibly using `torch.empty_like` to create it.
+
+7. The kernel uses `tl.constexpr` for compile-time constants like `BLOCK_SIZE_M`, `BLOCK_SIZE_N`, `BLOCK_SIZE_K`, and `GROUP_SIZE_M`. These are used to define the block sizes and other parameters for the kernel's execution.
+
+8. The wrapper functions call the kernel with the appropriate grid size, which is often determined by dividing the input dimensions by the block sizes. For example, `grid = (triton.cdiv(M, BLOCK_SIZE_M),)` for a 1D grid.
+
+9. The kernel may include functions to handle different data types, like `tl.float16` or `tl.float32`, and the wrapper ensures the output is in the correct data type.
+
+10. The kernel may have parameters for various operations like RMS normalization, which are applied in the kernel's computation steps, and the wrapper handles the setup for those parameters.
+
+So, the inferred rules would be:
+
+1. Triton kernels are defined with `@triton.jit` and take pointers to input/output tensors, their strides, and dimension parameters. They use `tl.program_id` to determine the block's position and process data in blocks.
+
+2. Kernel parameters include `BLOCK_SIZE_M`, `BLOCK_SIZE_N`, `BLOCK_SIZE_K`, and `GROUP_SIZE_M` for tiling and parallelism. These are specified as `tl.constexpr` for compile-time constants.
+
+3. Wrapper functions initialize the output tensor, compute grid dimensions based on input sizes, and call the kernel with the correct parameters. They handle data type conversions and ensure tensors are contiguous if necessary.
+
+4. The kernel uses `tl.load` and `tl.store` with masks to handle out-of-bounds accesses, ensuring safe memory operations.
+
+5. Autotuning is applied using `@triton.autotune` with multiple configurations, each specifying different block sizes and number of warps/stages. The `key` parameter is often a tuple of the dimensions involved.
+
+6. The kernel includes loops over the K dimension, loading and processing blocks, and accumulates results. For example, in `rmsnorm_triton`, it loops over K in blocks and computes the sum of squares.
+
+7. The kernel may use `tl.where` to apply conditions, such as in `rmsnorm_triton` where `x` is set to zero for out-of-bounds indices.
+
+8. The wrapper function sets the `num_warps` and `num_stages` based on the autotune configurations, ensuring optimal kernel performance.
+
+9. The kernel is written in a way that is efficient for GPU execution, using block pointers, memory alignment, and avoiding unnecessary operations.
+
+10. The wrapper function handles the input and output tensors, ensuring their shapes and strides are compatible with the kernel's requirements, and
+
+--- Rule Set 4 ---
+1. Kernel functions are decorated with `@triton.jit` and use `tl.program_id` for parallel processing.
+2. Kernels define block sizes (e.g., `BLOCK_SIZE_M`, `BLOCK_SIZE_N`, `BLOCK_SIZE_K`) and use `tl.arange` for index calculation.
+3. Input/output pointers and strides are explicitly passed to the kernel, with `tl.make_block_ptr` for efficient memory access.
+4. Masking is applied using `mask=offs < size` to prevent out-of-bounds memory accesses.
+5. Wrappers (e.g., `custom_add`, `matmul_dequantize_int4_s2`) initialize output tensors, calculate grid dimensions with `triton.cdiv`, and invoke the kernel with appropriate parameters.
+6. `@triton.autotune` is used to define multiple configurations for block sizes and warps, with `key` specifying tuning parameters.
+7. The kernel performs core computation (e.g., matrix multiplication, normalization, activation) using `tl.load`, `tl.dot`, and `tl.store`, with data type conversions as needed.
+8. Wrappers ensure input tensors are contiguous, handle optional parameters (e.g., `STORE_FINAL_STATE`, `USE_INITIAL_STATE`), and manage memory layout for efficient Triton execution.
+9. Constants (e.g., `BLOCK_DMODEL`, `BLOCK_SIZE_M`) are defined in the kernel with `tl.constexpr` for compile-time optimization.
+10. Avoid markdown, explanations, and tags—only output code with kernel and wrapper functions.
+
+--- Rule Set 5 ---
+import torch
+import triton
+import triton.language as tl
+
+@triton.jit
+def _l2_norm_bwd_kernel(
+    X,  # pointer to the input
+    DY,  # pointer to the output gradient
+    DX,  # pointer to the input gradient
+    stride_x_row,  # how much to increase the pointer when moving by 1 row
+    N,  # number of columns in X
+    eps,  # epsilon to avoid division by zero
+    BLOCK_N: tl.constexpr,
+):
+    row = tl.program_id(0)
+    X += row * stride_x_row
+    DX += row * stride_x_row
+    DY += row * stride_x_row
+    cols = tl.arange(0, BLOCK_N)
+    x = tl.load(X + cols, mask=cols < N, other=0.0).to(tl.float32)
+    x = tl.where(cols < N, x, 0.0)
+    var = tl.sum(x * x) 
+    rstd = 1 / tl.sqrt(var +
+
+--- Rule Set 6 ---
+import torch
+import triton
+import triton.language as tl
+
+@triton.autotune(
+    configs=[
+        triton.Config({'BLOCK_SIZE_M': 128, 'BLOCK_SIZE_N': 256, 'BLOCK_SIZE_K': 64, 'GROUP_SIZE_M': 8}, num_stages=3, num_warps=8),
+        triton.Config({'BLOCK_SIZE_M': 64, 'BLOCK_SIZE_N': 256, 'BLOCK_SIZE_K': 32, 'GROUP_SIZE_M': 8}, num_stages=4, num_warps=4),
+        triton.Config({'BLOCK_SIZE_M': 128, 'BLOCK_SIZE_N': 128, 'BLOCK_SIZE_K': 32, 'GROUP_SIZE_M': 8}, num_stages=4, num_warps=4),
+        triton.Config({'BLOCK_SIZE_M': 64, 'BLOCK_SIZE_N': 128, 'BLOCK_SIZE_K': 32, 'GROUP_SIZE_M': 8}, num_stages=4, num_warps=4),
+        triton.Config({'BLOCK_SIZE_M': 128, 'BLOCK_SIZE_N': 32, 'BLOCK_SIZE_K': 32, 'GROUP_SIZE_M': 8}, num_stages=4, num_warps=4),
+        triton.Config({'BLOCK_SIZE_M': 64, 'BLOCK_SIZE_N': 64, 'BLOCK_SIZE_K': 32, 'GROUP_SIZE_M': 8}, num_stages=4, num_warps=4),
+        triton.Config({'BLOCK_SIZE_M': 128, 'BLOCK_SIZE_N': 64, 'BLOCK_SIZE_K': 32, 'GROUP_SIZE_M': 8}, num_stages=4, num_warps=4),
+    ],
+    key=['M', 'N', 'K', 'GROUP_SIZE_M']
+)
+@triton.jit
+def matmul_kernel(
+    a_ptr, b_ptr, c_ptr,
+    stride_am, stride_ak,
+    stride_bk, stride_bn,
+    stride_cm, stride_cn,
+    M, N, K,
+    BLOCK_SIZE_M: tl.constexpr, BLOCK_SIZE_N: tl.constexpr, BLOCK_SIZE_K: tl.constexpr,
+    GROUP_SIZE_M: tl.constexpr
+):
+    pid = tl.program_id(0)
+    # Load a and b in a block
+    a_block_ptr = tl.make_block_ptr(
+        base=a_ptr, 
+        shape=(M, K), 
+        strides=(stride_am, stride_ak), 
+        offsets=(pid * GROUP_SIZE_M + tl.arange(0, GROUP_SIZE_M), 0),
+        block_shape
+
+--- Rule Set 7 ---
+import torch
+import triton
+import triton.language as tl
+
+@triton.autotune(
+    configs=[
+        triton.Config({'BLOCK_SIZE_M': 128, 'BLOCK_SIZE_N': 256, 'BLOCK_SIZE_K': 64}, num_stages=3, num_warps=8),
+        triton.Config({'BLOCK_SIZE_M': 64, 'BLOCK_SIZE_N': 256, 'BLOCK_SIZE_K': 32}, num_stages=4, num_warps=4),
+        triton.Config({'BLOCK_SIZE_M': 128, 'BLOCK_SIZE_N': 128, 'BLOCK_SIZE_K': 32}, num_stages=4, num_warps=4),
+        triton.Config({'BLOCK_SIZE_M': 64, 'BLOCK_SIZE_N': 128, 'BLOCK_SIZE_K': 32}, num_stages=4, num_warps=4),
+        triton.Config({'BLOCK_SIZE_M': 128, 'BLOCK_SIZE_N': 32, 'BLOCK_SIZE_K': 32}, num_stages=4, num_warps=4),
+        triton.Config({'BLOCK_SIZE_M': 64, 'BLOCK_SIZE_N': 64, 'BLOCK_SIZE_K': 32}, num_stages=4, num_warps=4),
+        triton.Config({'BLOCK_SIZE_M': 128, 'BLOCK_SIZE_N': 64, 'BLOCK_SIZE_K': 32}, num_stages=4, num_warps=4),
+    ],
+    key=['M', 'N', 'K']
+)
+@triton.jit
+def _l2_norm_bwd_kernel(
+    X, DY, DX,
+    stride_x_row, stride_dy_row, stride_dx_row,
+    N, eps,
+    BLOCK_N: tl.constexpr,
+    GROUP_SIZE: tl.constexpr
+):
+    row = tl.program_id(0)
+    X += row * stride_x_row
+    DY += row * stride_dy_row
+    DX += row * stride_dx_row
+    cols = tl.arange(0, BLOCK_N)
+    x = tl.load(X + cols, mask=cols < N, other=0.0).to(tl.float32)
+    x = tl.where(cols < N, x, 0.0)
+    var = tl.sum(x * x, axis=0)
+    rstd = 1
+
+--- Rule Set 8 ---
+1. Use `@triton.jit` for kernel functions and `@triton.autotune` with multiple configs for optimal performance.  
+2. Define kernel parameters including input/output pointers, strides, dimensions, and compile-time constants (e.g., `BLOCK_SIZE_M`, `BLOCK_SIZE_N`).  
+3. Use `tl.program_id` for thread block IDs and `tl.arange` for block offsets within loops.  
+4. Apply `tl.load`/`tl.store` with masks to handle out-of-bound accesses and ensure safe memory operations.  
+5. Wrap kernel in a Python function that initializes output tensors, validates input shapes, and launches the kernel with `triton.cdiv`-based grid size.  
+6. Include `num_warps` and `num_stages` in kernel configs for parallelism and memory efficiency.  
+7. Use `tl.zeros` for accumulators and `tl.sum`/`tl.dot` for block-level computations.  
+8. Ensure input tensors are contiguous and use `torch.empty_like` for output tensor allocation.  
+9. Leverage `tl.where` for conditional operations and `tl.max`/`tl.sum` for numerical stability.  
+10. Define `key` parameters in `@triton.autotune` to enable dynamic config selection based on input dimensions.  
+11. Use `triton.next_power_of_2` for stride calculations and block size determination.  
+12. Implement parameterized block pointers (`tl.make_block_ptr`) for efficient tensor access and tiling.
+
+--- Rule Set 9 ---
+import torch
+import triton
+import triton.language as tl
+
+@triton.autotune(
+    configs=[
+        triton.Config({'BLOCK_SIZE_M': 256, 'BLOCK_SIZE_N': 256, 'BLOCK_SIZE_K': 128}, num_stages=3, num_warps=4),
+        triton.Config({'BLOCK_SIZE_M': 512, 'BLOCK_SIZE_N': 256, 'BLOCK_SIZE_K': 64}, num_stages=4, num_warps=2),
+        triton.Config({'BLOCK_SIZE_M': 256, 'BLOCK_SIZE_N': 512, 'BLOCK_SIZE_K': 64}, num_stages=4, num_warps=4),
+    ],
+    key=['M', 'N', 'K']
+)
+@triton.jit
+def matmul_kernel(
+    a_ptr, b_ptr, c_ptr,
+    stride_a_m, stride_a_k,
+    stride_b_k, stride_b_n,
+    stride_c_m, stride_c_n,
+    M, N, K,
+    BLOCK_SIZE_M: tl.constexpr, BLOCK_SIZE_N: tl.constexpr, BLOCK_SIZE_K: tl.constexpr,
+    GROUP_SIZE_M: tl.constexpr
+):
+    pid_m = tl.program_id(0)
+
+--- Rule Set 10 ---
+1. Use `@triton.jit` for kernel definition, include `@triton.autotune` with configs for num_warps and stages.
+2. Define kernel parameters with tensor pointers, strides, and constants (e.g., BLOCK_SIZE, GROUP_SIZE).
+3. Use `tl.program_id()` for thread block IDs, compute offsets with `tl.arange()`.
+4. Apply masks (`mask=offs < size`) to prevent out-of-bounds memory access.
+5. Use `tl.load()` and `tl.store()` with appropriate pointers and masks.
+6. Kernel must include logic for block-level computation (e.g., dot products, reductions, accumulation).
+7. Wrapper function: 
+   - Imports required modules (torch, triton, tl).
+   - Prepares output tensor (e.g., `torch.empty_like()`).
+   - Computes grid size with `triton.cdiv()` or `triton.grid` based on input dimensions.
+   - Invokes kernel with `kernel[grid]()` and passes all required parameters.
+   - Ensures input tensors are contiguous with `.contiguous()` if needed.
+8. Include type annotations and use `tl.constexpr` for compile-time constants.
+9. Avoid markdown, explanations, or tags; output must be clean Python code.
+10. Use `num_warps` and `num_stages` in configs for autotuning.
+11. For matrix ops, use `tl.make_block_ptr()` to define block pointers.
+12. Handle edge cases with `tl.where()` and conditional stores.
+13. Use `triton.language` functions (e.g., `tl.sum`, `tl.dot`, `tl.zeros`).
+14. Ensure kernel parameters match wrapper arguments and strides.
+15. Include error checks for shape compatibility in wrapper functions.
+
+=== FINAL TOP 5 RULES ===
+1. Kernel functions are defined with `@triton.jit` and require input/output pointers, strides, and dimension parameters.  
+2. Thread block positions are determined using `tl.program_id`, with data processed in blocks via `tl.arange`.  
+3. Wrapper functions initialize output tensors, compute grid dimensions via `triton.cdiv`, and launch kernels with correct arguments.  
+4. `@triton.autotune` configures multiple block sizes and warps/stages for optimal performance, with `key` parameters tied to input dimensions.  
+5. `tl.constexpr` defines compile-time constants (e.g., `BLOCK_SIZE_M`, `GROUP_SIZE_M`), and `tl.load`/`tl.store` with masks ensure safe memory access.
