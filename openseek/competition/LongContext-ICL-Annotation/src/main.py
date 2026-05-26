@@ -106,7 +106,7 @@ def evaluate(
     start=0,
     stop=-1
 ):
-    assert task_id in [i for i in range(1, 9)], f"task_id should be in [1,2,3,4,5,6,7,8], but got {task_id}."
+    assert 1 <= task_id <= 8, f"task_id should be in [1,2,3,4,5,6,7,8], but got {task_id}."
     assert stop < 0 or stop >= start, f"must be `stop < 0 or stop >= start`, stop error: {stop}"
 
     # 加载Operation
