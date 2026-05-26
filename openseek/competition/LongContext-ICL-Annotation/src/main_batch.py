@@ -285,10 +285,8 @@ def check_evaluate_retry(task_id:int, qwen_tokenizer:AutoTokenizer, reps = 0):
 
     new_result_file = get_result_filepath(task_id, version + 1)
     with open(new_result_file, 'w') as f:
-        f.write('')
-    with open(new_result_file, 'a') as f:
         for data in outputs:
-            f.write(json.dumps(data)+'\n')
+            f.write(json.dumps(data) + '\n')
 
     # 覆盖旧文件
     os.replace(new_result_file, result_file)
