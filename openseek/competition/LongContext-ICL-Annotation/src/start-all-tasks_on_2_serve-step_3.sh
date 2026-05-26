@@ -20,12 +20,12 @@ export ICL_REPEAT_N=3
 dir=$(cd "$(dirname "$0")" && pwd)
 
 # 等待第一阶段的第一个任务operation出现
-while [ ! -f "$(dirname "$dir")/operations_tmp/operation-1.json" ]; do
-    echo "wait for operation-1.json"
+while [ ! -f "$(dirname "$dir")/outputs/openseek-1-v1.jsonl" ]; do
+    echo "wait for operation-1-v1.jsonl"
     sleep 600
 done
 
-pid=$(ps -ef | grep src/main_batch.py | grep 'task_step=3' | grep '[1,2,3,4]' | grep -v grep | awk '{print $2}')
+pid=$(ps -ef | grep src/main_batch.py | grep 'task_step=3' | grep '1,2,3,4' | grep -v grep | awk '{print $2}')
 if [ -n "$pid" ]; then
     echo 'not need repeat start tasks[1,2,3,4] ...'
 else
@@ -40,14 +40,14 @@ fi
 task_ids=(1 2 3 4 5 6 7 8)
 for task_id in "${task_ids[@]}"
 do
-    while [ ! -f "$(dirname "$dir")/operations_tmp/operation-${task_id}.json" ]; do
-        echo "wait for operation-${task_id}.json"
+    while [ ! -f "$(dirname "$dir")/outputs/openseek-${task_id}-v1.jsonl" ]; do
+        echo "wait for operation-${task_id}-v1.jsonl"
         sleep 1800
     done
 done
 
 # 在等待第一阶段完成后，其对应服务空闲下来，可以用来处理第二阶段的其他任务
-pid=$(ps -ef | grep src/main_batch.py | grep 'task_step=3' | grep '[5,6,7,8]' | grep -v grep | awk '{print $2}')
+pid=$(ps -ef | grep src/main_batch.py | grep 'task_step=3' | grep '5,6,7,8' | grep -v grep | awk '{print $2}')
 if [ -n "$pid" ]; then
     echo 'not need repeat start tasks[5,6,7,8] ...'
 else

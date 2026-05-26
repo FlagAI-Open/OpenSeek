@@ -180,7 +180,7 @@ def evaluate(task_id:int, qwen_tokenizer:AutoTokenizer, start = 0, stop = -1):
 
         test_sample_id_list = []
         test_input_list = []
-        for test_sample in test_samples[i: i + req_concurrency_size]:
+        for test_sample in test_samples[i: min(i + req_concurrency_size, stop + 1)]:
             test_sample_id_list.append(test_sample['id'])
             test_input_list.append(test_sample['input'])
 

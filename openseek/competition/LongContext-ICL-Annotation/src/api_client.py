@@ -125,10 +125,11 @@ class ChatClient:
                 async with response:
                     async for chunk in response:
                         content = None
-                        if hasattr(chunk.choices[0].delta, 'reasoning_content') and chunk.choices[0].delta.reasoning_content:
-                            content = chunk.choices[0].delta.reasoning_content
-                        elif hasattr(chunk.choices[0].delta, 'content') and chunk.choices[0].delta.content:
-                            content = chunk.choices[0].delta.content
+                        delta = chunk.choices[0].delta
+                        if hasattr(delta, 'reasoning_content') and delta.reasoning_content:
+                            content = delta.reasoning_content
+                        elif hasattr(delta, 'content') and delta.content:
+                            content = delta.content
                         else:
                             pass
 

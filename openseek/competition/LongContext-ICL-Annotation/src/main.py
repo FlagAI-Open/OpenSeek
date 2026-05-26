@@ -9,7 +9,7 @@ random.seed(123)
 from tqdm import tqdm, trange
 from transformers import AutoTokenizer
 
-from method import select_examples, select_operations, _parse_operations_from_str, refer_get_operation_for_icl, refer_get_result_for_test
+from method import select_examples, select_operations, refer_get_operation_for_icl, refer_get_result_for_test
 from const import CONST_TASK_FILES, CONST_TASK_OUTPUT_MAX_TOKENS_SIZES, CONST_LIMIT_PROMPT_MAX_TOKENS, CONST_LIMIT_OUTPUT_MAX_TOKENS, CONST_TASK_TEST_RETURN_DATA_TYPES
 
 

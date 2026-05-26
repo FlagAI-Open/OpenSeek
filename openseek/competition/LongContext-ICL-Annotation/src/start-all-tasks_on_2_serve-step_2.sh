@@ -25,7 +25,7 @@ while [ ! -f "$(dirname "$dir")/operations_tmp/operation-1.json" ]; do
     sleep 600
 done
 
-pid=$(ps -ef | grep src/main_batch.py | grep 'task_step=2' | grep '[1,2,3,4]' | grep -v grep | awk '{print $2}')
+pid=$(ps -ef | grep src/main_batch.py | grep 'task_step=2' | grep '1,2,3,4' | grep -v grep | awk '{print $2}')
 if [ -n "$pid" ]; then
     echo 'not need repeat start tasks[1,2,3,4] ...'
 else
@@ -47,7 +47,7 @@ do
 done
 
 # 在等待第一阶段完成后，其对应服务空闲下来，可以用来处理第二阶段的其他任务
-pid=$(ps -ef | grep src/main_batch.py | grep 'task_step=2' | grep '[5,6,7,8]' | grep -v grep | awk '{print $2}')
+pid=$(ps -ef | grep src/main_batch.py | grep 'task_step=2' | grep '5,6,7,8' | grep -v grep | awk '{print $2}')
 if [ -n "$pid" ]; then
     echo 'not need repeat start tasks[5,6,7,8] ...'
 else
