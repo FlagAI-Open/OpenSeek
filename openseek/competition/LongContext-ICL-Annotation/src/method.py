@@ -286,7 +286,7 @@ def __parse_number(text: str) -> list:
     arr = []
     # . 是小数点 - 是负号 _ 也是英文数字连接
     for s in re.split(r'[,;:!?@#$%&*()\[\]{}<>|/~`^"\'\\\s\n\t]', text):
-        arr.extend(re.findall(r'[0-9\-]+[0-9._]*', s.strip()))
+        arr.extend(re.findall(r'-?\d+(?:[\d._]*\d)?', s.strip()))
 
     return arr
 
