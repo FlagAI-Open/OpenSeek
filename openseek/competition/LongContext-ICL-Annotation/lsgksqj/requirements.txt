@@ -1,0 +1,29 @@
+# --- 核心深度学习框架与模型加载 ---
+# 支撑 model.py 中的 AutoModelForCausalLM 和 torch
+torch>=2.0.0
+transformers>=4.37.0
+accelerate>=0.26.0
+modelscope>=1.11.0
+
+# --- 文本处理与分词 ---
+# 支撑 method.py 中的 AutoTokenizer 以及 Qwen 模型的特殊分词需求
+sentencepiece
+tiktoken
+einops
+
+# --- 网络请求与 API 交互 ---
+# 支撑 api_test.py 和 method.py 中的 requests 调用
+requests>=2.31.0
+urllib3>=2.0.0
+openai>=1.0.0
+
+# --- 数据处理与进度展示 ---
+# 支撑 main.py 中的 tqdm 进度条和数据解析
+tqdm
+numpy
+pandas
+
+# --- 辅助工具 ---
+# 处理 jsonl 格式及正则增强
+jsonlines
+regex
