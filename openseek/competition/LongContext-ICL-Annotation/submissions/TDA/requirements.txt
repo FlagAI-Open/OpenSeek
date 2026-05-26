@@ -1,0 +1,7 @@
+# Core runtime dependencies for the annotation pipeline.
+# Install PyTorch/vLLM/FlagScale according to the target CUDA environment.
+requests>=2.28.0
+tqdm>=4.65.0
+transformers>=4.40.0
+numpy>=1.23.0
+scikit-learn>=1.2.0

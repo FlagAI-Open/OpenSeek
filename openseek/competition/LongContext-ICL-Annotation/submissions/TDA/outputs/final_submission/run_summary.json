@@ -1,0 +1,20 @@
+{
+  "version": "0520v11",
+  "zip": "submission_0520v11.zip",
+  "score": 81.87,
+  "rank": null,
+  "sha256": "08e5fe26810142f015b4f8ec40e7b6174923eab86f60c729bacd406bfba86a52",
+  "changes": "delta:1",
+  "note": "Compliant Task2 official-example style fix(es) based only on official examples and current best 0520v1. SUBMITTED: 81.87; wearing verb-count correction is positive.",
+  "submit_priority": "current-best",
+  "from_base": "submission_0520v1.zip (81.85)",
+  "diffs": [
+    [
+      2,
+      "openseek-2-68ee26e5fa914d5398b3003dda5c5311",
+      "0",
+      "1",
+      "Task2 verb count: wearing; official verb examples count wearing as verb in 51/51 occurrences."
+    ]
+  ]
+}
