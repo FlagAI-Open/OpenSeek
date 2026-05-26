@@ -10,7 +10,7 @@ random.seed(123)
 from tqdm import tqdm, trange
 from transformers import AutoTokenizer
 
-from method import select_examples, select_operations, _parse_operations_from_str, parse_result, batch_refer_get_operation_for_icl, batch_refer_get_result_for_test
+from method import select_examples, select_operations, parse_result, batch_refer_get_operation_for_icl, batch_refer_get_result_for_test
 from const import CONST_TASK_FILES, CONST_TASK_OUTPUT_MAX_TOKENS_SIZES, CONST_LIMIT_PROMPT_MAX_TOKENS, CONST_LIMIT_OUTPUT_MAX_TOKENS, CONST_TASK_CHECK_STRLEN_SIZES, CONST_TASK_TEST_RETURN_DATA_TYPES
 
 
@@ -76,8 +76,7 @@ def processing(task_id:int, qwen_tokenizer:AutoTokenizer, start = 0, stop = -1):
         with open(operation_file, 'r') as f:
             old_operations_list = json.load(f)
             for s in old_operations_list:
-                for v in _parse_operations_from_str(s):
-                    task_operations.add(v)
+                task_operations.add(s)
     else:
         operation_dir = os.path.dirname(operation_file)
         if not os.path.exists(operation_dir):
