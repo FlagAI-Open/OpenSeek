@@ -94,7 +94,7 @@ def batch_refer_get_result_for_test(task_description: str, task_input_list: list
 
 
 # 批量拼接ICL示例数据（implementation of Long-Context Data Annotation）
-def select_examples(icl_examples: list[dict], tokenizer: AutoTokenizer, start: int, stop: int, target_length=8192) -> str:
+def select_examples(icl_examples: list[dict], tokenizer: AutoTokenizer, start: int, stop: int, target_length=8192) -> tuple[str, int]:
     """
         Select examples from icl_examples to fit into the target context length (适配Qwen3-4B的token计算).
         icl_examples:
