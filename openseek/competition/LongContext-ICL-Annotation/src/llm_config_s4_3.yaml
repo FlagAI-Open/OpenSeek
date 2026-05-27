@@ -6,26 +6,25 @@ serve:
       host: 0.0.0.0
       served-model-name: Qwen/Qwen3-4B
       uvicorn_log_level: warning
-      port: 2026
+      port: 2029
       trust_remote_code: true
-      gpu_memory_utilization: 0.9
+      gpu_memory_utilization: 0.4
       pipeline_parallel_size: 1
-      tensor_parallel_size: 2
+      tensor_parallel_size: 1
       block_size: 128
       max_num_seqs: 1
       max_model_len: 20480
-      max_num_batched_tokens: 40960
+      max_num_batched_tokens: 20480
       dtype: bfloat16
       enforce_eager: true
       enable_prefix_caching: true
       enable_chunked_prefill: true
       disable_log_stats: true
       async_scheduling: true
-      distributed_executor_backend: mp
 
 experiment:
   exp_name: qwen3_4b
-  exp_dir: outputs/${experiment.exp_name}
+  exp_dir: s4_3/${experiment.exp_name}
   task:
     type: serve
   runner:
@@ -33,7 +32,7 @@ experiment:
     deploy:
       use_fs_serve: false
   envs:
-    ASCEND_RT_VISIBLE_DEVICES: 0,1
+    ASCEND_RT_VISIBLE_DEVICES: 1
     ASCEND_RT_DEVICE_MAX_CONNECTIONS: 8
 
 action: run
