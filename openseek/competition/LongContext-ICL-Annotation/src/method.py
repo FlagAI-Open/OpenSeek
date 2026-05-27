@@ -1,277 +1,360 @@
-
 import re
+
 from collections import Counter
 from transformers import AutoTokenizer
 
-""" Here is an example of implementation of Long-Context Data Annotation. """
+from api_client import ChatClient
+from const import CONST_LIMIT_OUTPUT_MAX_TOKENS
 
-def build_prompt____(task_description: str, text2annotate: str) -> str:
-    """
-    Build a high-precision English prompt for long-context data annotation (optimized for Qwen3-4B).
-    Core requirement: Final answer MUST be wrapped in <label> tags (no extra content outside tags).
-    """
-    prompt = (
-        "### Role Definition\n"
-        "You are a professional data annotation expert specializing in long-context text labeling. "
-        "Your work must strictly comply with the following rules, with the highest priority given to output format accuracy.\n\n"
-        
-        "### Core Annotation Task\n"
-        f"{task_description}\n\n"
-        
-        "### Non-Negotiable Annotation Rules (Highest Priority)\n"
-        "1. **Final Output Mandate**: Your annotation result MUST be wrapped in <label> tags — NO text, symbols, spaces, or explanations are allowed outside the tags.\n"
-        "2. **Internal Reasoning Permission**: You may perform logical reasoning, text analysis, or context comprehension internally (in your thought process), but NONE of these thoughts may appear in the final output.\n"
-        "3. **Label Format Strictness**: <label> is the opening tag and </label> is the closing tag — they must appear in pairs, with NO extra spaces or characters inside the tags (e.g., <label>  Good Review  </label> is invalid).\n"
-        "4. **Prohibited Outputs**: \n"
-        "   - ❌ Prohibited: 'After analysis, this is a positive review: <label>Good Review</label>' (extra text outside tags)\n"
-        "   - ❌ Prohibited: 'Bad Review' (missing <label> tags entirely)\n"
-        "   - ❌ Prohibited: '<label>Bad Review' (unpaired/closing tag missing)\n\n"
-        
-        "### Correct vs. Incorrect Examples\n"
-        "✅ Correct Example 1: <label>answer</label>\n"
-        "✅ Correct Example 2: <label>Bad Review</label>\n"
-        "❌ Incorrect Example 1: I think this review is negative → <label>Bad Review</label>\n"
-        "❌ Incorrect Example 2: <label>  Neutral Review  </label> (extra spaces inside tags)\n"
-        "❌ Incorrect Example 3: Neutral Review (no label tags)\n\n"
-        
-        "### Reference Annotation Examples\n"
-        "{EXAMPLES}\n\n"
-        
-        "### Text to Annotate\n"
-        f"{text2annotate}\n\n"
-        
-        "### Final Output Command (Re-emphasized)\n"
-        "You may complete any internal reasoning process, but your FINAL OUTPUT MUST consist solely of the annotation result wrapped in <label> tags (no other content whatsoever).\n"
-        "Annotation Result: "
-    )
-    return prompt
 
-def build_prompt(task_description: str, text2annotate: str) -> str:
-    """
-    Construct a high-precision prompt for long-context data annotation (optimized for Qwen3-4B).
-    task_description: Clear description of the annotation task (e.g., "Classify English product reviews as Good Review/Bad Review").
-    text2annotate: The text to be annotated (single text or batch texts).
-    """
-    prompt = (
-        "### Role Definition\n"
-        "You are a professional data annotation expert specialized in long-context text labeling. "
-        "Your work must strictly follow the task rules, fully learn from the provided examples, and ensure the final annotation result is 100% enclosed in <label> tags.\n\n"
-        
-        "### Core Task\n"
-        f"{task_description}\n\n"
-        
-        "### Critical Annotation Guidelines\n"
-        "1. **Example Learning Requirement**: Thoroughly analyze and fully learn from the annotation logic, format, and criteria in the Examples section. "
-        "Your annotation must align with the style, judgment standards, and tag usage shown in the examples.\n"
-        "2. **Thinking Process**: You may (and are encouraged to) explain your annotation reasoning step by step (e.g., key information extraction, judgment basis, rule matching).\n"
-        "3. **Mandatory Output Rule**: Regardless of any thinking process you provide, your final annotation result MUST be enclosed in <label> tags (this is non-negotiable).\n"
-        "   - Correct example: \n"
-        "     Reasoning: This review mentions 'excellent quality' and 'very satisfied', which meets the criteria for a Good Review.\n"
-        "     <label>Good Review</label>\n"
-        "   - Wrong example 1 (missing tags): This review is negative.\n"
-        "   - Wrong example 2 (incomplete tags): Bad Review</label>\n"
-        "4. **Length Adaptation**: For long texts, maintain complete thinking process and ensure the final <label> tags contain the accurate annotation result (no truncation).\n\n"
-        
-        "### Examples (Must Be Fully Followed)\n"
-        "[[EXAMPLES]]\n\n"
-        
-        "### Text to Annotate\n"
-        f"{text2annotate}\n\n"
-        
-        "### Final Requirement Summary\n"
-        "1. You can (and should) provide clear thinking process for your annotation.\n"
-        "2. The final annotation result MUST be wrapped in <label> tags (no exceptions).\n"
-        "3. All annotation logic must strictly follow the examples provided above.\n"
-    )
-    return prompt
+# 利用ICL提取Operation的Prompt
+def make_icl_prompt(task_description: str, icl_sample_data: str):
+    temperature = 0.7
+    prompt = f"你是一名专业的数据标注专家，请仔细阅读理解示例数据的任务目标(在==左侧的<input>与</input>之间)与任务结果(在==右侧的<output>与</output>之间)，首先利用示例数据按照任务描述的要求对任务目标与任务结果进行推理和推导，并且必须使用使用逆向思维、跳跃思维和横向关联以避免深陷在反复思考或递归循环之中，然后分析提取出从任务目标得到任务结果所必须执行的在10个以内的关键操作，并且必须是在对所有示例数据需要的普适通用的关键操作，并且必须与任务描述强相关的，并且必须与示例数据弱相关的，然后表示为言简意赅的纯英文提示词短语，不能包含引号、逗号、分号、句号、括号、横线、表情等标点符号或特殊符号，不能包含数字或项目符号，不能是无关的或冗余的，不能是示例数据或解释内容，不能是假设或推测，最后必须用<operation>与</operation>包裹每个关键操作提示词。\
+        任务描述: {task_description} \
+        示例数据: {icl_sample_data}"
 
-def build_prompt_backup(task_description:str, text2annotate:str)->str:
-    """
-        Construct the prompt for annotation based on the task description.
-        task_description: 
-            The description of the annotation task. 
-            For example, ``Given an English language product review, 
-            determine if it is a Good Review or a Bad Review.`` 
-        text2annotate:
-            The text that needs to be annotated.
-            For example, ``My son received this book as a gift. I was extremely disappointed.``
-    """
-    prompt = (
-        "You are a data annotation assistant. "
-        "Your task is to label the given texts according to the task description "
-        "and annotation guidelines provided below.\n\n"
-        f"[Task Description]\n {task_description}\n\n"
-        "[Examples]\n {EXAMPLES}\n\n"
-        "Please follow these instructions when labeling:\n"
-        "1. **Output Format**: Annotate the text directly by wrapping each labeled "
-        "span with <label> tags in the following format: <label> annotation result </label>.\n"
-        # "2. Do not add any extra text, explanations, or commentary in the labeled spans.\n\n"
-        f"[Task Description (repeat)] \n {task_description}\n\n"
-        f"[Input Texts]\n {text2annotate}\n\n"
-        "Please output the annotation results: "
-    )
-    return prompt
+    return prompt, temperature
 
-def select_examples_backup(all_examples:list[dict], task_description:str, text2annotate:str)->str:
-    """
-        Select examples from all_examples to fit into the target context length.
-        all_examples:
-            A list of examples, where each example is a dict with keys 'input', 'output', and 'length'.
-            For example, ``{"input": "The material is good and looks great.", "output": "Good Review", "length": 79``},
-        task_description:
-            The description of the annotation task which may be used for example evaluation. 
-            For example, ``Given an English language product review, 
-            determine if it is a Good Review or a Bad Review.`` 
-        text2annotate:
-            The text that needs to be annotated  which may be used for example retrieval.
-            For example, ``My son received this book as a gift. I was extremely disappointed.``
-        
-    """
-    # Notice that the maximum context length is restricted.
-    target_length = 10_000
-    
-    input_list = [example['input'] for example in all_examples]
-    output_list = [example['output'][0] for example in all_examples]
-    length_list = [example['length'] for example in all_examples]
-    
-    # <label> have 2 tokens; </label> have 3 tokens; \n have 1 token; # have 1 token.
-    examples_str, token_num = "", 0
-    for i, (input_text, output_text, length) in enumerate(zip(input_list, output_list, length_list)):
-        if length + token_num <= target_length:
-            token_num += (length + 2 + 3 + 1 + 1)
-            example_str = f"# {input_text} <label> {output_text} </label>\n"
-            examples_str += example_str
+
+MORES = {
+    'text': '',
+    'array': '',
+    'number': '',
+    'phrase': '',
+    'code': '必须使用编程语言类库方法生成完整的符合人们使用经验的文件格式的可直接执行代码脚本，'
+}
+
+# 利用Operation和Test获取Result的Prompt
+def make_test_prompt(task_description: str, task_input: str, core_operations: str, return_data_type:str):
+    assert return_data_type in MORES.keys(), f"return_data_type must be one of {MORES.keys()}, but your is error: {return_data_type}"
+
+    more = MORES[return_data_type]
+    temperature = 0.3
+    prompt = f"你是一名永远都保持冷静与理性的解题高手，请仔细阅读理解任务描述、任务目标和关键操作(在每个<operation>与</operation>之间)，你必须要一直保持冷静与理性地解决问题，不要让外界信息影响到你的情绪和判断，首先参考任务描述与关键操作进行联想和思考，从中找出最相关的关键操作, 并且根据你的最佳经验对当前任务目标补充缺失的关键操作，然后按照任务描述的要求对任务目标进行推理和推导，并且必须使用逆向思维、跳跃思维和横向关联以避免深陷在反复思考或无限循环之中，并且按照任务描述的规范生成任务目标的任务结果，并且其格式与数据类型必须严格符合任务描述的规范与要求，结果不能是假设或推测，结果不能是重复罗嗦或粗浅描述，结果不能包含的多余的空格空行，{more} 必须将任务结果全用英文表达作为标准答案，最后必须填写在<result>与</result>之间。\
+        任务描述: {task_description} \
+        任务目标: {task_input} \
+        关键操作: {core_operations}"
+
+    return prompt, temperature
+
+
+# 同步单个提交ICL推理请求到模型服务端，提交的数据是一个批次的ICL示例
+def refer_get_operation_for_icl(task_description: str, icl_sample_data: str, max_tokens=10240):
+    prompt, temperature = make_icl_prompt(task_description, icl_sample_data)
+    max_tokens = min(max_tokens, CONST_LIMIT_OUTPUT_MAX_TOKENS)
+    answer, state = ChatClient.request_llm_api_stream(prompt, max_tokens, temperature)
+    if state == False:
+        return answer, state
+
+    return parse_operations(answer)
+
+
+# 同步单个提交测试推理请求到模型服务端，提交的数据是一个批次的Operation，一个测试数据
+def refer_get_result_for_test(task_description: str, task_input: str, core_operations: str, return_data_type: str, max_tokens=10240):
+    prompt, temperature = make_test_prompt(task_description, task_input, core_operations, return_data_type)
+    max_tokens = min(max_tokens, CONST_LIMIT_OUTPUT_MAX_TOKENS)
+    answer, state = ChatClient.request_llm_api_stream(prompt, max_tokens, temperature)
+    if state == False:
+        return answer, state
+
+    return parse_result(answer, return_data_type)
+
+
+# 异步并发提交ICL推理请求到模型服务端，提交的数据是多个批次的ICL示例
+def batch_refer_get_operation_for_icl(task_description: str, icl_sample_data_list: list, max_tokens=10240):
+    temperature = None
+    prompts = []
+    for icl_sample_data in icl_sample_data_list:
+        prompt, temperature = make_icl_prompt(task_description, icl_sample_data)
+        prompts.append(prompt)
+
+    # 请求模型服务端
+    max_tokens = min(max_tokens, CONST_LIMIT_OUTPUT_MAX_TOKENS)
+    answers = ChatClient.batch_request_llm_api_stream(prompts, max_tokens, temperature)
+
+    outputs = []
+    for answer, state in answers:
+        if state == False:
+            outputs.append((answer, state))
         else:
-            return examples_str, i
-    return examples_str
+            outputs.append(parse_operations(answer))
 
-def select_examples(all_examples: list[dict], task_description: str, text2annotate: str) -> str:
+    return outputs
+
+
+# 异步并发提交测试推理请求到模型服务端，提交的数据是一个批次的Oepration，多个测试数据
+def batch_refer_get_result_for_test(task_description: str, task_input_list: list, core_operations: str, return_data_type: str, max_tokens=10240):
+    temperature = None
+    prompts = []
+    for task_input in task_input_list:
+        prompt, temperature = make_test_prompt(task_description, task_input, core_operations, return_data_type)
+        prompts.append(prompt)
+
+    max_tokens = min(max_tokens, CONST_LIMIT_OUTPUT_MAX_TOKENS)
+    answers = ChatClient.batch_request_llm_api_stream(prompts, max_tokens, temperature)
+
+    outputs = []
+    for answer, state in answers:
+        if state == False:
+            outputs.append((answer, state))
+        else:
+            outputs.append(parse_result(answer, return_data_type))
+
+    return outputs
+
+
+# 批量拼接ICL示例数据（implementation of Long-Context Data Annotation）
+def select_examples(icl_examples: list[dict], tokenizer: AutoTokenizer, start: int, stop: int, target_length=8192) -> str:
     """
-        Select examples from all_examples to fit into the target context length (适配Qwen3-4B的token计算).
-        all_examples:
+        Select examples from icl_examples to fit into the target context length (适配Qwen3-4B的token计算).
+        icl_examples:
             A list of examples, where each example is a dict with keys 'input' and 'output' (no 'length' needed).
             For example, ``{"input": "The material is good and looks great.", "output": "Good Review"}``,
-        task_description:
-            The description of the annotation task which may be used for example evaluation. 
-        text2annotate:
-            The text that needs to be annotated  which may be used for example retrieval.
+        tokenizer:
+            Qwen3-4B的分词器
+        start:
+            最小起始位置,范围[0,len(icl_examples)-1]
+        stop:
+            最大结束位置,范围[0,len(icl_examples)-1]
+        target_length:
+            上下文长度限制（Qwen3-4B的上下文窗口默认是8k/32k，根据实际调整，若比较严格则建议为8192）
     """
-    # 初始化Qwen3-4B的tokenizer（自动下载/加载千问3-4B的分词器）
-    # 若本地已下载模型，可替换为本地路径，如 "./qwen3-4b"
-    tokenizer = AutoTokenizer.from_pretrained("/share/project/wuhaiming/spaces/data_agent/OpenSeek-main/openseek/competition/LongContext-ICL-Annotation/src/Qwen3-4B", trust_remote_code=True)
-    
-    # 最大上下文长度限制（Qwen3-4B的上下文窗口默认是8k/32k，可根据实际调整）
-    target_length = 8192  # 若需严格适配Qwen3-4B，建议改为8192（8k）
-    
-    # print(all_examples[0])  # 打印第一个示例，便于调试
+    total = len(icl_examples)
+    assert total > 0 and start >=0 and stop >= start and start < total and stop < total, f"must be `total > 0 and start >=0 and stop >= start and start < total and stop < total`, error: {start}, {stop}, {total}"
 
     examples_str, token_num = "", 0
+
     # 遍历所有示例，基于Qwen3-4B的tokenizer计算token数
-    for i, example in enumerate(all_examples):
-        try:
-            # 提取input和output（兼容output是列表的情况）
-            input_text = example['input']
-            output_text = example['output'][0]
-            
-            # 核心：用Qwen3-4B的tokenizer计算input+output的token数（替代原length键）
-            # encode返回token id列表，len即为token数
-            input_tokens = len(tokenizer.encode(input_text, add_special_tokens=False))
-            output_tokens = len(tokenizer.encode(output_text, add_special_tokens=False))
-            length = input_tokens + output_tokens  # 等效原示例的length值
-            
-            # 校验当前示例是否能加入（总长度不超限制）
-            if length + token_num <= target_length:
-                # 累加总token数：示例文本长度 + 格式符号的token数（<label>2 + </label>3 + \n1 + #1）
-                # 注：格式符号的token数是原代码约定，Qwen3-4B对这些符号的实际编码可能略有差异，若需精准可改为：
-                # symbol_tokens = len(tokenizer.encode(f"# <label> </label>\n", add_special_tokens=False))
-                # token_num += (length + symbol_tokens)
-                token_num += (length + 2 + 3 + 1 + 1)
-                # 拼接单个示例字符串
-                example_str = f"# {input_text} <label> {output_text} </label>\n"
-                examples_str += example_str
-            else:
-                # 超过长度限制，返回已拼接的示例和已选数量
-                return examples_str
-        except KeyError as e:
-            print(f"警告：示例{i}缺少键{e}，跳过该示例")
+    while start <= stop:
+        example = icl_examples[start]
+
+        # 提取input和output(兼容output是列表的情况)
+        input_text = example['input']
+        output_text = example['output'][0]
+
+        # 核心: 用Qwen3-4B的tokenizer计算input+output的token数(替代原length键)
+        # encode返回token id列表，len即为token数
+        input_tokens = len(tokenizer.encode(input_text, add_special_tokens=False))
+        output_tokens = len(tokenizer.encode(output_text, add_special_tokens=False))
+        length = input_tokens + output_tokens  # 等效原示例的length值
+
+        # 单条数据长度超过长度限制，跳过该条数据
+        if length > target_length:
+            start += 1
             continue
-    # 遍历完所有示例且未超长度，返回完整拼接结果
-    return examples_str
+
+        # 校验当前示例是否能加入(总长度不超限制)
+        if length + token_num <= target_length:
+            # 累加总token数: 示例文本长度 + 格式符号的token数(<input>7 + </input>==<output>18 + </output>9)
+            token_num += (length + 7 + 18 + 9)
+            # 拼接示例字符串
+            examples_str += f"<input>{input_text}</input>==<output>{output_text}</output>"
+            start += 1
+        else:
+            # 累计数据长度超过长度限制，当前截止拼接
+            break
+
+    # 返回已拼接的示例和已选数量，作为当前批次
+    return examples_str, start
 
 
-
-
-def count_answer(text: str) -> tuple[list, dict]:
+# 批量拼接关键操作提示词operations
+def select_operations(task_operations: list[dict], tokenizer: AutoTokenizer, start: int, stop: int, target_length=8192) -> str:
     """
-    提取字符串中<label>标签内的所有内容（字符串形式），统计出现次数最多的内容
-    :param text: 包含<label>标签的原始字符串
-    :return: 出现次数最多的内容列表、所有内容的频次统计字典
+        Select operations from task_operations to fit into the target context length (适配Qwen3-4B的token计算).
+        task_operations:
+            A list of operations, where each operation is a string.
+        tokenizer:
+            Qwen3-4B的分词器
+        start:
+            最小起始位置,范围[0,len(task_operations)-1]
+        stop:
+            最大结束位置,范围[0,len(task_operations)-1]
+        target_length:
+            上下文长度限制（Qwen3-4B的上下文窗口默认是8k/32k，根据实际调整，若比较严格则建议为8192）
     """
-    pattern = r'<label>\s*(.+?)\s*</label>'
-    content_matches = re.findall(pattern, text, re.DOTALL) 
-    
-    content_counter = Counter(content_matches)
+    total = len(task_operations)
+    assert total > 0 and start >=0 and stop >= start and start < total and stop < total, f"must be `total > 0 and start >=0 and stop >= start and start < total and stop < total`, error: {start}, {stop}, {total}"
+
+    operations_str, token_num = "", 0
+    # 遍历所有示例，基于Qwen3-4B的tokenizer计算token数
+    while start <= stop:
+        operation = task_operations[start]
+
+        # 核心: 用Qwen3-4B的tokenizer计算input+output的token数(替代原length键)
+        # encode返回token id列表，len即为token数
+        length = len(tokenizer.encode(operation, add_special_tokens=False))
+
+        # 单条数据长度超过长度限制，跳过该条数据
+        if length > target_length:
+            start += 1
+            continue
+
+        # 校验当前示例是否能加入(总长度不超限制)
+        if length + token_num <= target_length:
+            # 累加总token数: 示例文本长度 + 格式符号的token数(<operation>11 + </operation>12)
+            token_num += (length + 11 + 12)
+            # 拼接单个示例字符串
+            operations_str += f"<operation>{operation}</operation>"
+            start += 1
+        else:
+            # 累计数据长度超过长度限制，当前截止拼接
+            break
+
+    # 返回已拼接的示例和已选数量，作为当前批次
+    return operations_str, start
+
+
+# 获取关键操作的提示词
+def parse_operations(answer: str) -> list:
+    """
+    提取字符串中<operation>标签内的所有内容(字符串形式)，统计出现次数最多的内容
+    :answer: 包含<operation>标签的原始字符串
+    :return: 去掉标签或分隔符之后的文本数组
+    """
+    if answer == None:
+        return None, False
+
+    operations = __parse_operations_from_str(answer)
+    if len(operations) == 0:
+        return None, False
+
+    content_counter = Counter(operations)
     if not content_counter:
-        return None
-    
+        return None, False
+
+    # 提取最高频次的前10个
     max_count = max(content_counter.values())
-    answer = [content for content, count in content_counter.items() if count == max_count]
-    
-    if (len(answer[0]) >= 100):
-        return None
-    return answer[0]
+    sel_count = max_count - 10
+    operations = [ content.strip() for content, count in content_counter.items() if count > sel_count ]
+
+    return operations, True
 
 
-def annotate_nvidia(input_prompt:str)->list[str]:
-    """
-        Annotate the unlabeled data using an LLM API (nvidia GPU).
-        prompts:
-            A prompt constructed for annotation.
-            For example, ``["You are a data annotation assistant. Your task is to label ..."]``
-    """
-    import requests
-    URL="http://0.0.0.0:2026/v1/completions"
-    
-    data = {
-        "model": "../Qwen3-4B",
-        "prompt": input_prompt,
-        "max_tokens": 10_000, # max_token = 10k
-    }
+# 获取测试数据的预测结果
+def parse_result(answer: str, return_data_type: str):
+    assert return_data_type in MORES.keys(), f"return_data_type must be one of {MORES.keys()}, but your is error: {return_data_type}"
 
-    try:
-        resp = requests.post(URL, json=data)
-        whole_result = resp.json()["choices"][0]["text"]
-    except Exception as e:
-        whole_result = "None"
+    if answer == None:
+        return None, False
+
+    answer = answer.strip()
+    if answer[0:8] == '<result>':
+        answer = answer[8:None].strip()
+
+    if answer[-9:None] == '</result>':
+        answer = answer[0:-9].strip()
+
+    match return_data_type:
+        # 数字
+        case 'number':
+            arr = __parse_number(answer)
+
+        # 英文短语
+        case 'phrase':
+            arr = __parse_phrase(answer)
+
+        # 包含多种符号的任意英文数组
+        case 'array':
+            arr = __parse_array(answer)
+
+        # 包含多种编程的任意英文字符串
+        case 'code':
+            langs = ['python', 'java', 'go', 'sql', 'php', 'rust', 'zig', 'swift', 'javascript', 'c', 'cpp', 'csharp', 'ruby', 'sh', 'bash']
+            pattern =  r'(' + '|'.join([f'```{lang}\n?' for lang in langs]) + ')'
+            arr = re.findall(pattern, answer, re.I)
+            if len(arr) > 0:
+                answer = (answer.split(arr[-1])[-1]).strip()
+                if answer[-3:None] == '```':
+                    answer = answer[None:-3]
+            return answer, True
+
+        # 包含多种符号的任意英文字符串
+        case 'text':
+            return answer, True
+
+        case _:
+            return answer, True
+
+    data_counter = Counter(arr)
+    if not data_counter:
+        return None, False
+
+    # 提取最高频次的数值作为最终答案
+    max_count = max(data_counter.values())
+    result = [ data.strip() for data, count in data_counter.items() if count == max_count ]
+
+    return result[0], True
 
 
-    prediction = count_answer(whole_result)
-    return prediction
+# 提取关键操作的英文短语
+def __parse_operations_from_str(text: str):
+    if text.find('<operation>') > -1:
+        arr = []
+        # 首个是空字符或者无关信息
+        for s in text.split('<operation>')[1 : None]:
+            arr.append(s.split('</operation>')[0].strip())
+    else:
+        # 标点符号通常用作分隔符（'"-_\s/ 往往也是操作短语的组成部分）
+        arr = re.split(r'[.,;:!?@#$%&*()\[\]{}<>~`^\\\n\t]', text.split('</operation>')[0].strip())
 
-def annotate_ascend(input_prompt:str)->list[str]:
-    """
-        Annotate the unlabeled data using an LLM API (Huawei Ascend).
-        prompts:
-            A prompt constructed for annotation.
-            For example, ``["You are a data annotation assistant. Your task is to label ..."]``
-    """
-    import openai
-    openai.api_key = "EMPTY"
-    openai.base_url = "http://localhost:9010/v1/"
-    model = "Qwen3-4B-ascend-flagos"
+    return [ s.strip() for s in arr if len(s) > 3 and not re.search(r'\d|(inappropriate)', s) ]
 
-    messages = [
-        {"role": "system", "content": "You are a helpful assistant."},
-        {"role": "user", "content": input_prompt}
-    ]
-    response = openai.chat.completions.create(
-        model=model,
-        messages=messages,
-        temperature=0.7,
-        top_p=0.95,
-        max_tokens=10_000,
-        stream=False,
-    )
-    whole_result = response.choices[0].message.content
-    prediction = count_answer(whole_result)
-    return prediction
+
+# 提取英文数值,例如: -0.9, 12.33, 10_000
+def __parse_number(text: str) -> list:
+    return re.findall(r'-?\d+(?:[\d._]*\d)?', text)
+
+
+# 提取英文短语
+def __parse_phrase(text: str) -> list:
+    return re.findall(r'\b(?:[a-zA-Z0-9]+\.?\s?)+(?:-[A-Za-z0-9]+\.?\s?)*\b', text)
+
+
+# 提取英文数组
+def __parse_array(text: str) -> list:
+    return re.findall(r"\[[a-zA-Z0-9.,;:!?@#$%&*()\[\]{}<>|/~`'^\"\\\-\s\n\t]+\]", text.strip())
+
+
+
+if __name__=="__main__":
+    r = parse_operations('sas-1,sasa_1\nsasa_1.234;sdsd"ds')
+    print(r)
+
+    r = parse_operations('<operation>sas-1,sasa_1\nsasa_1.234;sdsd"ds</operation>')
+    print(r)
+
+    r = __parse_number('sas-1,sasa_1\nsasa_1.234;sdsd"ds')
+    print(r)
+
+    r = __parse_phrase('sas-1,sasa_1\nsasa_1.234;sdsd"ds')
+    print(r)
+
+    r = __parse_array('sa["s-1","sasa_1\nsasa_1.234","[12,3]"')
+    print(r)
+
+    a = '[274, 190, 74, 4, 3]'
+    r = __parse_array(a)
+    print(r)
+
+    r = parse_result(a, 'array')
+    print(r)
+
+
+    import os
+    from transformers import AutoTokenizer
+
+    qwen_tokenizer = AutoTokenizer.from_pretrained(os.path.join(os.path.expanduser('~'), '.cache/modelscope/hub/models/Qwen/Qwen3-4B'))
+
+    r,pos = select_examples([{
+            'input': "A",
+            'output': ["a"],
+        }, {
+            'input': "B",
+            'output': ["b"],
+        }, ], qwen_tokenizer)
+    print(r,pos)
+
+    r,pos = select_operations(['a', 'b', 'c'], qwen_tokenizer)
+    print(r,pos)

@@ -1,0 +1,11 @@
+requests
+asyncio
+aiohttp
+openai
+argparse
+tqdm
+transformers
+scikit-build-core>=0.11
+pybind11
+ninja
+cmake
