@@ -7,8 +7,6 @@ This directory contains the final open-source submission for the
 
 - `技术报告-OpenSeek.pdf`
   - Final technical report PDF used for the competition submission.
-- `technical_report.md`
-  - Markdown source of the final technical report.
 - `submission.zip`
   - Exact 8-task prediction archive submitted on the platform.
 - `源代码-OpenSeek.zip`

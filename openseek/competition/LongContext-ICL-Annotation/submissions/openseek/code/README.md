@@ -123,4 +123,3 @@ make release-check
 - 最终预测包：`../submission.zip`
 - 最终代码包：`../源代码-OpenSeek.zip`
 - 正式技术报告 PDF：`../技术报告-OpenSeek.pdf`
-- 技术报告 Markdown 源：`../technical_report.md`
