@@ -26,7 +26,7 @@ flagScale
 ### 2. Download Model Weights
 
 ```bash
-hf download Qwen/Qwen3-4B --local-dir Qwen3-4B
+hf download Qwen/Qwen3-4B --local-dir ~/.cache/modelscope/hub/models/Qwen/Qwen3-4B
 # or
 modelscope download --model Qwen/Qwen3-4B
 ```
@@ -48,6 +48,7 @@ In `Qwen3-4B/config.json`, replace the original configuration with the following
 Configure the `llm_config.yaml` file according to your actual requirements. Then start the service with:
 
 ```bash
+git clone https://gitee.com/flagos-ai/FlagScale
 cd FlagScale
 python run.py --config-path .. --config-name llm_config action=run
 ```
@@ -69,7 +70,8 @@ python run.py --config-path .. --config-name llm_config action=stop
 Start the baseline annotation pipeline with:
 
 ```bash
-python main.py
+cd src
+python main.py --task_id=0 --task_step=0
 ```
 
 To implement a new annotation method, modify the `method.py` file. Within this file, you may:
@@ -78,3 +80,18 @@ To implement a new annotation method, modify the `method.py` file. Within this f
 - Design new context example selection strategies
 - Implement alternative model inference and annotation pipelines
 - Add custom post-processing logic
+
+
+The table below is the release compatibility matrix for vLLM Ascend release.
+```csv
+vLLM Ascend	    vLLM	      Python	          CANN        PyTorch/torch_npu       Triton Ascend   Recommend
+v0.14.0rc1	    v0.14.1	    >= 3.10, < 3.12	  8.5.0	      2.9.0  / 2.9.0	        3.2.0           Y
+v0.13.0	        v0.13.0	    >= 3.10, < 3.12	  8.5.0	      2.9.0  / 2.8.0.post2	  3.2.0           N
+v0.13.0rc2	    v0.13.0	    >= 3.10, < 3.12	  8.5.0	      2.8.0  / 2.8.0.post1	  3.2.0           N
+v0.13.0rc1	    v0.13.0	    >= 3.10, < 3.12	  8.3.RC2	    2.8.0  / 2.8.0	        3.2.0           Y
+v0.12.0rc1	    v0.12.0	    >= 3.10, < 3.12	  8.3.RC2	    2.8.0  / 2.8.0	        3.2.0           Y
+v0.11.0	        v0.11.0	    >= 3.9 , < 3.12	  8.3.RC2	    2.7.1  / 2.7.1.post1	  3.2.0           N
+v0.11.0rc3	    v0.11.0	    >= 3.9,  < 3.12	  8.3.RC2	    2.7.1  / 2.7.1.post1	  3.2.0           N
+v0.11.0rc2	    v0.11.0	    >= 3.9,  < 3.12	  8.3.RC2	    2.7.1  / 2.7.1	        3.2.0           Y
+v0.11.0rc1	    v0.11.0	    >= 3.9,  < 3.12	  8.3.RC1	    2.7.1  / 2.7.1	        3.2.0           Y
+```
