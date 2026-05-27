@@ -289,7 +289,7 @@ def check_evaluate_retry(task_id:int, qwen_tokenizer:AutoTokenizer, reps = 0):
             # 保存测试结果
             outputs[checks[test_sample_id]] = {'test_sample_id': test_sample_id, 'state': state, 'reps': reps, 'prediction': prediction}
             if raw != prediction:
-                outputs[checks[test_sample_id]]['raw'] = prediction
+                outputs[checks[test_sample_id]]['raw'] = raw
 
     new_result_file = get_result_filepath(task_id, version + 1)
     with open(new_result_file, 'w') as f:

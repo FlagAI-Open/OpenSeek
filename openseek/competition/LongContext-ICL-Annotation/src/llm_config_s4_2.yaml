@@ -32,7 +32,7 @@ experiment:
     deploy:
       use_fs_serve: false
   envs:
-    ASCEND_RT_VISIBLE_DEVICES: 0
+    ASCEND_RT_VISIBLE_DEVICES: 1
     ASCEND_RT_DEVICE_MAX_CONNECTIONS: 8
 
 action: run

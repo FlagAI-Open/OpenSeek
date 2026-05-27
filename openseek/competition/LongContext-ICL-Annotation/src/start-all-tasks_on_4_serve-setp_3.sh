@@ -37,7 +37,7 @@ while [ "$cnt" -gt 0 ]; do
     fi
 
     # 等待第一阶段的第4个任务operation出现
-    if [ ! -f "$(dirname "$dir")/operations_tmp/operation-4.json" ]; then
+    if [ -f "$(dirname "$dir")/operations_tmp/operation-4.json" ]; then
         ((cnt--))
         pid=$(ps -ef | grep src/main_batch.py | grep 'task_step=3' | grep '[3,4]' | grep -v grep | awk '{print $2}')
         if [ -n "$pid" ]; then
@@ -51,7 +51,7 @@ while [ "$cnt" -gt 0 ]; do
     fi
 
     # 等待第一阶段的第6个任务operation出现
-    if [ ! -f "$(dirname "$dir")/operations_tmp/operation-6.json" ]; then
+    if [ -f "$(dirname "$dir")/operations_tmp/operation-6.json" ]; then
         ((cnt--))
         pid=$(ps -ef | grep src/main_batch.py | grep 'task_step=3' | grep '[5,6]' | grep -v grep | awk '{print $2}')
         if [ -n "$pid" ]; then
@@ -65,7 +65,7 @@ while [ "$cnt" -gt 0 ]; do
     fi
 
     # 等待第一阶段的第8个任务operation出现
-    if [ ! -f "$(dirname "$dir")/operations_tmp/operation-8.json" ]; then
+    if [ -f "$(dirname "$dir")/operations_tmp/operation-8.json" ]; then
         ((cnt--))
         pid=$(ps -ef | grep src/main_batch.py | grep 'task_step=3' | grep '[7,8]' | grep -v grep | awk '{print $2}')
         if [ -n "$pid" ]; then
