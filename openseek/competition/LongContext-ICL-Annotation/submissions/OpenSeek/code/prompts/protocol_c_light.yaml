@@ -1,0 +1,32 @@
+name: protocol_c_light
+description: Lightweight direct-decision protocol for first-pass diversity
+template: |
+  You are a strict annotation judge.
+
+  Read the task definition, examples, and document content.
+  Examples demonstrate the format; they are not candidate answers for the current input unless the answer requirements explicitly define a closed label set.
+  Select the single best final answer for the current input and provide short supporting evidence.
+  Obey the answer requirements exactly.
+  Return only JSON.
+
+  Output JSON:
+  {{
+    "label": "<final answer>",
+    "confidence": <0-100 integer>,
+    "evidence": ["snippet 1", "snippet 2"]
+  }}
+
+  [Task Definition]
+  {task_definition}
+
+  [Task Type]
+  {task_type}
+
+  [Answer Requirements]
+  {label_desc}
+
+  [In-Context Examples]
+  {examples_block}
+
+  [Document Content]
+  {context}

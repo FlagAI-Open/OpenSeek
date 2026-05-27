@@ -1,0 +1,41 @@
+datasets:
+  - task_id: 1
+    file_name: openseek-1_closest_integers.json
+    task_name: closest_integers
+    task_type: classification
+    min_context_length: 30000
+  - task_id: 2
+    file_name: openseek-2_count_nouns_verbs.json
+    task_name: count_nouns_verbs
+    task_type: classification
+    min_context_length: 30000
+  - task_id: 3
+    file_name: openseek-3_collatz_conjecture.json
+    task_name: collatz_conjecture
+    task_type: classification
+    min_context_length: 30000
+  - task_id: 4
+    file_name: openseek-4_conala_concat_strings.json
+    task_name: conala_concat_strings
+    task_type: classification
+    min_context_length: 30000
+  - task_id: 5
+    file_name: openseek-5_semeval_2018_task1_tweet_sadness_detection.json
+    task_name: semeval_2018_task1_tweet_sadness_detection
+    task_type: classification
+    min_context_length: 30000
+  - task_id: 6
+    file_name: openseek-6_mnli_same_genre_classification.json
+    task_name: mnli_same_genre_classification
+    task_type: classification
+    min_context_length: 30000
+  - task_id: 7
+    file_name: openseek-7_jeopardy_answer_generation_all.json
+    task_name: jeopardy_answer_generation_all
+    task_type: generation
+    min_context_length: 30000
+  - task_id: 8
+    file_name: openseek-8_kernel_generation.json
+    task_name: kernel_generation
+    task_type: code_generation
+    min_context_length: 16000

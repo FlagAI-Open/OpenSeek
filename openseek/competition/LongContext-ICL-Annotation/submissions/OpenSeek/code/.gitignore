@@ -1,0 +1,38 @@
+# Python and local tooling
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# OpenBayes workspace-local state
+.openbayesgear
+
+# Official data and generated caches.
+# Keep only README/.gitkeep placeholders under version control.
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+data/openbayes_cache/*
+
+# Runtime outputs, logs, pulled remote artifacts, reports, submissions, and zips.
+# Release metadata that should be versioned belongs under docs/.
+outputs/*
+submission*.zip
+*.zip
+
+# Generated document intermediates
+report/.technical_report.normalized-headings.md

@@ -1,0 +1,17 @@
+# 根据你本地或组委会提供的 FlagScale 版本补全该模板。
+# 这里仅保留项目级字段，避免误导为可直接提交的生产配置。
+
+job:
+  name: longcontext-icl-annotation
+  entrypoint: python3 -m src.main predict --config configs/base.yaml
+  workdir: /path/to/AI-LAB
+
+resources:
+  gpus: 1
+  cpus: 8
+  memory_gb: 64
+
+artifacts:
+  outputs:
+    - outputs/predictions
+    - outputs/logs

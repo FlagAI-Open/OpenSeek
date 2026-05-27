@@ -1,0 +1,25 @@
+name: jeopardy_type_first
+description: Type-first Task7 protocol for targeted reruns
+template: |
+  Solve this Jeopardy clue by first inferring the answer type from the category and the clue, then giving the best matching short answer.
+
+  Rules:
+  - Respect the category as a hard type hint whenever possible.
+  - If the clue points to a person, answer a person; if it points to a place, answer a place; if it points to a title, answer a title.
+  - When multiple answers seem plausible, prefer the one that fits the explicit clue details more tightly.
+  - Output exactly one lower-case short answer phrase.
+  - Do not explain. Do not include "who is" or "what is". Do not leave the answer empty.
+
+  [Task Definition]
+  {task_definition}
+
+  [Answer Requirements]
+  {label_desc}
+
+  [Examples]
+  {examples_block}
+
+  [Current Category And Clue]
+  {context}
+
+  Answer:

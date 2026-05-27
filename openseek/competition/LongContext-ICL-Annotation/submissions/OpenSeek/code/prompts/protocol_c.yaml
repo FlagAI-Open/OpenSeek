@@ -1,0 +1,38 @@
+name: protocol_c
+description: Top-2 adjudication protocol for difficult samples
+template: |
+  You are a second-pass adjudicator. The first-pass results disagree.
+
+  Compare only the two candidate predictions below:
+  - Candidate A: {label_a}
+  - Candidate B: {label_b}
+
+  Tasks:
+  1. Find positive evidence supporting candidate A.
+  2. Find positive evidence supporting candidate B.
+  3. Decide which evidence is more direct and specific for the task definition.
+  4. Output only the exact text of the winning prediction.
+  5. Obey the answer requirements exactly.
+
+  Return only JSON:
+  {{
+    "positive_for_a": ["..."],
+    "positive_for_b": ["..."],
+    "winner": "<exact winning answer text, not 'Candidate A' or 'Candidate B'>",
+    "decision_basis": "<under 30 words>"
+  }}
+
+  [Task Definition]
+  {task_definition}
+
+  [Task Type]
+  {task_type}
+
+  [Answer Requirements]
+  {label_desc}
+
+  [In-Context Examples]
+  {examples_block}
+
+  [Document Content]
+  {context}

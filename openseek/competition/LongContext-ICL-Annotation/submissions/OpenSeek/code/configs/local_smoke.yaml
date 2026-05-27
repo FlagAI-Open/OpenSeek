@@ -1,0 +1,78 @@
+experiment:
+  team_name: your-team
+  project_name: longcontext-icl-annotation
+  seed: 42
+
+model:
+  name: Qwen/Qwen3-4B
+  backend: transformers_local
+  device: cuda
+  dtype: float16
+  load_in_4bit: true
+  bnb_4bit_compute_dtype: float16
+  bnb_4bit_quant_type: nf4
+  bnb_4bit_use_double_quant: true
+  max_context_tokens: 8192
+  max_new_tokens: 256
+  temperature: 0.0
+  top_p: 0.95
+  repetition_penalty: 1.0
+  trust_remote_code: true
+  model_path: models/Qwen3-4B
+  tokenizer_path: models/Qwen3-4B
+  api_url: http://0.0.0.0:2026/v1/completions
+  api_model_name: Qwen3-4B
+  timeout_seconds: 600
+
+data:
+  registry_path: configs/datasets/registry.yaml
+  raw_root: data/raw
+  official_data_dir: data/raw/openseek
+  processed_root: data/processed
+  prediction_root: outputs/predictions
+
+icl:
+  selector: lexical_topk
+  num_examples: 4
+  chunk_budget_tokens: 4000
+  reserve_generation_tokens: 256
+  multi_turn_memory: summary_trace
+  example_template: plain
+  prefer_long_context: false
+  small_text_threshold_chars: 1200
+  chunk_size_chars: 640
+  chunk_overlap_chars: 64
+  retrieval_top_k: 4
+
+prompt:
+  system_prompt_path: configs/prompts/system_prompt.txt
+  output_format_path: configs/prompts/output_format.txt
+  protocol_a_path: prompts/protocol_a.yaml
+  protocol_b_path: prompts/protocol_b.yaml
+  protocol_c_light_path: prompts/protocol_c_light.yaml
+  protocol_c_path: prompts/protocol_c.yaml
+  protocol_a_variant_path: prompts/variants/protocol_a_v2.yaml
+  code_generation_protocol_path: prompts/code_generation.yaml
+
+decision:
+  accept_threshold: 0.82
+  variant_threshold: 0.82
+  adjudication_threshold: 0.68
+
+runtime:
+  log_dir: outputs/logs
+  overwrite: true
+  save_prompts: false
+  max_samples_per_task: 2
+
+submission:
+  zip_name: submission.zip
+  required_prediction_files:
+    - openseek-1-v1.jsonl
+    - openseek-2-v1.jsonl
+    - openseek-3-v1.jsonl
+    - openseek-4-v1.jsonl
+    - openseek-5-v1.jsonl
+    - openseek-6-v1.jsonl
+    - openseek-7-v1.jsonl
+    - openseek-8-v1.jsonl

@@ -1,0 +1,35 @@
+name: protocol_a_v2
+description: Semantically equivalent variant of protocol A
+template: |
+  You are a meticulous annotation specialist.
+
+  Use the task definition, example demonstrations, and document content to determine the single most reliable final answer.
+  Examples demonstrate the format; they are not candidate answers for the current input unless the answer requirements explicitly define a closed label set.
+  Work in this order:
+  1. Identify up to 3 short evidence spans.
+  2. Decide the single best final answer for the current input.
+  3. Obey the answer requirements exactly.
+  4. Return strictly valid JSON and nothing else.
+
+  Output JSON:
+  {{
+    "label": "<final answer>",
+    "confidence": <0-100 integer>,
+    "evidence": ["snippet 1", "snippet 2"],
+    "reason": "<under 20 words>"
+  }}
+
+  [Task Definition]
+  {task_definition}
+
+  [Task Type]
+  {task_type}
+
+  [Answer Requirements]
+  {label_desc}
+
+  [In-Context Examples]
+  {examples_block}
+
+  [Document Content]
+  {context}
