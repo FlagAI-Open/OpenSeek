@@ -53,15 +53,13 @@ get_test_progress_filepath = lambda task_id: os.path.join(LongContext_ICL_Annota
 # 记录ICL提取执行进度
 def log_icl_progress(task_id, *args):
     with open(get_icl_progress_filepath(task_id), 'a') as f:
-        dt = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-        f.write(dt + ' :: ' + json.dumps(args)+'\n')
+        f.write(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) + ' :: ' + json.dumps(args)+'\n')
 
 
 # 记录TEST执行进度
 def log_test_progress(task_id, *args):
     with open(get_test_progress_filepath(task_id), 'a') as f:
-        dt = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-        f.write(dt + ' :: ' + json.dumps(args)+'\n')
+        f.write(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) + ' :: ' + json.dumps(args)+'\n')
 
 
 # 利用ICL提取特定问题的关键操作Operation，可以重复执行多轮，每一轮使用不同的ICL样本组合批次
@@ -92,11 +90,11 @@ def processing(task_id:int, qwen_tokenizer:AutoTokenizer, start = 0, stop = -1):
     with open(task_file, 'r') as f:
         task_dict = json.load(f)
 
-     task_name = task_dict['task_name']
-     task_description = task_dict['Definition'][0]
-     icl_examples = task_dict['examples']
-     log_icl_progress(task_id, 'task_name', task_name)
-     log_icl_progress(task_id, 'icl_examples-size', len(icl_examples))
+    task_name = task_dict['task_name']
+    task_description = task_dict['Definition'][0]
+    icl_examples = task_dict['examples']
+    log_icl_progress(task_id, 'task_name', task_name)
+    log_icl_progress(task_id, 'icl_examples-size', len(icl_examples))
 
     for i in range(N):
         log_icl_progress(task_id, f"第 {i + 1} 轮次ICL遍历")
@@ -210,8 +208,7 @@ def check_evaluate_retry(task_id:int, qwen_tokenizer:AutoTokenizer, reps = 0):
     # 测试结果保存位置
     version = 1
     result_file = get_result_filepath(task_id, version)
-    result_dir = os.path.dirname(result_file)
-    if not os.path.exists(result_dir):
+    if not os.path.exists(result_file):
         # 没有结果文件，无需检查
         print(f'task_id={task_id}暂无对应结果文件，无需检查')
         return

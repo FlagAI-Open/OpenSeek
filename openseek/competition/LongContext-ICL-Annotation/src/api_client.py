@@ -118,12 +118,12 @@ class ChatClient:
             async with response:
                 async for chunk in response:
                     content = None
-                    if hasattr(chunk.choices[0].delta, 'reasoning_content') and chunk.choices[0].delta.reasoning_content:
-                        content = chunk.choices[0].delta.reasoning_content
-                    elif hasattr(chunk.choices[0].delta, 'content') and chunk.choices[0].delta.content:
-                        content = chunk.choices[0].delta.content
-                    else:
-                        pass
+                    if chunk.choices:
+                        delta = chunk.choices[0].delta
+                        if getattr(delta, 'reasoning_content', None):
+                            content = delta.reasoning_content
+                        elif getattr(delta, 'content', None):
+                            content = delta.content
 
                     if content != None:
                         full_content += content
@@ -164,20 +164,20 @@ class ChatClient:
             raise e
         except APIError as e:
             error = str(e)
-            if error.find("inappropriate") > 0:
+            if "inappropriate" in error:
                 return '<output_answer>Output data may contain inappropriate content</output_answer>', False
             else:
                 raise e
         except BadRequestError as e:
             # Error code: 400 - Input data may contain inappropriate content.
             error = str(e)
-            if error.find("inappropriate") > 0:
+            if "inappropriate" in error:
                 return '<output_answer>Input data may contain inappropriate content</output_answer>', False
             else:
                 raise e
         except Exception as e:
             error = str(e)
-            if error.find("inappropriate") > 0:
+            if "inappropriate" in error:
                 return '<output_answer>Output data may contain inappropriate content</output_answer>', False
             else:
                 raise e

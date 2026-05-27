@@ -261,14 +261,11 @@ def parse_result(answer: str, return_data_type: str):
 
         # 包含多种编程的任意英文字符串
         case 'code':
-            langs = ['python', 'java', 'go', 'sql', 'php', 'rust', 'zig', 'swift', 'javascript', 'c', 'cpp', 'csharp', 'ruby', 'sh', 'bash']
-            pattern =  r'(' + '|'.join([f'```{lang}\n?' for lang in langs]) + ')'
-            arr = re.findall(pattern, answer, re.I)
-            if len(arr) > 0:
-                answer = (answer.split(arr[-1])[-1]).strip()
-                if answer[-3:None] == '```':
-                    answer = answer[None:-3]
-            return answer, True
+            match = re.search(r'```(?:[a-zA-Z]+)?\n(.*?)```', answer, re.DOTALL)
+            if match:
+                return match.group(1).strip(), True
+            else:
+                return answer, True
 
         # 包含多种符号的任意英文字符串
         case 'text':
