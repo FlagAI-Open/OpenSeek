@@ -92,14 +92,14 @@ def processing(task_id:int, qwen_tokenizer:AutoTokenizer, start = 0, stop = -1):
     with open(task_file, 'r') as f:
         task_dict = json.load(f)
 
+     task_name = task_dict['task_name']
+     task_description = task_dict['Definition'][0]
+     icl_examples = task_dict['examples']
+     log_icl_progress(task_id, 'task_name', task_name)
+     log_icl_progress(task_id, 'icl_examples-size', len(icl_examples))
+
     for i in range(N):
         log_icl_progress(task_id, f"第 {i + 1} 轮次ICL遍历")
-
-        task_name = task_dict['task_name']
-        task_description = task_dict['Definition'][0]
-        icl_examples = task_dict['examples']
-        log_icl_progress(task_id, 'task_name', task_name)
-        log_icl_progress(task_id, 'icl_examples-size', len(icl_examples))
 
         # 在重复采样时，打乱ICL的顺序，每轮即可得到不同样本组合的批次，让样本表现为多样性
         if i > 0:
