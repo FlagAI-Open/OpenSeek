@@ -87,13 +87,13 @@ def processing(task_id:int, qwen_tokenizer:AutoTokenizer, start = 0, stop = -1):
             old_operations_list = json.load(f)
             task_operations.update(old_operations_list)
 
+    task_file = get_task_filepath(task_id)
+    log_icl_progress(task_id, 'task_file', task_file)
+    with open(task_file, 'r') as f:
+        task_dict = json.load(f)
+
     for i in range(N):
         log_icl_progress(task_id, f"第 {i + 1} 轮次ICL遍历")
-
-        task_file = get_task_filepath(task_id)
-        log_icl_progress(task_id, 'task_file', task_file)
-        with open(task_file, 'r') as f:
-            task_dict = json.load(f)
 
         task_name = task_dict['task_name']
         task_description = task_dict['Definition'][0]
