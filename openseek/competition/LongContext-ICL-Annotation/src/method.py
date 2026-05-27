@@ -158,7 +158,7 @@ def select_examples(all_examples: list[dict], task_description: str, text2annota
     """
     # 初始化Qwen3-4B的tokenizer（自动下载/加载千问3-4B的分词器）
     # 若本地已下载模型，可替换为本地路径，如 "./qwen3-4b"
-    tokenizer = AutoTokenizer.from_pretrained("/share/project/wuhaiming/spaces/data_agent/OpenSeek-main/openseek/competition/LongContext-ICL-Annotation/src/Qwen3-4B", trust_remote_code=True)
+    tokenizer = AutoTokenizer.from_pretrained("/root/Qwen3-4B", trust_remote_code=True)
     
     # 最大上下文长度限制（Qwen3-4B的上下文窗口默认是8k/32k，可根据实际调整）
     target_length = 8192  # 若需严格适配Qwen3-4B，建议改为8192（8k）
@@ -217,8 +217,6 @@ def count_answer(text: str) -> tuple[list, dict]:
     max_count = max(content_counter.values())
     answer = [content for content, count in content_counter.items() if count == max_count]
     
-    if (len(answer[0]) >= 100):
-        return None
     return answer[0]
 
 
@@ -235,7 +233,7 @@ def annotate_nvidia(input_prompt:str)->list[str]:
     data = {
         "model": "../Qwen3-4B",
         "prompt": input_prompt,
-        "max_tokens": 10_000, # max_token = 10k
+        "max_tokens": 1024, # max_token = 10k
     }
 
     try:
@@ -248,7 +246,7 @@ def annotate_nvidia(input_prompt:str)->list[str]:
     prediction = count_answer(whole_result)
     return prediction
 
-def annotate_ascend(input_prompt:str)->list[str]:
+def annotate_ascend(input_prompt:str, task_id:int=None)->list[str]:
     """
         Annotate the unlabeled data using an LLM API (Huawei Ascend).
         prompts:
@@ -258,7 +256,7 @@ def annotate_ascend(input_prompt:str)->list[str]:
     import openai
     openai.api_key = "EMPTY"
     openai.base_url = "http://localhost:9010/v1/"
-    model = "Qwen3-4B-ascend-flagos"
+    model = "/root/Qwen3-4B"
 
     messages = [
         {"role": "system", "content": "You are a helpful assistant."},
@@ -269,7 +267,7 @@ def annotate_ascend(input_prompt:str)->list[str]:
         messages=messages,
         temperature=0.7,
         top_p=0.95,
-        max_tokens=10_000,
+        max_tokens=1024,
         stream=False,
     )
     whole_result = response.choices[0].message.content
