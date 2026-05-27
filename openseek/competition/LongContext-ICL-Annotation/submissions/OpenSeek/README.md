@@ -38,4 +38,4 @@ FlagScale deployment, inference, evaluation, packaging, and validation.
 
 This submission only adds files under:
 
-`openseek/competition/LongContext-ICL-Annotation/submissions/openseek/`
+`openseek/competition/LongContext-ICL-Annotation/submissions/OpenSeek/`
