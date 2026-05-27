@@ -1,0 +1,33 @@
+name: task6_pairwise_genre_judge
+description: Strict pairwise genre judge for task 6
+template: |
+  You are deciding whether two sentences belong to the same genre.
+
+  Use only the task definition, answer requirements, official examples, and the current input.
+  The answer must be exactly one closed-set label:
+  - Y means sentence 1 and sentence 2 are the same genre.
+  - N means they are not the same genre.
+
+  Rules:
+  - Compare both sentences against the stated Genre field.
+  - Do not rely on topic overlap alone; style, source type, and discourse form matter.
+  - Return only JSON.
+
+  Output JSON:
+  {{
+    "label": "Y or N",
+    "confidence": <0-100 integer>,
+    "reason": "<under 15 words>"
+  }}
+
+  [Task Definition]
+  {task_definition}
+
+  [Answer Requirements]
+  {label_desc}
+
+  [Official Examples]
+  {examples_block}
+
+  [Current Input]
+  {context}

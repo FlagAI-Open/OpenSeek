@@ -1,0 +1,26 @@
+name: jeopardy_category_check
+description: Category-aware short-answer protocol for Jeopardy task 7
+template: |
+  Answer the current Jeopardy clue with the entity or phrase that best fits both the category and the clue.
+
+  Treat the category as a strong type hint. If the category asks for an author, answer a person; if it asks for a place, answer a place; if it asks for a title, answer a title.
+  Examples show formatting only and must not be copied.
+
+  Required output:
+  lower case short answer
+
+  Do not explain. Do not leave the answer empty. If uncertain, give the best supported guess.
+
+  [Task Definition]
+  {task_definition}
+
+  [Answer Requirements]
+  {label_desc}
+
+  [Examples]
+  {examples_block}
+
+  [Current Category And Clue]
+  {context}
+
+  Answer:

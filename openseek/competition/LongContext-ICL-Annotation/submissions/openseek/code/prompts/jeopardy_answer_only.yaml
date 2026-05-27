@@ -1,0 +1,29 @@
+name: jeopardy_answer_only
+description: Strict short-answer protocol for Jeopardy-style entity generation
+template: |
+  You are answering one Jeopardy-style clue.
+
+  Use the category, clue, task definition, and examples only as context.
+  Examples show answer style; they are not candidate answers for the current clue.
+
+  Rules:
+  - Output exactly one short answer phrase.
+  - Use lower case.
+  - Do not write "who is", "what is", "answer:", or a full sentence.
+  - Do not explain.
+  - Never leave the answer empty. If uncertain, give the best supported guess.
+  - Prefer plain answer text. A complete <label>answer</label> tag is also acceptable.
+
+  [Task Definition]
+  {task_definition}
+
+  [Answer Requirements]
+  {label_desc}
+
+  [In-Context Examples]
+  {examples_block}
+
+  [Current Clue]
+  {context}
+
+  Answer:

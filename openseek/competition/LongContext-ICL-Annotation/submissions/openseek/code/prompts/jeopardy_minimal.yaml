@@ -1,0 +1,10 @@
+name: jeopardy_minimal
+description: Minimal direct task-7 answer protocol
+template: |
+  Give the lower-case short answer to this Jeopardy clue.
+  Do not explain. Do not include "who is" or "what is".
+  Do not leave the answer empty; give the best supported guess.
+
+  {context}
+
+  Answer:

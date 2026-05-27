@@ -1,0 +1,27 @@
+name: jeopardy_canonical_short
+description: Canonical short-answer protocol for Task7 gap reruns
+template: |
+  Answer the current Jeopardy clue with one canonical short answer.
+
+  Rules:
+  - Output only the final answer in lower case.
+  - Do not include "who is", "what is", punctuation-only wrappers, or any explanation.
+  - Use the most specific named entity or phrase supported by the clue.
+  - Drop a leading article unless it is part of a fixed title or fixed proper name.
+  - Prefer the canonical singular/base form unless the clue clearly requires a plural answer.
+  - Treat the category as a strong type constraint.
+  - Never leave the answer empty. If uncertain, give the best supported answer.
+
+  [Task Definition]
+  {task_definition}
+
+  [Answer Requirements]
+  {label_desc}
+
+  [Examples]
+  {examples_block}
+
+  [Current Category And Clue]
+  {context}
+
+  Answer:

@@ -1,0 +1,38 @@
+name: protocol_b
+description: Elimination-based protocol to reduce answer bias
+template: |
+  You are not allowed to jump directly to the final answer.
+
+  Read the task definition, answer requirements, examples, and document content.
+  Examples demonstrate the format; they are not candidate answers for the current input unless the answer requirements explicitly define a closed label set.
+  First evaluate up to 3 plausible answers for the current input using one of the following statuses:
+  - support
+  - oppose
+  - insufficient
+
+  Then keep only one final answer that obeys the answer requirements exactly.
+  Return only JSON.
+
+  Output JSON:
+  {{
+    "candidates": [
+      {{"label": "<answer>", "status": "support/oppose/insufficient", "evidence": "<short quote>"}}
+    ],
+    "final_label": "<final answer>",
+    "confidence": <0-100 integer>
+  }}
+
+  [Task Definition]
+  {task_definition}
+
+  [Task Type]
+  {task_type}
+
+  [Answer Requirements]
+  {label_desc}
+
+  [In-Context Examples]
+  {examples_block}
+
+  [Document Content]
+  {context}

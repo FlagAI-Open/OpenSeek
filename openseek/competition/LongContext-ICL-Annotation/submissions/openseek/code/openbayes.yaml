@@ -1,0 +1,140 @@
+## 有关「 OpenBayes 配置文件」的最新说明，请查阅 https://openbayes.com/docs/cli/config-file/
+
+## data_bindings
+#  指绑定的数据，支持「容器输出」以及「数据集」，最多同时绑定三个
+#
+#  一个完整的 data_bindings 样例如下：
+#
+#    data_bindings:
+#      - data: openbayes/mnist/1
+#        path: /input0
+#        type: ro
+#      - data: openbayes/jobs/jfaqJeLMcPM/output
+#        path: /output
+#        type: rw
+#
+#  亦可将 data_bindings 替换成 bindings， 简写成如下样例：
+#
+#    bindings:
+#      - openbayes/mnist/1:/input0
+#      - openbayes/mnist/1:/input1:rw
+#      - openbayes/jobs/jfaqJeLMcPM/output:/output
+#
+data_bindings:
+  - data: <your-openbayes-namespace>/ai-lab-qwen3-4b/1
+    path: /openbayes/input/input0
+    type: ro
+  - data: <your-openbayes-namespace>/ai-lab-openseek-longcontext-data/1
+    path: /openbayes/input/input1
+    type: ro
+
+## resource
+#  指使用什么算力容器，通过命令 bayes gear resource 可以看到支持的算力类型
+#
+resource: "rtx-4090"
+
+## env
+#  指使用什么运行时环境，通过命令 bayes gear env 可以查看支持的运行时环境
+#
+env: "pytorch-2.6-2204"
+
+## command
+#  只有在创建「脚本执行」时需要，指任务执行时的入口命令
+#
+command: ""
+
+## node
+#  指定运行节点数量
+#
+node: 1
+
+## parameters
+#  支持 key / value 形式的参数，该参数会在容器执行时生成 openbayes_params.json 并补充在 command 参数后面
+#  样例如下：
+#
+#    parameters:
+#      input: /input0
+#      epochs: 5
+#
+#    在执行时会生成一个内容为 {"input": "/input0", "epochs": 5} 的 openbayes_params.json，
+#    并且会在执行命令后面追加 `--input=/input0 --epochs=5`
+#
+parameters: {}
+
+
+## 有关「 OpenBayes 自动调参」的最新说明，请查阅 https://openbayes.com/docs/hypertuning/
+#
+#  一个完整的 hyper_tuning 样例如下：
+#    hyper_tuning:
+#      max_job_count: 3
+#      hyperparameter_metric: precision
+#      goal: MINIMIZE
+#      algorithm: Bayesian
+#      parameter_specs:
+#      - name: regularization
+#        type: DOUBLE
+#        min_value: 0.001
+#        max_value: 10.0
+#        scale_type: UNIT_LOG_SCALE
+#      - name: latent_factors
+#        type: INTEGER
+#        min_value: 5
+#        max_value: 50
+#        scale_type: UNIT_LINEAR_SCALE
+#      - name: unobs_weight
+#        type: DOUBLE
+#        min_value: 0.001
+#        max_value: 5.0
+#        scale_type: UNIT_LOG_SCALE
+#      - name: feature_wt_factor
+#        type: DOUBLE
+#        min_value: 1
+#        max_value: 200
+#        scale_type: UNIT_LOG_SCALE
+#      - name: level
+#        type: DISCRETE
+#        discrete_values: [1, 2, 3, 4]
+#      - name: category
+#        type: CATEGORICAL
+#        categorical_values: ["A", "B", "C"]
+#
+hyper_tuning:
+
+  ## max_job_count
+  #  一次自动调参的尝试次数，最多支持 100 次
+  #
+  max_job_count: 0
+
+  ## parallel_count
+  #  并行的尝试个数受限于用户的单个资源类型的最大并行个数，通常是 1 或者 2
+  #
+  parallel_count: "1"
+
+  ## hyperparameter_metric
+  #  目标变量
+  #  有关目标变量的上报，请查阅 https://openbayes.com/docs/hypertuning/#2-上报目标变量
+  hyperparameter_metric: ""
+
+  ## goal
+  #  最优解的方向 ( MAXIMIZE 或 MINIMIZE )
+  #
+  goal: ""
+
+  ## algorithm
+  #  采用的算法，支持的算法如下：
+  #  Grid      对于只有 DISCRETE 以及 CATEGORICAL 类型参数的场景可以通过 GridSearch 遍历所有参数的组合
+  #  Random    针对 INTEGER 以及 DOUBLE 类型，依据其所支持的分布类型，在 min_value 和 max_value 之间随机选择数值，对于 DISCRETE 和 CATEGORICAL 类型，其行为和 Grid 方式类似
+  #  Bayesian  每次生成参数时考虑之前的「参数」-「目标变量」的结果，通过更新后的分布函数提供参数以期望获取更好的结果，其算法可以参考该文章
+  #
+  algorithm: ""
+
+  ## parameter_specs
+  #  输入参数的规约
+  #  参数规约的定义请查阅：https://openbayes.com/docs/hypertuning/#参数规约的定义
+  #
+  parameter_specs: []
+
+  ## side_metrics
+  #  其他参考指标
+  #
+  side_metrics: []

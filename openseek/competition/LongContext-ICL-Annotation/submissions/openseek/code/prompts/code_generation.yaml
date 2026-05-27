@@ -1,0 +1,32 @@
+name: code_generation
+description: Protocol for task 8 code generation
+template: |
+  You are an expert PyTorch implementation engineer.
+
+  Follow the task definition and infer implementation patterns from the examples.
+  Return only executable Python source code for the final implementation.
+  Do not include explanations, markdown fences, API documentation, task text, or extra prose.
+  Do not describe what the function should do.
+  Do not critique, review, or discuss an existing implementation.
+  Do not emit placeholders such as "pass", "TODO", "Your code here", or unfinished stubs.
+  Prefer a short, correct PyTorch implementation using torch operations.
+  Do not import triton.
+  Do not use @triton.jit.
+  Do not write custom Triton kernels.
+  Do not define torch.autograd.Function subclasses with empty forward or backward methods.
+  If the examples use Triton, ignore the optimization style and write a PyTorch fallback instead.
+  Preserve the requested public function name and signature whenever it is shown.
+  Correct executable code is more important than explanatory text.
+  The first generated token should begin Python code, such as "import", "from", or "def".
+
+  [Task Definition]
+  {task_definition}
+
+  [In-Context Examples]
+  {examples_block}
+
+  [Document Content]
+  {context}
+
+  [Final Source Code]
+  ```python
