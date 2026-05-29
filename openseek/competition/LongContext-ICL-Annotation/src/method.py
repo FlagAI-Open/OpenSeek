@@ -85,6 +85,97 @@ def build_prompt(task_description: str, text2annotate: str) -> str:
     )
     return prompt
 
+def build_prompt_cot(task_description: str, text2annotate: str, task_id: int) -> str:
+    """
+    Build a Chain-of-Thought (CoT) prompt for complex reasoning tasks (Task 3, 8).
+    This encourages the model to show step-by-step reasoning before final answer.
+    """
+    if task_id == 3:
+        # Task 3: Collatz Conjecture - Mathematical Reasoning
+        prompt = (
+            "### Role Definition\n"
+            "You are a mathematical reasoning expert specializing in the Collatz conjecture. "
+            "You excel at systematic step-by-step mathematical reasoning and verification.\n\n"
+            
+            "### Core Task\n"
+            f"{task_description}\n\n"
+            
+            "### Critical Reasoning Guidelines\n"
+            "1. **Step-by-Step Reasoning**: For each input number, you MUST show your complete reasoning process:\n"
+            "   - Step 1: Identify the current number\n"
+            "   - Step 2: Apply the Collatz rule (if even: n/2; if odd: 3n+1)\n"
+            "   - Step 3: Calculate the next number\n"
+            "   - Step 4: Continue until reaching 1\n"
+            "   - Step 5: Determine the closest integer to 1\n\n"
+            
+            "2. **Verification**: Always verify your calculations:\n"
+            "   - Check if the rule was applied correctly\n"
+            "   - Confirm the sequence reaches 1\n"
+            "   - Double-check the final answer\n\n"
+            
+            "3. **Output Format**: Your response must follow this structure:\n"
+            "   **Reasoning Process:**\n"
+            "   [Show your step-by-step calculations here]\n\n"
+            "   **Final Answer:** <label>[closest integer]</label>\n\n"
+            
+            "### Examples (Must Be Fully Followed)\n"
+            "[[EXAMPLES]]\n\n"
+            
+            "### Text to Annotate\n"
+            f"{text2annotate}\n\n"
+            
+            "### Final Requirement Summary\n"
+            "1. Show your complete step-by-step reasoning process.\n"
+            "2. Verify each calculation step.\n"
+            "3. Final answer MUST be wrapped in <label> tags.\n"
+        )
+    elif task_id == 8:
+        # Task 8: Kernel Generation - Code Generation
+        prompt = (
+            "### Role Definition\n"
+            "You are an expert programmer specializing in Linux kernel development. "
+            "You excel at writing correct, efficient, and well-structured kernel code.\n\n"
+            
+            "### Core Task\n"
+            f"{task_description}\n\n"
+            
+            "### Critical Code Generation Guidelines\n"
+            "1. **Step-by-Step Approach**: Before writing code, think through:\n"
+            "   - Step 1: Understand the kernel function requirements\n"
+            "   - Step 2: Identify necessary kernel APIs and data structures\n"
+            "   - Step 3: Design the function structure\n"
+            "   - Step 4: Write the code with proper error handling\n"
+            "   - Step 5: Review for common kernel coding issues\n\n"
+            
+            "2. **Code Quality Requirements**:\n"
+            "   - Use correct kernel APIs (e.g., copy_from_user, copy_to_user)\n"
+            "   - Handle all error cases properly\n"
+            "   - Follow kernel coding style\n"
+            "   - Ensure memory safety\n\n"
+            
+            "3. **Output Format**: Your response must follow this structure:\n"
+            "   **Analysis:**\n"
+            "   [Explain your approach and reasoning]\n\n"
+            "   **Code:**\n"
+            "   <label>[your complete kernel code here]</label>\n\n"
+            
+            "### Examples (Must Be Fully Followed)\n"
+            "[[EXAMPLES]]\n\n"
+            
+            "### Text to Annotate\n"
+            f"{text2annotate}\n\n"
+            
+            "### Final Requirement Summary\n"
+            "1. Analyze the requirements step-by-step.\n"
+            "2. Write correct kernel code with proper error handling.\n"
+            "3. Final code MUST be wrapped in <label> tags.\n"
+        )
+    else:
+        # Fallback to standard prompt for other tasks
+        prompt = build_prompt(task_description, text2annotate)
+    
+    return prompt
+
 def build_prompt_backup(task_description:str, text2annotate:str)->str:
     """
         Construct the prompt for annotation based on the task description.
@@ -145,57 +236,91 @@ def select_examples_backup(all_examples:list[dict], task_description:str, text2a
             return examples_str, i
     return examples_str
 
+def compute_similarity(text1: str, text2: str) -> float:
+    """
+    M02优化：计算两个文本的相似度（基于词重叠）
+    使用简单的词重叠计算相似度，避免引入复杂依赖
+    """
+    # 将文本转换为小写并分词
+    words1 = set(text1.lower().split())
+    words2 = set(text2.lower().split())
+    
+    if not words1 or not words2:
+        return 0.0
+    
+    # 计算Jaccard相似度
+    intersection = len(words1 & words2)
+    union = len(words1 | words2)
+    
+    return intersection / union if union > 0 else 0.0
+
 def select_examples(all_examples: list[dict], task_description: str, text2annotate: str) -> str:
     """
-        Select examples from all_examples to fit into the target context length (适配Qwen3-4B的token计算).
-        all_examples:
-            A list of examples, where each example is a dict with keys 'input' and 'output' (no 'length' needed).
-            For example, ``{"input": "The material is good and looks great.", "output": "Good Review"}``,
-        task_description:
-            The description of the annotation task which may be used for example evaluation. 
-        text2annotate:
-            The text that needs to be annotated  which may be used for example retrieval.
+    M02优化版本：按样本动态选例方案
+    为每个样本动态选择最相关的示例，而非按固定顺序选择
+    
+    Parameters:
+        all_examples: 所有示例列表，每个示例包含'input'和'output'键
+        task_description: 任务描述
+        text2annotate: 待标注文本（用于相似度计算）
     """
-    # 初始化Qwen3-4B的tokenizer（自动下载/加载千问3-4B的分词器）
-    # 若本地已下载模型，可替换为本地路径，如 "./qwen3-4b"
-    tokenizer = AutoTokenizer.from_pretrained("/share/project/wuhaiming/spaces/data_agent/OpenSeek-main/openseek/competition/LongContext-ICL-Annotation/src/Qwen3-4B", trust_remote_code=True)
+    # 初始化Qwen3-4B的tokenizer
+    tokenizer = AutoTokenizer.from_pretrained("/root/Qwen3-4B", trust_remote_code=True)
     
-    # 最大上下文长度限制（Qwen3-4B的上下文窗口默认是8k/32k，可根据实际调整）
-    target_length = 8192  # 若需严格适配Qwen3-4B，建议改为8192（8k）
+    # 最大上下文长度限制
+    target_length = 8192
     
-    # print(all_examples[0])  # 打印第一个示例，便于调试
-
-    examples_str, token_num = "", 0
-    # 遍历所有示例，基于Qwen3-4B的tokenizer计算token数
+    # M02核心：为每个示例计算与待标注文本的相似度
+    example_scores = []
     for i, example in enumerate(all_examples):
         try:
-            # 提取input和output（兼容output是列表的情况）
             input_text = example['input']
             output_text = example['output'][0]
             
-            # 核心：用Qwen3-4B的tokenizer计算input+output的token数（替代原length键）
-            # encode返回token id列表，len即为token数
+            # 计算token长度
             input_tokens = len(tokenizer.encode(input_text, add_special_tokens=False))
             output_tokens = len(tokenizer.encode(output_text, add_special_tokens=False))
-            length = input_tokens + output_tokens  # 等效原示例的length值
+            length = input_tokens + output_tokens
             
-            # 校验当前示例是否能加入（总长度不超限制）
-            if length + token_num <= target_length:
-                # 累加总token数：示例文本长度 + 格式符号的token数（<label>2 + </label>3 + \n1 + #1）
-                # 注：格式符号的token数是原代码约定，Qwen3-4B对这些符号的实际编码可能略有差异，若需精准可改为：
-                # symbol_tokens = len(tokenizer.encode(f"# <label> </label>\n", add_special_tokens=False))
-                # token_num += (length + symbol_tokens)
-                token_num += (length + 2 + 3 + 1 + 1)
-                # 拼接单个示例字符串
-                example_str = f"# {input_text} <label> {output_text} </label>\n"
-                examples_str += example_str
-            else:
-                # 超过长度限制，返回已拼接的示例和已选数量
-                return examples_str
-        except KeyError as e:
-            print(f"警告：示例{i}缺少键{e}，跳过该示例")
+            # 计算相似度
+            similarity = compute_similarity(text2annotate, input_text)
+            
+            example_scores.append({
+                'index': i,
+                'example': example,
+                'length': length,
+                'similarity': similarity,
+                'input_text': input_text,
+                'output_text': output_text
+            })
+        except (KeyError, IndexError) as e:
+            print(f"警告：示例{i}缺少必要键或格式错误，跳过该示例")
             continue
-    # 遍历完所有示例且未超长度，返回完整拼接结果
+    
+    # M02核心：按相似度降序排序，选择最相关的示例
+    example_scores.sort(key=lambda x: x['similarity'], reverse=True)
+    
+    # 动态选择示例，确保不超过token限制
+    examples_str, token_num = "", 0
+    selected_count = 0
+    
+    for scored_example in example_scores:
+        length = scored_example['length']
+        input_text = scored_example['input_text']
+        output_text = scored_example['output_text']
+        
+        # 检查是否超过长度限制
+        if length + token_num <= target_length:
+            # 累加token数（示例文本 + 格式符号）
+            token_num += (length + 2 + 3 + 1 + 1)  # <label>2 + </label>3 + \n1 + #1
+            example_str = f"# {input_text} <label> {output_text} </label>\n"
+            examples_str += example_str
+            selected_count += 1
+        else:
+            # 超过长度限制，停止选择
+            break
+    
+    print(f"M02动态选择：从{len(example_scores)}个示例中选择了{selected_count}个最相关的示例")
     return examples_str
 
 
@@ -217,8 +342,6 @@ def count_answer(text: str) -> tuple[list, dict]:
     max_count = max(content_counter.values())
     answer = [content for content, count in content_counter.items() if count == max_count]
     
-    if (len(answer[0]) >= 100):
-        return None
     return answer[0]
 
 
@@ -235,7 +358,7 @@ def annotate_nvidia(input_prompt:str)->list[str]:
     data = {
         "model": "../Qwen3-4B",
         "prompt": input_prompt,
-        "max_tokens": 10_000, # max_token = 10k
+        "max_tokens": 1024, # max_token = 10k
     }
 
     try:
@@ -248,30 +371,63 @@ def annotate_nvidia(input_prompt:str)->list[str]:
     prediction = count_answer(whole_result)
     return prediction
 
-def annotate_ascend(input_prompt:str)->list[str]:
+def annotate_ascend(input_prompt:str, task_id:int=None)->list[str]:
     """
         Annotate the unlabeled data using an LLM API (Huawei Ascend).
         prompts:
             A prompt constructed for annotation.
             For example, ``["You are a data annotation assistant. Your task is to label ..."]``
+        
+        Optimization for Account 3: Differentiated strategy based on task type
+        - Task 3, 4: CoT reasoning with lower temperature (effective for math and string tasks)
+        - Task 8: Standard configuration (CoT harmful for code generation)
+        - Other tasks: Moderate temperature for balanced performance
     """
     import openai
     openai.api_key = "EMPTY"
     openai.base_url = "http://localhost:9010/v1/"
-    model = "Qwen3-4B-ascend-flagos"
+    model = "/root/Qwen3-4B"
+
+    # Adjust temperature based on task (Differentiated Strategy)
+    if task_id in [3, 4]:
+        # Lower temperature for CoT reasoning tasks (Task 3: math, Task 4: strings)
+        # This reduces randomness and improves accuracy
+        temperature = 0.3
+    elif task_id == 8:
+        # Standard temperature for code generation (CoT was harmful in Account 2)
+        temperature = 0.7
+    else:
+        # Moderate temperature for other tasks (balanced randomness and accuracy)
+        temperature = 0.5
 
     messages = [
         {"role": "system", "content": "You are a helpful assistant."},
         {"role": "user", "content": input_prompt}
     ]
+    
+    # Adjust max_tokens based on task
+    if task_id in [3, 4]:
+        # Increased max_tokens for CoT tasks (supports longer reasoning chains)
+        max_tokens = 2048
+    else:
+        # Standard max_tokens for other tasks
+        max_tokens = 1024
+    
     response = openai.chat.completions.create(
         model=model,
         messages=messages,
-        temperature=0.7,
+        temperature=temperature,
         top_p=0.95,
-        max_tokens=10_000,
+        max_tokens=max_tokens,
         stream=False,
     )
     whole_result = response.choices[0].message.content
+    
+    # Special handling for Task 8 (code generation): return raw model output
+    # Task 8 generates Triton code without <label> tags
+    if task_id == 8:
+        return whole_result.strip()
+    
+    # For other tasks, extract label-tagged content
     prediction = count_answer(whole_result)
     return prediction
