@@ -46,6 +46,185 @@ def build_prompt____(task_description: str, text2annotate: str) -> str:
     )
     return prompt
 
+def build_prompt_by_task_type(task_id: int, task_description: str, text2annotate: str) -> str:
+    """
+    M03优化版本：任务分型Prompt路由方案
+    根据任务类型选择最合适的prompt策略
+    """
+    
+    # 任务类型分类
+    math_tasks = [1, 3]  # Task 1: Closest Integers, Task 3: Collatz Conjecture
+    string_tasks = [2, 4]  # Task 2: Count Nouns & Verbs, Task 4: Concat Strings
+    classification_tasks = [5, 6]  # Task 5: Tweet Sadness, Task 6: MNLI
+    generation_tasks = [7, 8]  # Task 7: Jeopardy Answers, Task 8: Kernel Generation
+    
+    if task_id in math_tasks:
+        return build_prompt_math(task_description, text2annotate)
+    elif task_id in string_tasks:
+        return build_prompt_string(task_description, text2annotate)
+    elif task_id in classification_tasks:
+        return build_prompt_classification(task_description, text2annotate)
+    elif task_id in generation_tasks:
+        return build_prompt_generation(task_description, text2annotate)
+    else:
+        return build_prompt(task_description, text2annotate)
+
+def build_prompt_math(task_description: str, text2annotate: str) -> str:
+    """
+    M03优化：数学推理任务的专用prompt
+    针对Task 1 (Closest Integers)和Task 3 (Collatz Conjecture)
+    """
+    prompt = (
+        "### Role Definition\n"
+        "You are a mathematical reasoning expert specializing in numerical analysis and mathematical problem-solving. "
+        "You excel at systematic step-by-step reasoning and precise calculations.\n\n"
+        
+        "### Core Task\n"
+        f"{task_description}\n\n"
+        
+        "### Critical Mathematical Reasoning Guidelines\n"
+        "1. **Step-by-Step Analysis**: For mathematical problems, show your reasoning:\n"
+        "   - Break down the problem into clear steps\n"
+        "   - Verify each calculation carefully\n"
+        "   - Explain the logic behind each step\n\n"
+        
+        "2. **Precision Requirements**:\n"
+        "   - Ensure all calculations are accurate\n"
+        "   - Double-check numerical operations\n"
+        "   - Pay attention to edge cases\n\n"
+        
+        "3. **Output Format**: Follow this structure:\n"
+        "   **Analysis:** [Your step-by-step reasoning]\n"
+        "   **Answer:** <label>[numerical result]</label>\n\n"
+        
+        "### Examples (Must Be Fully Followed)\n"
+        "[[EXAMPLES]]\n\n"
+        
+        "### Mathematical Problem to Solve\n"
+        f"{text2annotate}\n\n"
+        
+        "### Final Answer\n"
+        "Provide your analysis and final numerical answer in <label> tags."
+    )
+    return prompt
+
+def build_prompt_string(task_description: str, text2annotate: str) -> str:
+    """
+    M03优化：字符串处理任务的专用prompt
+    针对Task 2 (Count Nouns & Verbs)和Task 4 (Concat Strings)
+    """
+    prompt = (
+        "### Role Definition\n"
+        "You are a text analysis expert specializing in linguistic analysis and string manipulation. "
+        "You excel at understanding text structure, linguistic patterns, and precise string operations.\n\n"
+        
+        "### Core Task\n"
+        f"{task_description}\n\n"
+        
+        "### Critical Text Analysis Guidelines\n"
+        "1. **Linguistic Analysis**: For text analysis tasks:\n"
+        "   - Analyze the text structure carefully\n"
+        "   - Identify linguistic patterns correctly\n"
+        "   - Apply the specified rules precisely\n\n"
+        
+        "2. **Precision Requirements**:\n"
+        "   - Follow the exact specification for counting/manipulation\n"
+        "   - Ensure no elements are missed or counted twice\n"
+        "   - Verify your results against the rules\n\n"
+        
+        "3. **Output Format**: Follow this structure:\n"
+        "   **Analysis:** [Your text analysis reasoning]\n"
+        "   **Answer:** <label>[text analysis result]</label>\n\n"
+        
+        "### Examples (Must Be Fully Followed)\n"
+        "[[EXAMPLES]]\n\n"
+        
+        "### Text to Analyze\n"
+        f"{text2annotate}\n\n"
+        
+        "### Final Answer\n"
+        "Provide your analysis and result in <label> tags."
+    )
+    return prompt
+
+def build_prompt_classification(task_description: str, text2annotate: str) -> str:
+    """
+    M03优化：分类任务的专用prompt
+    针对Task 5 (Tweet Sadness Detection)和Task 6 (MNLI Classification)
+    """
+    prompt = (
+        "### Role Definition\n"
+        "You are a classification expert specializing in sentiment analysis and natural language inference. "
+        "You excel at understanding subtle linguistic cues and making accurate classification decisions.\n\n"
+        
+        "### Core Task\n"
+        f"{task_description}\n\n"
+        
+        "### Critical Classification Guidelines\n"
+        "1. **Evidence-Based Classification**:\n"
+        "   - Analyze the text for relevant evidence\n"
+        "   - Consider multiple factors before deciding\n"
+        "   - Justify your classification with specific reasons\n\n"
+        
+        "2. **Precision Requirements**:\n"
+        "   - Match the exact label format from examples\n"
+        "   - Be decisive in your classification\n"
+        "   - Consider the full context, not just keywords\n\n"
+        
+        "3. **Output Format**: Follow this structure:\n"
+        "   **Reasoning:** [Your classification reasoning]\n"
+        "   **Label:** <label>[exact classification label]</label>\n\n"
+        
+        "### Examples (Must Be Fully Followed)\n"
+        "[[EXAMPLES]]\n\n"
+        
+        "### Text to Classify\n"
+        f"{text2annotate}\n\n"
+        
+        "### Final Classification\n"
+        "Provide your reasoning and exact label in <label> tags."
+    )
+    return prompt
+
+def build_prompt_generation(task_description: str, text2annotate: str) -> str:
+    """
+    M03优化：生成任务的专用prompt
+    针对Task 7 (Jeopardy Answer Generation)和Task 8 (Kernel Generation)
+    """
+    prompt = (
+        "### Role Definition\n"
+        "You are a generation expert specializing in answer generation and code synthesis. "
+        "You excel at producing accurate, contextually appropriate responses and functional code.\n\n"
+        
+        "### Core Task\n"
+        f"{task_description}\n\n"
+        
+        "### Critical Generation Guidelines\n"
+        "1. **Context Understanding**: For generation tasks:\n"
+        "   - Thoroughly understand the input context\n"
+        "   - Generate content that is relevant and accurate\n"
+        "   - Follow the expected format and style\n\n"
+        
+        "2. **Quality Requirements**:\n"
+        "   - Ensure generated content is grammatically correct\n"
+        "   - For code: ensure it's syntactically valid and functional\n"
+        "   - For answers: ensure they're informative and precise\n\n"
+        
+        "3. **Output Format**: Follow this structure:\n"
+        "   **Context Analysis:** [Your understanding of the input]\n"
+        "   **Generated Content:** <label>[your generated content]</label>\n\n"
+        
+        "### Examples (Must Be Fully Followed)\n"
+        "[[EXAMPLES]]\n\n"
+        
+        "### Input for Generation\n"
+        f"{text2annotate}\n\n"
+        
+        "### Final Generation\n"
+        "Provide your analysis and generated content in <label> tags."
+    )
+    return prompt
+
 def build_prompt(task_description: str, text2annotate: str) -> str:
     """
     Construct a high-precision prompt for long-context data annotation (optimized for Qwen3-4B).
@@ -83,6 +262,97 @@ def build_prompt(task_description: str, text2annotate: str) -> str:
         "2. The final annotation result MUST be wrapped in <label> tags (no exceptions).\n"
         "3. All annotation logic must strictly follow the examples provided above.\n"
     )
+    return prompt
+
+def build_prompt_cot(task_description: str, text2annotate: str, task_id: int) -> str:
+    """
+    Build a Chain-of-Thought (CoT) prompt for complex reasoning tasks (Task 3, 8).
+    This encourages the model to show step-by-step reasoning before final answer.
+    """
+    if task_id == 3:
+        # Task 3: Collatz Conjecture - Mathematical Reasoning
+        prompt = (
+            "### Role Definition\n"
+            "You are a mathematical reasoning expert specializing in the Collatz conjecture. "
+            "You excel at systematic step-by-step mathematical reasoning and verification.\n\n"
+            
+            "### Core Task\n"
+            f"{task_description}\n\n"
+            
+            "### Critical Reasoning Guidelines\n"
+            "1. **Step-by-Step Reasoning**: For each input number, you MUST show your complete reasoning process:\n"
+            "   - Step 1: Identify the current number\n"
+            "   - Step 2: Apply the Collatz rule (if even: n/2; if odd: 3n+1)\n"
+            "   - Step 3: Calculate the next number\n"
+            "   - Step 4: Continue until reaching 1\n"
+            "   - Step 5: Determine the closest integer to 1\n\n"
+            
+            "2. **Verification**: Always verify your calculations:\n"
+            "   - Check if the rule was applied correctly\n"
+            "   - Confirm the sequence reaches 1\n"
+            "   - Double-check the final answer\n\n"
+            
+            "3. **Output Format**: Your response must follow this structure:\n"
+            "   **Reasoning Process:**\n"
+            "   [Show your step-by-step calculations here]\n\n"
+            "   **Final Answer:** <label>[closest integer]</label>\n\n"
+            
+            "### Examples (Must Be Fully Followed)\n"
+            "[[EXAMPLES]]\n\n"
+            
+            "### Text to Annotate\n"
+            f"{text2annotate}\n\n"
+            
+            "### Final Requirement Summary\n"
+            "1. Show your complete step-by-step reasoning process.\n"
+            "2. Verify each calculation step.\n"
+            "3. Final answer MUST be wrapped in <label> tags.\n"
+        )
+    elif task_id == 8:
+        # Task 8: Kernel Generation - Code Generation
+        prompt = (
+            "### Role Definition\n"
+            "You are an expert programmer specializing in Linux kernel development. "
+            "You excel at writing correct, efficient, and well-structured kernel code.\n\n"
+            
+            "### Core Task\n"
+            f"{task_description}\n\n"
+            
+            "### Critical Code Generation Guidelines\n"
+            "1. **Step-by-Step Approach**: Before writing code, think through:\n"
+            "   - Step 1: Understand the kernel function requirements\n"
+            "   - Step 2: Identify necessary kernel APIs and data structures\n"
+            "   - Step 3: Design the function structure\n"
+            "   - Step 4: Write the code with proper error handling\n"
+            "   - Step 5: Review for common kernel coding issues\n\n"
+            
+            "2. **Code Quality Requirements**:\n"
+            "   - Use correct kernel APIs (e.g., copy_from_user, copy_to_user)\n"
+            "   - Handle all error cases properly\n"
+            "   - Follow kernel coding style\n"
+            "   - Ensure memory safety\n\n"
+            
+            "3. **Output Format**: Your response must follow this structure:\n"
+            "   **Analysis:**\n"
+            "   [Explain your approach and reasoning]\n\n"
+            "   **Code:**\n"
+            "   <label>[your complete kernel code here]</label>\n\n"
+            
+            "### Examples (Must Be Fully Followed)\n"
+            "[[EXAMPLES]]\n\n"
+            
+            "### Text to Annotate\n"
+            f"{text2annotate}\n\n"
+            
+            "### Final Requirement Summary\n"
+            "1. Analyze the requirements step-by-step.\n"
+            "2. Write correct kernel code with proper error handling.\n"
+            "3. Final code MUST be wrapped in <label> tags.\n"
+        )
+    else:
+        # Fallback to standard prompt for other tasks
+        prompt = build_prompt(task_description, text2annotate)
+    
     return prompt
 
 def build_prompt_backup(task_description:str, text2annotate:str)->str:
@@ -145,7 +415,7 @@ def select_examples_backup(all_examples:list[dict], task_description:str, text2a
             return examples_str, i
     return examples_str
 
-def select_examples(all_examples: list[dict], task_description: str, text2annotate: str) -> str:
+def select_examples(all_examples: list[dict], task_description: str, text2annotate: str, task_id: int = None, sample_index: int = 0) -> str:
     """
         Select examples from all_examples to fit into the target context length (适配Qwen3-4B的token计算).
         all_examples:
@@ -155,13 +425,24 @@ def select_examples(all_examples: list[dict], task_description: str, text2annota
             The description of the annotation task which may be used for example evaluation. 
         text2annotate:
             The text that needs to be annotated  which may be used for example retrieval.
+        task_id:
+            Task ID to determine the minimum context length requirement.
+        sample_index:
+            Index of the current sample (0-based) to implement mixed context length strategy.
     """
     # 初始化Qwen3-4B的tokenizer（自动下载/加载千问3-4B的分词器）
     # 若本地已下载模型，可替换为本地路径，如 "./qwen3-4b"
-    tokenizer = AutoTokenizer.from_pretrained("/share/project/wuhaiming/spaces/data_agent/OpenSeek-main/openseek/competition/LongContext-ICL-Annotation/src/Qwen3-4B", trust_remote_code=True)
+    tokenizer = AutoTokenizer.from_pretrained("/root/Qwen3-4B", trust_remote_code=True)
     
-    # 最大上下文长度限制（Qwen3-4B的上下文窗口默认是8k/32k，可根据实际调整）
-    target_length = 8192  # 若需严格适配Qwen3-4B，建议改为8192（8k）
+    # 混合上下文长度策略：满足官方30k/16k要求，同时提高效率
+    # Task 8: 16k上下文 (官方特殊要求)
+    # Task 1-7: 前50个样本用30k上下文 (满足"至少一次30k"要求)，其余用8k上下文 (提高效率)
+    if task_id == 8:
+        target_length = 16000  # Task 8官方要求16k
+    elif task_id is not None and sample_index < 50:
+        target_length = 30000  # 前50个样本用30k上下文，满足官方要求
+    else:
+        target_length = 8192   # 其余样本用8k上下文，提高效率
     
     # print(all_examples[0])  # 打印第一个示例，便于调试
 
@@ -217,8 +498,6 @@ def count_answer(text: str) -> tuple[list, dict]:
     max_count = max(content_counter.values())
     answer = [content for content, count in content_counter.items() if count == max_count]
     
-    if (len(answer[0]) >= 100):
-        return None
     return answer[0]
 
 
@@ -235,7 +514,7 @@ def annotate_nvidia(input_prompt:str)->list[str]:
     data = {
         "model": "../Qwen3-4B",
         "prompt": input_prompt,
-        "max_tokens": 10_000, # max_token = 10k
+        "max_tokens": 1024, # max_token = 10k
     }
 
     try:
@@ -248,30 +527,63 @@ def annotate_nvidia(input_prompt:str)->list[str]:
     prediction = count_answer(whole_result)
     return prediction
 
-def annotate_ascend(input_prompt:str)->list[str]:
+def annotate_ascend(input_prompt:str, task_id:int=None)->list[str]:
     """
         Annotate the unlabeled data using an LLM API (Huawei Ascend).
         prompts:
             A prompt constructed for annotation.
             For example, ``["You are a data annotation assistant. Your task is to label ..."]``
+        
+        Optimization for Account 3: Differentiated strategy based on task type
+        - Task 3, 4: CoT reasoning with lower temperature (effective for math and string tasks)
+        - Task 8: Standard configuration (CoT harmful for code generation)
+        - Other tasks: Moderate temperature for balanced performance
     """
     import openai
     openai.api_key = "EMPTY"
     openai.base_url = "http://localhost:9010/v1/"
-    model = "Qwen3-4B-ascend-flagos"
+    model = "/root/Qwen3-4B"
+
+    # Adjust temperature based on task (Differentiated Strategy)
+    if task_id in [3, 4]:
+        # Lower temperature for CoT reasoning tasks (Task 3: math, Task 4: strings)
+        # This reduces randomness and improves accuracy
+        temperature = 0.3
+    elif task_id == 8:
+        # Standard temperature for code generation (CoT was harmful in Account 2)
+        temperature = 0.7
+    else:
+        # Moderate temperature for other tasks (balanced randomness and accuracy)
+        temperature = 0.5
 
     messages = [
         {"role": "system", "content": "You are a helpful assistant."},
         {"role": "user", "content": input_prompt}
     ]
+    
+    # Adjust max_tokens based on task
+    if task_id in [3, 4]:
+        # Increased max_tokens for CoT tasks (supports longer reasoning chains)
+        max_tokens = 2048
+    else:
+        # Standard max_tokens for other tasks
+        max_tokens = 1024
+    
     response = openai.chat.completions.create(
         model=model,
         messages=messages,
-        temperature=0.7,
+        temperature=temperature,
         top_p=0.95,
-        max_tokens=10_000,
+        max_tokens=max_tokens,
         stream=False,
     )
     whole_result = response.choices[0].message.content
+    
+    # Special handling for Task 8 (code generation): return raw model output
+    # Task 8 generates Triton code without <label> tags
+    if task_id == 8:
+        return whole_result.strip()
+    
+    # For other tasks, extract label-tagged content
     prediction = count_answer(whole_result)
     return prediction
