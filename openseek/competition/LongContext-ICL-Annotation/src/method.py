@@ -49,6 +49,7 @@ def build_prompt____(task_description: str, text2annotate: str) -> str:
 def build_prompt(task_description: str, text2annotate: str) -> str:
     """
     Construct a high-precision prompt for long-context data annotation (optimized for Qwen3-4B).
+    M01 优化版本：严格标签输出稳态方案
     task_description: Clear description of the annotation task (e.g., "Classify English product reviews as Good Review/Bad Review").
     text2annotate: The text to be annotated (single text or batch texts).
     """
@@ -60,17 +61,28 @@ def build_prompt(task_description: str, text2annotate: str) -> str:
         "### Core Task\n"
         f"{task_description}\n\n"
         
-        "### Critical Annotation Guidelines\n"
-        "1. **Example Learning Requirement**: Thoroughly analyze and fully learn from the annotation logic, format, and criteria in the Examples section. "
-        "Your annotation must align with the style, judgment standards, and tag usage shown in the examples.\n"
-        "2. **Thinking Process**: You may (and are encouraged to) explain your annotation reasoning step by step (e.g., key information extraction, judgment basis, rule matching).\n"
-        "3. **Mandatory Output Rule**: Regardless of any thinking process you provide, your final annotation result MUST be enclosed in <label> tags (this is non-negotiable).\n"
-        "   - Correct example: \n"
-        "     Reasoning: This review mentions 'excellent quality' and 'very satisfied', which meets the criteria for a Good Review.\n"
-        "     <label>Good Review</label>\n"
-        "   - Wrong example 1 (missing tags): This review is negative.\n"
-        "   - Wrong example 2 (incomplete tags): Bad Review</label>\n"
-        "4. **Length Adaptation**: For long texts, maintain complete thinking process and ensure the final <label> tags contain the accurate annotation result (no truncation).\n\n"
+        "### CRITICAL OUTPUT RULES (HIGHEST PRIORITY)\n"
+        "1. **FINAL OUTPUT MANDATE**: Your response MUST contain ONLY the final annotation result wrapped in <label> tags.\n"
+        "2. **STRICTLY PROHIBITED**: ❌ No explanations, reasoning, thinking process, or additional text outside the <label> tags.\n"
+        "3. **MANDATORY FORMAT**: The entire response must be in this exact format: <label>Your_Answer</label>\n"
+        "4. **NO EXCEPTIONS**: Any response that contains text outside <label> tags will be considered INVALID.\n\n"
+        
+        "### ERROR EXAMPLES (DO NOT FOLLOW THESE):\n"
+        "❌ WRONG 1: After analysis, I believe this is a positive review. <label>Good Review</label>\n"
+        "❌ WRONG 2: Based on the examples, this text shows: <label>Bad Review</label>\n"
+        "❌ WRONG 3: The answer is: <label>answer</label>\n"
+        "❌ WRONG 4: I think <label>Neutral Review</label>\n"
+        "❌ WRONG 5: <label>  Good Review  </label> (extra spaces inside tags)\n"
+        "❌ WRONG 6: Good Review (missing tags entirely)\n"
+        "❌ WRONG 7: <label>Bad Review (incomplete tags)\n"
+        "❌ WRONG 8: Reasoning: This text mentions... <label>answer</label>\n\n"
+        
+        "### CORRECT EXAMPLES (FOLLOW THESE EXACTLY):\n"
+        "✅ CORRECT 1: <label>Good Review</label>\n"
+        "✅ CORRECT 2: <label>Bad Review</label>\n"
+        "✅ CORRECT 3: <label>Neutral Review</label>\n"
+        "✅ CORRECT 4: <label>42</label>\n"
+        "✅ CORRECT 5: <label>entailment</label>\n\n"
         
         "### Examples (Must Be Fully Followed)\n"
         "[[EXAMPLES]]\n\n"
@@ -78,11 +90,102 @@ def build_prompt(task_description: str, text2annotate: str) -> str:
         "### Text to Annotate\n"
         f"{text2annotate}\n\n"
         
-        "### Final Requirement Summary\n"
-        "1. You can (and should) provide clear thinking process for your annotation.\n"
-        "2. The final annotation result MUST be wrapped in <label> tags (no exceptions).\n"
-        "3. All annotation logic must strictly follow the examples provided above.\n"
+        "### FINAL COMMAND (READ CAREFULLY):\n"
+        "Your response must be EXACTLY in this format: <label>Your_Answer</label>\n"
+        "No other text, no explanations, no thinking process, no additional content.\n"
+        "Output your answer now: "
     )
+    return prompt
+
+def build_prompt_cot(task_description: str, text2annotate: str, task_id: int) -> str:
+    """
+    Build a Chain-of-Thought (CoT) prompt for complex reasoning tasks (Task 3, 8).
+    This encourages the model to show step-by-step reasoning before final answer.
+    """
+    if task_id == 3:
+        # Task 3: Collatz Conjecture - Mathematical Reasoning
+        prompt = (
+            "### Role Definition\n"
+            "You are a mathematical reasoning expert specializing in the Collatz conjecture. "
+            "You excel at systematic step-by-step mathematical reasoning and verification.\n\n"
+            
+            "### Core Task\n"
+            f"{task_description}\n\n"
+            
+            "### Critical Reasoning Guidelines\n"
+            "1. **Step-by-Step Reasoning**: For each input number, you MUST show your complete reasoning process:\n"
+            "   - Step 1: Identify the current number\n"
+            "   - Step 2: Apply the Collatz rule (if even: n/2; if odd: 3n+1)\n"
+            "   - Step 3: Calculate the next number\n"
+            "   - Step 4: Continue until reaching 1\n"
+            "   - Step 5: Determine the closest integer to 1\n\n"
+            
+            "2. **Verification**: Always verify your calculations:\n"
+            "   - Check if the rule was applied correctly\n"
+            "   - Confirm the sequence reaches 1\n"
+            "   - Double-check the final answer\n\n"
+            
+            "3. **Output Format**: Your response must follow this structure:\n"
+            "   **Reasoning Process:**\n"
+            "   [Show your step-by-step calculations here]\n\n"
+            "   **Final Answer:** <label>[closest integer]</label>\n\n"
+            
+            "### Examples (Must Be Fully Followed)\n"
+            "[[EXAMPLES]]\n\n"
+            
+            "### Text to Annotate\n"
+            f"{text2annotate}\n\n"
+            
+            "### Final Requirement Summary\n"
+            "1. Show your complete step-by-step reasoning process.\n"
+            "2. Verify each calculation step.\n"
+            "3. Final answer MUST be wrapped in <label> tags.\n"
+        )
+    elif task_id == 8:
+        # Task 8: Kernel Generation - Code Generation
+        prompt = (
+            "### Role Definition\n"
+            "You are an expert programmer specializing in Linux kernel development. "
+            "You excel at writing correct, efficient, and well-structured kernel code.\n\n"
+            
+            "### Core Task\n"
+            f"{task_description}\n\n"
+            
+            "### Critical Code Generation Guidelines\n"
+            "1. **Step-by-Step Approach**: Before writing code, think through:\n"
+            "   - Step 1: Understand the kernel function requirements\n"
+            "   - Step 2: Identify necessary kernel APIs and data structures\n"
+            "   - Step 3: Design the function structure\n"
+            "   - Step 4: Write the code with proper error handling\n"
+            "   - Step 5: Review for common kernel coding issues\n\n"
+            
+            "2. **Code Quality Requirements**:\n"
+            "   - Use correct kernel APIs (e.g., copy_from_user, copy_to_user)\n"
+            "   - Handle all error cases properly\n"
+            "   - Follow kernel coding style\n"
+            "   - Ensure memory safety\n\n"
+            
+            "3. **Output Format**: Your response must follow this structure:\n"
+            "   **Analysis:**\n"
+            "   [Explain your approach and reasoning]\n\n"
+            "   **Code:**\n"
+            "   <label>[your complete kernel code here]</label>\n\n"
+            
+            "### Examples (Must Be Fully Followed)\n"
+            "[[EXAMPLES]]\n\n"
+            
+            "### Text to Annotate\n"
+            f"{text2annotate}\n\n"
+            
+            "### Final Requirement Summary\n"
+            "1. Analyze the requirements step-by-step.\n"
+            "2. Write correct kernel code with proper error handling.\n"
+            "3. Final code MUST be wrapped in <label> tags.\n"
+        )
+    else:
+        # Fallback to standard prompt for other tasks
+        prompt = build_prompt(task_description, text2annotate)
+    
     return prompt
 
 def build_prompt_backup(task_description:str, text2annotate:str)->str:
@@ -158,7 +261,7 @@ def select_examples(all_examples: list[dict], task_description: str, text2annota
     """
     # 初始化Qwen3-4B的tokenizer（自动下载/加载千问3-4B的分词器）
     # 若本地已下载模型，可替换为本地路径，如 "./qwen3-4b"
-    tokenizer = AutoTokenizer.from_pretrained("/share/project/wuhaiming/spaces/data_agent/OpenSeek-main/openseek/competition/LongContext-ICL-Annotation/src/Qwen3-4B", trust_remote_code=True)
+    tokenizer = AutoTokenizer.from_pretrained("/root/Qwen3-4B", trust_remote_code=True)
     
     # 最大上下文长度限制（Qwen3-4B的上下文窗口默认是8k/32k，可根据实际调整）
     target_length = 8192  # 若需严格适配Qwen3-4B，建议改为8192（8k）
@@ -204,22 +307,56 @@ def select_examples(all_examples: list[dict], task_description: str, text2annota
 def count_answer(text: str) -> tuple[list, dict]:
     """
     提取字符串中<label>标签内的所有内容（字符串形式），统计出现次数最多的内容
+    M01 优化版本：增加兜底匹配逻辑
     :param text: 包含<label>标签的原始字符串
     :return: 出现次数最多的内容列表、所有内容的频次统计字典
     """
+    # 首先尝试标准标签匹配
     pattern = r'<label>\s*(.+?)\s*</label>'
     content_matches = re.findall(pattern, text, re.DOTALL) 
     
     content_counter = Counter(content_matches)
-    if not content_counter:
-        return None
+    if content_counter:
+        max_count = max(content_counter.values())
+        answer = [content for content, count in content_counter.items() if count == max_count]
+        return answer[0]
     
-    max_count = max(content_counter.values())
-    answer = [content for content, count in content_counter.items() if count == max_count]
+    # M01兜底策略1：尝试提取最后一个单词或短语（可能是直接输出的答案）
+    cleaned_text = text.strip()
+    if cleaned_text:
+        # 移除常见的引导词
+        cleaned_text = re.sub(r'^(?:answer:|the answer is:|result:|final:|output:)\s*', '', cleaned_text, flags=re.IGNORECASE)
+        cleaned_text = cleaned_text.strip()
+        
+        # 提取最后一行或最后一个句子
+        lines = [line.strip() for line in cleaned_text.split('\n') if line.strip()]
+        if lines:
+            last_line = lines[-1]
+            # 如果最后一行很短（可能是答案），返回它
+            if len(last_line) <= 50:
+                return last_line
+            
+            # 否则尝试提取最后一个词组
+            sentences = re.split(r'[.!?;]', last_line)
+            sentences = [s.strip() for s in sentences if s.strip()]
+            if sentences:
+                last_sentence = sentences[-1]
+                if len(last_sentence) <= 50:
+                    return last_sentence
     
-    if (len(answer[0]) >= 100):
-        return None
-    return answer[0]
+    # M01兜底策略2：提取所有独立的单词短语
+    words = re.findall(r'\b[A-Z][a-zA-Z\s]+\b|\b\d+\b', text)
+    if words:
+        # 返回最后一个大写开头的短语或数字
+        for word in reversed(words):
+            if len(word.strip()) >= 2:
+                return word.strip()
+    
+    # M01兜底策略3：如果所有方法都失败，返回原始文本的最后100个字符
+    if text:
+        return text.strip()[-100:]
+    
+    return None
 
 
 def annotate_nvidia(input_prompt:str)->list[str]:
@@ -235,7 +372,7 @@ def annotate_nvidia(input_prompt:str)->list[str]:
     data = {
         "model": "../Qwen3-4B",
         "prompt": input_prompt,
-        "max_tokens": 10_000, # max_token = 10k
+        "max_tokens": 1024, # max_token = 10k
     }
 
     try:
@@ -248,30 +385,63 @@ def annotate_nvidia(input_prompt:str)->list[str]:
     prediction = count_answer(whole_result)
     return prediction
 
-def annotate_ascend(input_prompt:str)->list[str]:
+def annotate_ascend(input_prompt:str, task_id:int=None)->list[str]:
     """
         Annotate the unlabeled data using an LLM API (Huawei Ascend).
         prompts:
             A prompt constructed for annotation.
             For example, ``["You are a data annotation assistant. Your task is to label ..."]``
+        
+        Optimization for Account 3: Differentiated strategy based on task type
+        - Task 3, 4: CoT reasoning with lower temperature (effective for math and string tasks)
+        - Task 8: Standard configuration (CoT harmful for code generation)
+        - Other tasks: Moderate temperature for balanced performance
     """
     import openai
     openai.api_key = "EMPTY"
     openai.base_url = "http://localhost:9010/v1/"
-    model = "Qwen3-4B-ascend-flagos"
+    model = "/root/Qwen3-4B"
+
+    # Adjust temperature based on task (Differentiated Strategy)
+    if task_id in [3, 4]:
+        # Lower temperature for CoT reasoning tasks (Task 3: math, Task 4: strings)
+        # This reduces randomness and improves accuracy
+        temperature = 0.3
+    elif task_id == 8:
+        # Standard temperature for code generation (CoT was harmful in Account 2)
+        temperature = 0.7
+    else:
+        # Moderate temperature for other tasks (balanced randomness and accuracy)
+        temperature = 0.5
 
     messages = [
         {"role": "system", "content": "You are a helpful assistant."},
         {"role": "user", "content": input_prompt}
     ]
+    
+    # Adjust max_tokens based on task
+    if task_id in [3, 4]:
+        # Increased max_tokens for CoT tasks (supports longer reasoning chains)
+        max_tokens = 2048
+    else:
+        # Standard max_tokens for other tasks
+        max_tokens = 1024
+    
     response = openai.chat.completions.create(
         model=model,
         messages=messages,
-        temperature=0.7,
+        temperature=temperature,
         top_p=0.95,
-        max_tokens=10_000,
+        max_tokens=max_tokens,
         stream=False,
     )
     whole_result = response.choices[0].message.content
+    
+    # Special handling for Task 8 (code generation): return raw model output
+    # Task 8 generates Triton code without <label> tags
+    if task_id == 8:
+        return whole_result.strip()
+    
+    # For other tasks, extract label-tagged content
     prediction = count_answer(whole_result)
     return prediction
