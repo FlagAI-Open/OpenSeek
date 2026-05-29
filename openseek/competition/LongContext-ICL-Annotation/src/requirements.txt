@@ -1,0 +1,17 @@
+# Python依赖环境配置
+# 适用于 Huawei Ascend 910C 环境
+
+# 基础依赖
+numpy>=1.24.0
+torch>=2.8.0
+torch_npu>=2.8.0
+torchvision>=0.23.0
+
+# 模型与推理
+transformers>=4.57.0
+vllm_ascend>=0.13.0rc1
+
+# 工具库
+tqdm>=4.67.0
+requests>=2.32.0
+openai>=2.14.0
