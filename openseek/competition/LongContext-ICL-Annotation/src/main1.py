@@ -4,9 +4,9 @@ from tqdm import tqdm
 
 # from method import build_prompt, select_examples, annotate
 
-from method import build_prompt, select_examples
+from method_hyb import build_prompt, select_examples
 
-from method import annotate_nvidia as annotate # For Nvidia GPU
+from method_hyb import annotate_nvidia as annotate # For Nvidia GPU
 # from method import annotate_ascend as annotate # For Huawei Ascend
 
 # 项目根目录（与当前工作目录无关，避免输出写到仓库外）
@@ -56,37 +56,14 @@ def parser_args():
     parser.add_argument(
         '--task_start',
         type=int,
-        default=7,
+        default=8,
         help='起始任务编号（含），与 README 中 openseek-[id] 一致，默认 1。',
     )
     parser.add_argument(
         '--task_end',
         type=int,
-        default=7,
+        default=8,
         help='结束任务编号（含），提交需 8 个 jsonl 时设为 8，默认 8。',
-    )
-    parser.add_argument(
-        '--task8_shot_k',
-        type=int,
-        default=6,
-        help='Task8 ICL 检索示例数（仅 task_id=8 时生效）。',
-    )
-    parser.add_argument(
-        '--task8_retrieval_pool_size',
-        type=int,
-        default=200,
-        help='Task8 检索候选池大小。',
-    )
-    parser.add_argument(
-        '--task8_max_react_rounds',
-        type=int,
-        default=5,
-        help='Task8 执行/前向探针失败后 ReAct 最大轮数（默认 5）。',
-    )
-    parser.add_argument(
-        '--no_task8_require_forward',
-        action='store_true',
-        help='Task8 仅要求通过静态执行器，不做前向张量探针（默认会做探针）。',
     )
     args = parser.parse_args()
     return args
@@ -110,28 +87,14 @@ def run_tasks(
     max_input_length: int = 10_000,
     log_path_prefix: str | None = None,
     tokenizer_path: str | None = None,
-    task_start: int = 7,
+    task_start: int = 8,
     task_end: int = 8,
-    *,
-    task8_shot_k: int = 6,
-    task8_retrieval_pool_size: int = 200,
-    task8_max_react_rounds: int = 5,
-    task8_require_forward: bool = True,
 ) -> None:
     """依次对 task_id in [task_start, task_end] 调用 evaluate（README 要求共 8 个 jsonl）。"""
     out_dir = _resolve_output_dir(log_path_prefix)
     print(f'[结果保存] 输出目录（绝对路径）: {out_dir}')
     for task_id in range(task_start, task_end + 1):
-        if task_id == 8:
-            evaluate_task8(
-                out_dir,
-                task8_shot_k=task8_shot_k,
-                task8_retrieval_pool_size=task8_retrieval_pool_size,
-                task8_max_react_rounds=task8_max_react_rounds,
-                task8_require_forward=task8_require_forward,
-            )
-        else:
-            evaluate(task_id, max_input_length, out_dir, tokenizer_path)
+        evaluate(task_id, max_input_length, out_dir, tokenizer_path)
 
 def evaluate(
     task_id: int,
@@ -153,15 +116,22 @@ def evaluate(
 
     # 先跑完本任务全部样本，再一次性写入 jsonl（8 个任务各对应一个文件，写完再落盘）
     rows: list[dict] = []
-    examples_str = None
     for test_sample in tqdm(test_samples, desc=f'Evaluation on Task {task_id}: {task_name}'):
         test_sample_id = test_sample['id']
         text2annotate = test_sample['input']
-        prompt = build_prompt(task_description, text2annotate)
-        if examples_str is None:
-            examples_str = select_examples(
-                icl_examples, task_description, text2annotate, tokenizer_path=tokenizer_path
-            )
+        prompt = build_prompt(task_description, text2annotate, task_id=task_id)
+        # 每条样本独立进行混合检索，避免复用首条样本的 ICL 示例。
+        # 固定每次召回 top3，且保留 CoT 形态（explanation + label）。
+        examples_str = select_examples(
+            icl_examples,
+            task_description,
+            text2annotate,
+            tokenizer_path=tokenizer_path,
+            hybrid=True,
+            top_k=3,
+            use_explanation=True,
+            use_bm25_semantic_rerank=True,
+        )
         input_prompt = prompt.replace("[[EXAMPLES]]\n\n", examples_str+'\n\n')
         raw = annotate(input_prompt)
         # 评测脚本（如 task8 Consistency_Aware）会对 prediction 做子串判断，null 会触发 TypeError
@@ -185,110 +155,6 @@ def evaluate(
         f'[结果保存] 任务 {task_id} 已完成，共 {len(rows)} 条，prediction 为空串={empty_cnt} ({ratio:.1%}) -> {os.path.abspath(output_file)}'
     )
 
-
-def evaluate_task8(
-    log_path_prefix: str,
-    *,
-    task8_shot_k: int = 6,
-    task8_retrieval_pool_size: int = 200,
-    task8_max_react_rounds: int = 5,
-    task8_require_forward: bool = True,
-    retries: int = 3,
-    retry_wait_seconds: float = 2.0,
-) -> None:
-    """
-    Task8：对齐 infer_examples_compare_task8_v3 流水线。
-    - v3 输出契约（<label> 内完整 Python）
-    - BM25 检索 few-shot
-    - 执行器 + 可选前向探针；失败则 ReAct 纠错
-    """
-    from infer_examples_compare_task8_v3 import (
-        TASK8_CANONICAL_DESCRIPTION,
-        _extract_output,
-        _infer_task8_item_v3,
-    )
-
-    task_id = 8
-    task_file = _task_json_path(task_id)
-    with open(task_file, 'r', encoding='utf-8') as f:
-        task_dict = json.load(f)
-
-    task_name = task_dict['task_name']
-    task_description = TASK8_CANONICAL_DESCRIPTION
-    test_samples = task_dict['test_samples']
-
-    cleaned_examples: list[dict] = []
-    for ex in task_dict['examples']:
-        cleaned_examples.append(
-            {
-                'id': str(ex.get('id', '')).strip(),
-                'input': str(ex.get('input', '')),
-                'output': [_extract_output(ex.get('output', ''))],
-            }
-        )
-
-    rows: list[dict] = []
-    exec_ok_cnt = 0
-    forward_ok_cnt = 0
-    for test_sample in tqdm(
-        test_samples,
-        desc=f'Task8 v3+ReAct: {task_name}',
-    ):
-        test_sample_id = test_sample['id']
-        input_text = str(test_sample.get('input', ''))
-        row = _infer_task8_item_v3(
-            item={
-                'example_id': test_sample_id,
-                'input_text': input_text,
-                'expected': '',
-            },
-            task_description=task_description,
-            task_id=task_id,
-            cleaned_examples=cleaned_examples,
-            task8_shot_k=task8_shot_k,
-            task8_retrieval_pool_size=task8_retrieval_pool_size,
-            retries=retries,
-            retry_wait_seconds=retry_wait_seconds,
-            enable_react=True,
-            max_react_rounds=max(1, task8_max_react_rounds),
-            require_forward_result=task8_require_forward,
-        )
-        prediction = row.get('model_output') or ''
-        passed = bool(row.get('passed_sanity_check'))
-        if passed:
-            exec_ok_cnt += 1
-        if row.get('forward_probe_ok') is True or (
-            not task8_require_forward and passed
-        ):
-            forward_ok_cnt += 1
-        print(
-            f'[task8] id={test_sample_id} exec_ok={passed} '
-            f'react_rounds={row.get("react_rounds", 0)} '
-            f'kind={row.get("executor_prediction_kind")} '
-            f'code_len={len(prediction)}'
-        )
-        rows.append(
-            {
-                'test_sample_id': test_sample_id,
-                'prediction': prediction,
-            }
-        )
-
-    output_file = _pick_output_jsonl(log_path_prefix, task_id)
-    with open(output_file, 'w', encoding='utf-8') as f:
-        for row in rows:
-            f.write(json.dumps(row, ensure_ascii=False) + '\n')
-
-    empty_cnt = sum(1 for row in rows if row.get('prediction') == '')
-    ratio = (empty_cnt / len(rows)) if rows else 0.0
-    print(
-        f'[结果保存] 任务 8 已完成，共 {len(rows)} 条；'
-        f'执行通过={exec_ok_cnt} ({exec_ok_cnt / len(rows):.1%})，'
-        f'前向有结果={forward_ok_cnt} ({forward_ok_cnt / len(rows):.1%})，'
-        f'prediction 为空={empty_cnt} ({ratio:.1%}) -> {os.path.abspath(output_file)}'
-    )
-
-
 if __name__ == '__main__':
     args = parser_args()
     _default_tok = REPO_ROOT / 'Qwen3-4B'
@@ -301,8 +167,4 @@ if __name__ == '__main__':
         tokenizer_path,
         task_start=args.task_start,
         task_end=args.task_end,
-        task8_shot_k=args.task8_shot_k,
-        task8_retrieval_pool_size=args.task8_retrieval_pool_size,
-        task8_max_react_rounds=args.task8_max_react_rounds,
-        task8_require_forward=not args.no_task8_require_forward,
     )

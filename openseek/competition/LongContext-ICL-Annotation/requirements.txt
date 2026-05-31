@@ -1,0 +1,17 @@
+# LongContext-ICL-Annotation — Python 依赖（标注与 ICL 推理）
+# 建议 Python 3.10–3.11；GPU 推理需自行安装与 CUDA 匹配的 torch。
+
+# --- 核心 ---
+openai>=1.40.0
+transformers>=4.51.0
+torch>=2.4.0
+tqdm>=4.66.0
+requests>=2.31.0
+numpy>=1.24.0
+
+# --- 混合 ICL 检索（可选；无 GPU 时可设 ICL_DISABLE_SEMANTIC=1 ICL_DISABLE_RERANK=1）---
+sentence-transformers>=2.7.0
+
+# --- 任务专用（按需安装）---
+# spacy>=3.7.0          # Task2 spaCy 管线
+# en-core-web-sm        # python -m spacy download en_core_web_sm

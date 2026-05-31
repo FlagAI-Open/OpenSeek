@@ -1,10 +1,9 @@
-
+import os
 import re
 from collections import Counter
 from transformers import AutoTokenizer
 
 """ Here is an example of implementation of Long-Context Data Annotation. """
-
 def build_prompt____(task_description: str, text2annotate: str) -> str:
     """
     Build a high-precision English prompt for long-context data annotation (optimized for Qwen3-4B).
@@ -46,12 +45,39 @@ def build_prompt____(task_description: str, text2annotate: str) -> str:
     )
     return prompt
 
-def build_prompt(task_description: str, text2annotate: str) -> str:
+def _task5_tweet_sadness_prompt_block() -> str:
+    """SemEval-style tweet sadness: reduce under-labeling; note Sad-majority prior for tie-breaks."""
+    return (
+        "### Task 5 (Tweet Sadness) — Decision Rules (High Priority)\n"
+        "Label **Sad** when the tweet expresses any clear negative affect, including:\n"
+        "- sadness, disappointment, grief, hurt, despair, loneliness\n"
+        "- anger, frustration, distress, hostility (insults, rage; words like worst, awful, hole)\n"
+        "- negative affect carried mainly by emoticons or emoji (e.g. ☹ 😥 😢 😭)\n\n"
+        "Rules:\n"
+        "0) **Label skew (soft prior)**: In the gold data for this task, **Sad** is more frequent than **Not sad**. "
+        "That does not override the text—still use **Not sad** for clearly neutral, playful, or upbeat tweets—but "
+        "do not systematically under-call **Sad**: if the tweet already matches the negative-affect bullets above "
+        "and nothing in the Examples clearly pulls toward **Not sad**, prefer **Sad**.\n"
+        "1) **Short tweets** (few words): if they contain a sad or negative emoji or clear negative affect, prefer **Sad**.\n"
+        "2) **Profanity + hostility** toward someone usually counts as negative affect in this task; prefer **Sad**.\n"
+        "3) You do **not** need explicit phrases like \"I am sad\" to output **Sad**.\n"
+        "4) If strong negative cues appear and nothing clearly neutralizes them, output **Sad**.\n\n"
+        "### Task 5 — Hard calibration examples (match this labeling)\n"
+        "# Same ☹ <label> Sad </label>\n"
+        "# Worst dreams. 😥 <label> Sad </label>\n"
+        "# what a arrogant A~hole! Has no business speaking! <label> Sad </label>\n"
+        "# WAIT...Lawrence's friend dragged the fuck outta him!! <label> Sad </label>\n\n"
+    )
+
+
+def build_prompt(task_description: str, text2annotate: str, task_id: int | None = None) -> str:
     """
     Construct a high-precision prompt for long-context data annotation (optimized for Qwen3-4B).
     task_description: Clear description of the annotation task (e.g., "Classify English product reviews as Good Review/Bad Review").
     text2annotate: The text to be annotated (single text or batch texts).
+    task_id: When 5, appends tweet-sadness-specific rules and hard examples (other tasks unchanged).
     """
+    task_extra = _task5_tweet_sadness_prompt_block() if task_id == 5 else ""
     prompt = (
         "### Role Definition\n"
         "You are a professional data annotation expert specialized in long-context text labeling. "
@@ -59,7 +85,7 @@ def build_prompt(task_description: str, text2annotate: str) -> str:
         
         "### Core Task\n"
         f"{task_description}\n\n"
-        
+        f"{task_extra}"
         "### Critical Annotation Guidelines\n"
         "1. **Example Learning Requirement**: Thoroughly analyze and fully learn from the annotation logic, format, and criteria in the Examples section. "
         "Your annotation must align with the style, judgment standards, and tag usage shown in the examples.\n"
@@ -144,6 +170,33 @@ def select_examples_backup(all_examples:list[dict], task_description:str, text2a
         else:
             return examples_str, i
     return examples_str
+    """
+        Construct the prompt for annotation based on the task description.
+        task_description: 
+            The description of the annotation task. 
+            For example, ``Given an English language product review, 
+            determine if it is a Good Review or a Bad Review.`` 
+        text2annotate:
+            The text that needs to be annotated.
+            For example, ``My son received this book as a gift. I was extremely disappointed.``
+    """
+    prompt = (
+        "You are a data annotation assistant. "
+        "Your task is to label the given texts according to the task description "
+        "and annotation guidelines provided below.\n\n"
+        f"[Task Description]\n {task_description}\n\n"
+        "[Examples]\n {EXAMPLES}\n\n"
+        "Please follow these instructions when labeling:\n"
+        "1. **Output Format**: Annotate the text directly by wrapping each labeled "
+        "span with <label> tags in the following format: <label> annotation result </label>.\n"
+        # "2. Do not add any extra text, explanations, or commentary in the labeled spans.\n\n"
+        f"[Task Description (repeat)] \n {task_description}\n\n"
+        f"[Input Texts]\n {text2annotate}\n\n"
+        "Please output the annotation results: "
+    )
+    return prompt
+
+
 
 def select_examples(all_examples: list[dict], task_description: str, text2annotate: str) -> str:
     """
@@ -158,8 +211,7 @@ def select_examples(all_examples: list[dict], task_description: str, text2annota
     """
     # 初始化Qwen3-4B的tokenizer（自动下载/加载千问3-4B的分词器）
     # 若本地已下载模型，可替换为本地路径，如 "./qwen3-4b"
-    tokenizer = AutoTokenizer.from_pretrained("/share/project/wuhaiming/spaces/data_agent/OpenSeek-main/openseek/competition/LongContext-ICL-Annotation/src/Qwen3-4B", trust_remote_code=True)
-    
+    tokenizer = AutoTokenizer.from_pretrained("Qwen3-4B", trust_remote_code=True)
     # 最大上下文长度限制（Qwen3-4B的上下文窗口默认是8k/32k，可根据实际调整）
     target_length = 8192  # 若需严格适配Qwen3-4B，建议改为8192（8k）
     
@@ -224,28 +276,76 @@ def count_answer(text: str) -> tuple[list, dict]:
 
 def annotate_nvidia(input_prompt:str)->list[str]:
     """
-        Annotate the unlabeled data using an LLM API (nvidia GPU).
+        使用阿里云百炼（DashScope）OpenAI 兼容接口标注。
+        需设置环境变量 ``DASHSCOPE_API_KEY``（百炼 API Key）。
         prompts:
             A prompt constructed for annotation.
             For example, ``["You are a data annotation assistant. Your task is to label ..."]``
     """
-    import requests
-    URL="http://0.0.0.0:2026/v1/completions"
-    
-    data = {
-        "model": "../Qwen3-4B",
-        "prompt": input_prompt,
-        "max_tokens": 10_000, # max_token = 10k
-    }
+    from openai import OpenAI
+
+    api_key = os.environ.get("DASHSCOPE_API_KEY",'sk-478685b6c9bc47cdb652c13419e68788')
+    # 百炼的api key
+    if not api_key:
+        api_key = 'sk-478685b6c9bc47cdb652c13419e68788'
+    model_id = os.environ.get("DASHSCOPE_MODEL", "qwen3-4b")
+    enable_thinking_raw = os.environ.get("DASHSCOPE_ENABLE_THINKING", "0").strip().lower()
+    enable_thinking = enable_thinking_raw in {"1", "true", "yes", "on"}
+    client = OpenAI(
+        api_key=api_key,
+        base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+    )
 
     try:
-        resp = requests.post(URL, json=data)
-        whole_result = resp.json()["choices"][0]["text"]
+        if enable_thinking:
+            completion = client.chat.completions.create(
+                model=model_id,
+                messages=[{"role": "user", "content": input_prompt}],
+                max_tokens=10_000,
+                extra_body={"enable_thinking": True},
+                stream=True,
+            )
+            content_parts: list[str] = []
+            for chunk in completion:
+                if not chunk.choices:
+                    continue
+                delta = chunk.choices[0].delta
+                content = getattr(delta, "content", None)
+                if content:
+                    content_parts.append(content)
+            whole_result = "".join(content_parts)
+        else:
+            completion = client.chat.completions.create(
+                model=model_id,
+                messages=[{"role": "user", "content": input_prompt}],
+                max_tokens=10_000,
+                # 某些服务端实现要求非流式显式关闭 thinking。
+                extra_body={"enable_thinking": False},
+                stream=False,
+            )
+            whole_result = completion.choices[0].message.content or ""
     except Exception as e:
-        whole_result = "None"
-
-
+        # 兼容服务端对 thinking 参数的严格校验：自动降级为非流式无 thinking 重试。
+        if "parameter.enable_thinking must be set to false for non-streaming calls" in str(e):
+            try:
+                completion = client.chat.completions.create(
+                    model=model_id,
+                    messages=[{"role": "user", "content": input_prompt}],
+                    max_tokens=10_000,
+                    extra_body={"enable_thinking": False},
+                    stream=False,
+                )
+                whole_result = completion.choices[0].message.content or ""
+            except Exception as retry_e:
+                print(f"[annotate_nvidia] 降级重试失败: model={model_id}, error={retry_e}")
+                whole_result = "None"
+        else:
+            print(f"[annotate_nvidia] 请求失败: model={model_id}, error={e}")
+            whole_result = "None"
     prediction = count_answer(whole_result)
+    if prediction is None or str(prediction).strip() == "":
+        preview = (whole_result or "").replace("\n", "\\n")
+        print(f"[annotate_nvidia] 空结果，模型原始输出: {preview}")
     return prediction
 
 def annotate_ascend(input_prompt:str)->list[str]:
